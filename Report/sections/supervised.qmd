@@ -1,0 +1,7 @@
+# Supervised learning
+
+* Data splitting (if a training/test set split is enough for the global analysis, at least one CV or bootstrap must be used)
+* Two or more models 
+* Two or more scores
+* Tuning of one or more hyperparameters per model
+* Interpretation of the model(s)

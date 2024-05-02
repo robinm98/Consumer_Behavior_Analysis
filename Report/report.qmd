@@ -1,0 +1,24 @@
+---
+title: Modeling Passenger Baggage Preferences in Air Travel
+author:
+ - Michel, Robin
+ - Bickerstaffe, Faber
+ - Magnin, Antoine
+institute : University of Lausanne, HEC
+date: 02.05.2024
+title-block-banner: "#0095C8" #chosen for the university of lausanne
+toc: true
+toc-location: right
+format: 
+  pdf: default
+abstract: |
+ The following machine learning project focuses on...
+---
+
+```{r, echo = FALSE, message = FALSE}
+# loading all the necessary packages
+source(here::here("src/setup.R"))
+```
+
+```{r child = paste0('sections/', c('intro.qmd', 'data.qmd', 'eda.qmd', 'supervised.qmd', 'unsupervised.qmd', 'concl.qmd'))}
+```

@@ -1,0 +1,6 @@
+# Conclusion
+
+* Brief summary of the project
+* Take home message
+* Limitations
+* Future work?
