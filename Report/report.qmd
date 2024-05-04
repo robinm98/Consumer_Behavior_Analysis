@@ -1,19 +1,56 @@
 ---
-title: Modeling Passenger Baggage Preferences in Air Travel
-author:
- - Michel, Robin
- - Bickerstaffe, Faber
- - Magnin, Antoine
-institute : University of Lausanne, HEC
-date: 02.05.2024
-title-block-banner: "#0095C8" #chosen for the university of lausanne
-toc: true
-toc-location: right
-format: 
-  pdf: default
-abstract: |
- The following machine learning project focuses on...
+format: pdf
+date: "04.05.2024"  # Set the fixed date for your document
+university: "University of Lausanne, HEC"
+course: "Machine Learning in Business Analytics"
+group: "Group E"
+year: "2024"
+output:
+  pdf_document:
+    includes:
+      in_header: header.tex
+geometry: margin=2cm
+fontsize: 12pt
+header-includes:
+  - \usepackage{graphicx}
+  - \newcommand{\coverTitle}[1]{\Huge\textbf{#1}\normalsize}
+  - \newcommand{\coverAuthor}[1]{\large\textit{#1}\normalsize}
+  - \newcommand{\coverInfo}[1]{\small\textbf{#1}\normalsize}
+  - \newcommand{\coverDate}[1]{\small{#1}\normalsize}
 ---
+
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+  \includegraphics[width=5cm]{image/Logo_HEC_Lausanne.png}
+  \vspace*{1cm}
+
+  \coverTitle{Modeling Passenger Baggage Preferences in Air Travel}
+  \vspace{1.5cm}
+  
+  \coverAuthor{Michel Robin, Bickerstaffe Faber and Magnin Antoine}
+  \vspace{1.5cm}
+  
+  \coverInfo{University of Lausanne, HEC}
+  \vspace{0.5cm}
+  
+  \coverInfo{Machine Learning in Business Analytics}
+  \vspace{0.5cm}
+  
+  \coverInfo{2024}
+  \vspace{0.5cm}
+  
+  \coverInfo{Group E}
+  \vspace{1cm}
+  
+  \coverDate{04.05.2024}
+  \vfill
+\end{titlepage}
+
+\newpage
+
+Abstract: |
+ The following machine learning project focuses on...
 
 ```{r, echo = FALSE, message = FALSE}
 # loading all the necessary packages

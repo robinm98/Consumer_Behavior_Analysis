@@ -1,5 +1,12 @@
 # Introduction
 
 * Overview and Motivation
+
+In the rapidly evolving domain of air travel, passenger satisfaction and operational efficiency are paramount. A significant aspect of enhancing traveler experience lies in personalizing their journey, starting from the moment they book a flight to when they collect their baggage at their destination. One area ripe for innovation is the optimization of baggage handling and preferences, which directly impacts customer satisfaction and logistical operations.
+
+The project aims to utilize machine learning techniques to predict and understand the diverse baggage preferences and behaviors of air travelers. This initiative seeks to explore various factors influencing passengers’ baggage choices, such as trip duration, purpose, and individual preferences, to enhance service personalization and streamline airport operations.
+
+The motivation behind this project stems from the challenges faced by airlines and airports in managing the efficiency of baggage processes while maintaining high standards of customer service. By accurately predicting baggage preferences, airlines can optimize resources, improve the accuracy of baggage handling, and reduce the instances of lost or mishandled luggage. Moreover, understanding these preferences enables tailored marketing strategies, potentially increasing revenue from ancillary services like paid baggage options.
+
 * Related Work
 * Research questions
