@@ -8,5 +8,16 @@ The project aims to utilize machine learning techniques to predict and understan
 
 The motivation behind this project stems from the challenges faced by airlines and airports in managing the efficiency of baggage processes while maintaining high standards of customer service. By accurately predicting baggage preferences, airlines can optimize resources, improve the accuracy of baggage handling, and reduce the instances of lost or mishandled luggage. Moreover, understanding these preferences enables tailored marketing strategies, potentially increasing revenue from ancillary services like paid baggage options.
 
+By integrating machine learning into this aspect of air travel, the project aims to create a predictive model that assists airlines in forecasting baggage needs and preferences, thus facilitating a smoother and more enjoyable travel experience for passengers.
+
+* Data
+
+Our project utilizes a dataset titled "Airlines Booking" from Kaggle, provided by user Anand Shaw. This CSV file contains anonymized airline booking records, detailing flight information and passengers' baggage choices. It offers a comprehensive view of passenger behaviors and preferences relevant to our analysis on baggage preferences in air travel. The dataset is available on Kaggle. 
+
+
+
 * Related Work
+
+
+
 * Research questions
