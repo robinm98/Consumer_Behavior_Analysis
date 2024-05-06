@@ -7,6 +7,7 @@ library(here)
 library(ggplot2)
 library(ggthemes)
 library(gridExtra)
+library(dplyr)
 
 # Load the data
 data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
