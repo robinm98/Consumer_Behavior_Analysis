@@ -11,7 +11,6 @@ library(gridExtra)
 # Load the data
 data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
 
-
 ### DATA DISTRIBUTION OF CATEGORICAL VALUES ###
 ###############################################
 
@@ -42,8 +41,8 @@ ggplot(data, aes(x = continent)) +
   labs(title = "Distribution of Booking Origin", x = "Booking Origin", y = "Count")
 
 # Plotting the distribution of the top 10 departure airports
-ggplot(data %>% 
-         count(departure) %>%    # Count occurrences of each departure airport
+ggplot(data |> 
+         count(departure) |>    # Count occurrences of each departure airport
          top_n(10, n),           # Select the top 10 airports by count
        aes(x = reorder(departure, n), y = n)) +  # Reorder factor levels by count for plotting
   geom_bar(stat = "identity", fill = "blue") +   # Use identity stat for pre-counted data
@@ -53,8 +52,8 @@ ggplot(data %>%
   scale_x_discrete(limits = function(x) x)  # Ensure the x-axis respects the order in the data
 
 # Plotting the distribution of the top 10 arrival airports
-ggplot(data %>% 
-         count(arrival) %>%    # Count occurrences of each departure airport
+ggplot(data |> 
+         count(arrival) |>    # Count occurrences of each departure airport
          top_n(10, n),           # Select the top 10 airports by count
        aes(x = reorder(arrival, n), y = n)) +  # Reorder factor levels by count for plotting
   geom_bar(stat = "identity", fill = "blue") +   # Use identity stat for pre-counted data
@@ -629,8 +628,8 @@ ggplot(data, aes(x = purchase_lead, y = num_passengers)) +
 ### NUMBER OF PASSENGERS
 
 # Calculate proportion of 'Yes' for extra baggage per number of passengers
-extra_baggage_rate <- data %>%
-  group_by(num_passengers) %>%
+extra_baggage_rate <- data |>
+  group_by(num_passengers) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between number of passengers and extra baggage rates
@@ -643,8 +642,8 @@ ggplot(extra_baggage_rate, aes(x = num_passengers, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per number of passengers
-in_flight_meals_rate <- data %>%
-  group_by(num_passengers) %>%
+in_flight_meals_rate <- data |>
+  group_by(num_passengers) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between number of passengers and in-flight meals rates
@@ -657,8 +656,8 @@ ggplot(in_flight_meals_rate, aes(x = num_passengers, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per number of passengers
-preferred_seats_rate <- data %>%
-  group_by(num_passengers) %>%
+preferred_seats_rate <- data |>
+  group_by(num_passengers) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between number of passengers and preferred seats rates
@@ -673,8 +672,8 @@ ggplot(preferred_seats_rate, aes(x = num_passengers, y = yes_rate)) +
 ### FLIGHT DURATION
 
 # Calculate proportion of 'Yes' for extra baggage per flight duration
-extra_baggage_rate <- data %>%
-  group_by(flight_duration) %>%
+extra_baggage_rate <- data |>
+  group_by(flight_duration) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between flight duration and extra baggage rates
@@ -687,8 +686,8 @@ ggplot(extra_baggage_rate, aes(x = flight_duration, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per flight duration
-in_flight_meals_rate <- data %>%
-  group_by(flight_duration) %>%
+in_flight_meals_rate <- data |>
+  group_by(flight_duration) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between flight duration and in-flight meals rates
@@ -701,8 +700,8 @@ ggplot(in_flight_meals_rate, aes(x = flight_duration, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per flight duration
-preferred_seats_rate <- data %>%
-  group_by(flight_duration) %>%
+preferred_seats_rate <- data |>
+  group_by(flight_duration) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between flight duration and preferred seats rates
@@ -717,8 +716,8 @@ ggplot(preferred_seats_rate, aes(x = flight_duration, y = yes_rate)) +
 ### PURCHASE LEAD TIME
 
 # Calculate proportion of 'Yes' for extra baggage per purchase lead time
-extra_baggage_rate <- data %>%
-  group_by(purchase_lead) %>%
+extra_baggage_rate <- data |>
+  group_by(purchase_lead) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between purchase lead time and extra baggage rates
@@ -731,8 +730,8 @@ ggplot(extra_baggage_rate, aes(x = purchase_lead, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per purchase lead time
-in_flight_meals_rate <- data %>%
-  group_by(purchase_lead) %>%
+in_flight_meals_rate <- data |>
+  group_by(purchase_lead) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between purchase lead time and in-flight meals rates
@@ -745,8 +744,8 @@ ggplot(in_flight_meals_rate, aes(x = purchase_lead, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per purchase lead time
-preferred_seats_rate <- data %>%
-  group_by(purchase_lead) %>%
+preferred_seats_rate <- data |>
+  group_by(purchase_lead) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between purchase lead time and preferred seats rates
@@ -761,8 +760,8 @@ ggplot(preferred_seats_rate, aes(x = purchase_lead, y = yes_rate)) +
 ### LENGTH OF STAY
 
 # Calculate proportion of 'Yes' for extra baggage per length of stay
-extra_baggage_rate <- data %>%
-  group_by(length_of_stay) %>%
+extra_baggage_rate <- data |>
+  group_by(length_of_stay) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between length of stay and extra baggage rates
@@ -775,8 +774,8 @@ ggplot(extra_baggage_rate, aes(x = length_of_stay, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per length of stay
-in_flight_meals_rate <- data %>%
-  group_by(length_of_stay) %>%
+in_flight_meals_rate <- data |>
+  group_by(length_of_stay) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between length of stay and in-flight meals rates
@@ -789,8 +788,8 @@ ggplot(in_flight_meals_rate, aes(x = length_of_stay, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per length of stay
-preferred_seats_rate <- data %>%
-  group_by(length_of_stay) %>%
+preferred_seats_rate <- data |>
+  group_by(length_of_stay) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between length of stay and preferred seats rates
@@ -810,8 +809,8 @@ ggplot(preferred_seats_rate, aes(x = length_of_stay, y = yes_rate)) +
 ### TRIP TYPE
 
 # Calculate proportion of 'Yes' for extra baggage per trip type
-extra_baggage_rate <- data %>%
-  group_by(trip_type) %>%
+extra_baggage_rate <- data |>
+  group_by(trip_type) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between trip type and extra baggage rates
@@ -823,8 +822,8 @@ ggplot(extra_baggage_rate, aes(x = trip_type, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per trip type
-in_flight_meals_rate <- data %>%
-  group_by(trip_type) %>%
+in_flight_meals_rate <- data |>
+  group_by(trip_type) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between trip type and in-flight meals rates
@@ -836,8 +835,8 @@ ggplot(in_flight_meals_rate, aes(x = trip_type, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per trip type
-preferred_seats_rate <- data %>%
-  group_by(trip_type) %>%
+preferred_seats_rate <- data |>
+  group_by(trip_type) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between trip type and preferred seats rates
@@ -851,8 +850,8 @@ ggplot(preferred_seats_rate, aes(x = trip_type, y = yes_rate)) +
 ### CONTINENT
 
 # Calculate proportion of 'Yes' for extra baggage per continent
-extra_baggage_rate <- data %>%
-  group_by(continent) %>%
+extra_baggage_rate <- data |>
+  group_by(continent) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between continent and extra baggage rates
@@ -864,8 +863,8 @@ ggplot(extra_baggage_rate, aes(x = continent, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per continent
-in_flight_meals_rate <- data %>%
-  group_by(continent) %>%
+in_flight_meals_rate <- data |>
+  group_by(continent) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between continent and in-flight meals rates
@@ -877,8 +876,8 @@ ggplot(in_flight_meals_rate, aes(x = continent, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per continent
-preferred_seats_rate <- data %>%
-  group_by(continent) %>%
+preferred_seats_rate <- data |>
+  group_by(continent) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between continent and preferred seats rates
@@ -892,8 +891,8 @@ ggplot(preferred_seats_rate, aes(x = continent, y = yes_rate)) +
 ### SALES CHANNEL
 
 # Calculate proportion of 'Yes' for extra baggage per sales channel
-extra_baggage_rate <- data %>%
-  group_by(sales_channel) %>%
+extra_baggage_rate <- data |>
+  group_by(sales_channel) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between sales channel and extra baggage rates
@@ -905,8 +904,8 @@ ggplot(extra_baggage_rate, aes(x = sales_channel, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per sales channel
-in_flight_meals_rate <- data %>%
-  group_by(sales_channel) %>%
+in_flight_meals_rate <- data |>
+  group_by(sales_channel) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between sales channel and in-flight meals rates
@@ -918,8 +917,8 @@ ggplot(in_flight_meals_rate, aes(x = sales_channel, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per sales channel
-preferred_seats_rate <- data %>%
-  group_by(sales_channel) %>%
+preferred_seats_rate <- data |>
+  group_by(sales_channel) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between sales channel and preferred seats rates
@@ -933,8 +932,8 @@ ggplot(preferred_seats_rate, aes(x = sales_channel, y = yes_rate)) +
 ### BOOKING COMPLETION
 
 # Calculate proportion of 'Yes' for extra baggage per booking completion
-extra_baggage_rate <- data %>%
-  group_by(booking_complete) %>%
+extra_baggage_rate <- data |>
+  group_by(booking_complete) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between booking completion and extra baggage rates
@@ -946,8 +945,8 @@ ggplot(extra_baggage_rate, aes(x = booking_complete, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per booking completion
-in_flight_meals_rate <- data %>%
-  group_by(booking_complete) %>%
+in_flight_meals_rate <- data |>
+  group_by(booking_complete) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between booking completion and in-flight meals rates
@@ -959,8 +958,8 @@ ggplot(in_flight_meals_rate, aes(x = booking_complete, y = yes_rate)) +
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per booking completion
-preferred_seats_rate <- data %>%
-  group_by(booking_complete) %>%
+preferred_seats_rate <- data |>
+  group_by(booking_complete) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between booking completion and preferred seats rates
@@ -977,8 +976,8 @@ ggplot(preferred_seats_rate, aes(x = booking_complete, y = yes_rate)) +
 ### EXTRA BAGGAGE
 
 # Calculate proportion of 'Yes' for in-flight meals per extra baggage
-in_flight_meals_rate <- data %>%
-  group_by(wants_extra_baggage) %>%
+in_flight_meals_rate <- data |>
+  group_by(wants_extra_baggage) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between extra baggage and in-flight meals rates
@@ -990,8 +989,8 @@ ggplot(in_flight_meals_rate, aes(x = as.factor(wants_extra_baggage), y = yes_rat
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per extra baggage
-preferred_seats_rate <- data %>%
-  group_by(wants_extra_baggage) %>%
+preferred_seats_rate <- data |>
+  group_by(wants_extra_baggage) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between extra baggage and preferred seats rates
@@ -1005,8 +1004,8 @@ ggplot(preferred_seats_rate, aes(x = as.factor(wants_extra_baggage), y = yes_rat
 ### IN-FLIGHT MEALS
 
 # Calculate proportion of 'Yes' for extra baggage per in-flight meals
-extra_baggage_rate <- data %>%
-  group_by(wants_in_flight_meals) %>%
+extra_baggage_rate <- data |>
+  group_by(wants_in_flight_meals) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between in-flight meals and extra baggage rates
@@ -1018,8 +1017,8 @@ ggplot(extra_baggage_rate, aes(x = as.factor(wants_in_flight_meals), y = yes_rat
   theme_minimal()
 
 # Calculate proportion of 'Yes' for preferred seats per in-flight meals
-preferred_seats_rate <- data %>%
-  group_by(wants_in_flight_meals) %>%
+preferred_seats_rate <- data |>
+  group_by(wants_in_flight_meals) |>
   summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
 
 # Plot the relationship between in-flight meals and preferred seats rates
@@ -1033,8 +1032,8 @@ ggplot(preferred_seats_rate, aes(x = as.factor(wants_in_flight_meals), y = yes_r
 ### PREFERRED SEATS
 
 # Calculate proportion of 'Yes' for extra baggage per preferred seats
-extra_baggage_rate <- data %>%
-  group_by(wants_preferred_seat) %>%
+extra_baggage_rate <- data |>
+  group_by(wants_preferred_seat) |>
   summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
 
 # Plot the relationship between preferred seats and extra baggage rates
@@ -1046,8 +1045,8 @@ ggplot(extra_baggage_rate, aes(x = as.factor(wants_preferred_seat), y = yes_rate
   theme_minimal()
 
 # Calculate proportion of 'Yes' for in-flight meals per preferred seats
-in_flight_meals_rate <- data %>%
-  group_by(wants_preferred_seat) %>%
+in_flight_meals_rate <- data |>
+  group_by(wants_preferred_seat) |>
   summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
 
 # Plot the relationship between preferred seats and in-flight meals rates
@@ -1073,8 +1072,3 @@ correlation_matrix <- cor(numerical_data)
 
 # Plotting the correlation matrix
 corrplot(correlation_matrix, method = "color", tl.col = "black")
-
-
-
-
-

@@ -68,7 +68,3 @@ data$wants_extra_baggage <- as.numeric(as.character(data$wants_extra_baggage))
 
 # Save the cleaned data
 write.csv(data, here("Data", "cleaned_customer_booking.csv"), row.names = FALSE)
-
-
-
-
