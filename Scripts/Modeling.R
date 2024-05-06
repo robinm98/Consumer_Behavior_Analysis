@@ -34,10 +34,10 @@ data <- data |>
 data <- data |> 
   dummy_cols(select_columns = categorical_vars, remove_first_dummy = TRUE)
 
-# Remove unneeded columns if they are not used in any models (verify first), do we want to keep wants preffered seat and meal?
+# Remove unneeded columns if they are not used in any models (verify first), do we want to keep wants preferred seat and meal?
 testdata <- data |> 
-  dplyr::select(-route, -booking_origin, -departure, -arrival, -flight_day, -continent, -sales_channel, -trip_type) 
-                
+  dplyr::select(-route, -booking_origin, -departure, -arrival, -flight_day, -continent, -sales_channel, -trip_type)
+
 # Ensure the target variable is a factor
 testdata$wants_extra_baggage <- as.factor(testdata$wants_extra_baggage)
 
