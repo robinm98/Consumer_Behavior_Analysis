@@ -2,22 +2,23 @@
 
 * Overview and Motivation
 
-In the rapidly evolving domain of air travel, passenger satisfaction and operational efficiency are paramount. A significant aspect of enhancing traveler experience lies in personalizing their journey, starting from the moment they book a flight to when they collect their baggage at their destination. One area ripe for innovation is the optimization of baggage handling and preferences, which directly impacts customer satisfaction and logistical operations.
+In the fast-paced world of air travel, airlines face a dual challenge: maintaining operational efficiency while personalizing the travel experience for their passengers. Key aspects that greatly influence passenger satisfaction include baggage handling, preferred seating, and in-flight meals. Each of these elements represents significant opportunities for airlines to enhance customer experiences and optimize their ancillary services.
 
-The project aims to utilize machine learning techniques to predict and understand the diverse baggage preferences and behaviors of air travelers. This initiative seeks to explore various factors influencing passengers’ baggage choices, such as trip duration, purpose, and individual preferences, to enhance service personalization and streamline airport operations.
+The project aims to harness machine learning to predict and analyze passengers' choices regarding baggage, preferred seating, and in-flight meal options. By examining a range of influencing factors, such as trip duration and purpose, the project seeks to generate actionable insights that airlines can use to improve operational efficiency and tailor their services to individual customer preferences.
 
-The motivation behind this project stems from the challenges faced by airlines and airports in managing the efficiency of baggage processes while maintaining high standards of customer service. By accurately predicting baggage preferences, airlines can optimize resources, improve the accuracy of baggage handling, and reduce the instances of lost or mishandled luggage. Moreover, understanding these preferences enables tailored marketing strategies, potentially increasing revenue from ancillary services like paid baggage options.
-
-By integrating machine learning into this aspect of air travel, the project aims to create a predictive model that assists airlines in forecasting baggage needs and preferences, thus facilitating a smoother and more enjoyable travel experience for passengers.
+Our motivation stems from the logistical and customer service challenges faced by airlines when handling passengers’ preferences efficiently. Accurate prediction models will help airlines anticipate the demand for different services, from baggage needs to specific seating and meal preferences. This, in turn, will allow them to allocate resources more effectively and design better marketing strategies, enhancing customer satisfaction and maximizing revenue from ancillary services.
 
 * Data
 
-Our project utilizes a dataset titled "Airlines Booking" from Kaggle, provided by user Anand Shaw. This CSV file contains anonymized airline booking records, detailing flight information and passengers' baggage choices. It offers a comprehensive view of passenger behaviors and preferences relevant to our analysis on baggage preferences in air travel. The dataset is available on Kaggle. 
-
-
+The dataset for our project is sourced from Kaggle and titled "Airlines Booking", compiled by user Anand Shaw. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.
 
 * Related Work
 
 
 
+
 * Research questions
+
+
+
+

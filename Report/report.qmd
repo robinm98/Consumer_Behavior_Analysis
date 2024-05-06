@@ -1,6 +1,6 @@
 ---
 format: pdf
-date: "04.05.2024"  # Set the fixed date for your document
+date: "04.05.2024"
 university: "University of Lausanne, HEC"
 course: "Machine Learning in Business Analytics"
 group: "Group E"
@@ -25,7 +25,7 @@ header-includes:
   \includegraphics[width=5cm]{image/Logo_HEC_Lausanne.png}
   \vspace*{1cm}
 
-  \coverTitle{Modeling Passenger Baggage Preferences in Air Travel}
+  \coverTitle{Modeling passenger preferences for air travel upgrades}
   \vspace{1.5cm}
   
   \coverAuthor{Michel Robin, Bickerstaffe Faber and Magnin Antoine}
