@@ -14,6 +14,16 @@ The dataset for our project is sourced from Kaggle and titled "Airlines Booking"
 
 * Related Work
 
+Previous research on passenger preferences in air travel has explored various factors that influence travelers' choices and behaviors. Key studies have investigated the impact of different service offerings, including baggage handling, seat selection, and in-flight meal preferences, on customer satisfaction and airline revenue.
+
+1. **Baggage Preferences:**  
+   Several studies have focused on the impact of baggage fees and allowances on customer behavior. Research by IATA (International Air Transport Association) and other organizations indicates that clear communication about baggage policies significantly influences booking decisions. The effect of ancillary baggage fees on travelers’ booking choices and willingness to pay has also been explored, suggesting that transparency and flexibility in baggage policies can increase customer loyalty.
+
+2. **Preferred Seating:**  
+   Seat selection plays a critical role in enhancing the passenger experience. Studies have shown that passengers value proximity to exits, windows, or aisles, depending on their specific preferences. Research into the revenue impact of charging for preferred seating indicates that passengers are willing to pay extra for comfort and convenience, emphasizing the importance of predictive models that can help airlines cater to these preferences.
+
+3. **In-Flight Meals:**  
+   In-flight meal preferences have gained more attention as airlines seek to differentiate their services. Studies reveal that passengers have diverse dietary requirements and cultural preferences, influencing their satisfaction with airline services. Surveys and data analysis highlight the importance of offering a variety of meal options to meet these diverse needs, underscoring the value of predictive models that identify specific demands.
 
 
 
