@@ -15,7 +15,7 @@ library(dplyr)
 # Load the data
 data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
 
-### 3 models : Logistic Regression, Decision Tree, Random Forest
+### 3 models : Logistic Regression, Random Forest, Neural Network using multi label classification
 ### 3 variable of interest : wants_extra_baggage, wants_in_flight_meal, wants_preferred_seat
 
 #################################
