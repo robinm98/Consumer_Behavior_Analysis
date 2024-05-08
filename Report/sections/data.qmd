@@ -1,7 +1,41 @@
 # Data
 
-* Sources
-* Description
+* **Sources**
+
+As previously introduced, our study utilizes the "Airlines Booking" dataset curated by Anand Shaw and hosted on Kaggle. This dataset, provided in CSV format, is essential for our analysis aimed at modeling passenger preferences for air travel upgrades.
+
+* **Description**
+
+**`num_passengers`**: Indicates the total number of passengers traveling on the booking.
+
+**`sales_channel`**: Specifies the platform or method through which the booking was made.
+
+**`trip_type`**: Describes the type of trip (e.g., Round Trip, One Way, Circle Trip).
+
+**`purchase_lead`**: Represents the number of days between the booking date and the travel date.
+
+**`length_of_stay`**: The number of days the passenger intends to stay at the destination.
+
+**`flight_hour`**: The hour of the day when the flight is scheduled to depart.
+
+**`flight_day`**: The day of the week on which the flight is scheduled.
+
+**`route`**: The flight route from origin to destination.
+
+**`booking_origin`**: The country from which the booking was made.
+
+**`wants_extra_baggage`**: A binary indicator (yes/no) if the passenger opted for extra baggage.
+
+**`wants_preferred_seat`**: A binary indicator (yes/no) if the passenger chose a preferred seating option during booking.
+
+**`wants_in_flight_meals`**: A binary indicator (yes/no) if the passenger requested in-flight meals.
+
+**`flight_duration`**: The total duration of the flight in hours.
+
+**`booking_complete`**: A flag indicating whether the booking was completed (yes/no).
+
+
+
 * Wrangling/cleaning
 * Spotting mistakes and missing data (could be part of EDA too)
 * Listing anomalies and outliers (could be part of EDA too)
