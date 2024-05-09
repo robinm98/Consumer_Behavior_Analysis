@@ -238,10 +238,10 @@ fviz_nbclust(data_dummy_scaled, pam, method = "silhouette", verbose = FALSE) # 3
 # Gap statistic
 fviz_nbclust(data_dummy_scaled, pam, method = "gap_stat", verbose = FALSE) # 3 clusters
 
-### Perform PAM clustering with 3 clusters to fall between the optimal number of clusters
+### Perform PAM clustering with 4 clusters to fall between the optimal number of clusters
 
 # PAM clustering
-pam_model <- pam(data_dummy_sample, k = 8)
+pam_model <- pam(data_dummy_sample, k = 4)
 pam_model
 
 ### PAM Cluster Analysis ###
@@ -283,6 +283,9 @@ ggplot(pca_data, aes(x = PC1, y = PC2, color = as.factor(cluster))) +
        color = "Cluster")
 
 ### Boxplot of all numerical variables by cluster ###
+
+# Melting data for ggplot2 usage
+data_melted <- reshape2::melt(data_dummy_sample, id.vars = "cluster")
 
 # Filter melted data to include only numerical variables
 data_melted_numeric <- data_melted %>%
