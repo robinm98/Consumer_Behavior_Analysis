@@ -1,6 +1,7 @@
 #### MLBA Project - NN ####
 ############################
 
+# Load the required libraries
 library(reticulate)
 library(tidyverse)
 library(keras)

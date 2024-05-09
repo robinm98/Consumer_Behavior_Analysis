@@ -21,9 +21,6 @@ summary(data)
 ### Missing Values ###
 ######################
 
-# Drop rows with missing values
-data <- data %>% drop_na()
-
 # Check for missing values
 missing_values <- data %>% summarise_all(funs(sum(is.na(.))))
 missing_values # <- no missing values
