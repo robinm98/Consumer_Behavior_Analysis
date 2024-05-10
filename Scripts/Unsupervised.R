@@ -36,7 +36,7 @@ data_sample <- data_num_scaled[sample(nrow(data_num_scaled), 10000), ]
 ### Find the optimal number of clusters
 
 # WSS
-fviz_nbclust(data_sample, kmeans, method = "wss", verbose = FALSE) # 6 clusters
+fviz_nbclust(data_sample, kmeans, method = "wss", verbose = FALSE) # 7 clusters
 
 # Silhouette
 fviz_nbclust(data_sample, kmeans, method = "silhouette", verbose = FALSE) # 2 clusters
