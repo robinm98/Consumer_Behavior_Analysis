@@ -42,13 +42,19 @@ trainIndex <- createDataPartition(data_lr1$wants_extra_baggage, p = 0.8, list = 
 train_data <- data_lr1[trainIndex, ]
 test_data <- data_lr1[-trainIndex, ]
 
+# Downsampling for wants_extra_baggage
+train_data_baggage <- ovun.sample(wants_extra_baggage ~ ., data = train_data, method = "under", N = sum(train_data$wants_extra_baggage == "0") * 2)$data
+
+# Downsampling for wants_preferred_seat
+train_data_seat <- ovun.sample(wants_preferred_seat ~ ., data = train_data, method = "under", N = sum(train_data$wants_preferred_seat == "1") * 2)$data
+
 ### wants_extra_baggage ###
 ###########################
 
 ### Fit the initial logistic regression model ###
 
 # Initial logistic regression model
-logist_model1 <- glm(wants_extra_baggage ~ ., data = train_data, family = "binomial")
+logist_model1 <- glm(wants_extra_baggage ~ . - wants_preferred_seat - wants_in_flight_meals, data = train_data_baggage, family = "binomial")
 
 # Stepwise backward elimination based on AIC
 reduced_model <- stepAIC(logist_model1, direction = "backward")
@@ -128,7 +134,7 @@ auc(roc_curve)
 ### Fit the initial logistic regression model ###
 
 # Initial logistic regression model
-logist_model2 <- glm(wants_preferred_seat ~ ., data = train_data, family = "binomial")
+logist_model2 <- glm(wants_preferred_seat ~ . - wants_preferred_seat - wants_in_flight_meals, data = train_data_seat, family = "binomial")
 
 # Stepwise backward elimination based on AIC
 reduced_model2 <- stepAIC(logist_model2, direction = "backward")

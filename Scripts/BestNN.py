@@ -26,14 +26,27 @@ numeric_cols = data.select_dtypes(include=['int64', 'float64']).columns.differen
     ['wants_extra_baggage', 'wants_preferred_seat', 'wants_in_flight_meals']
 )
 
+# Perform downsampling for 'wants_preferred_seat'
+positive = data[data['wants_preferred_seat'] == 1]
+negative = data[data['wants_preferred_seat'] == 0]
+n_samples = min(len(positive), len(negative))
+balanced_data = pd.concat([positive.sample(n_samples, random_state=42), negative.sample(n_samples, random_state=42)])
+
+# Perform downsampling for 'wants_extra_baggage'
+positive = balanced_data[balanced_data['wants_extra_baggage'] == 1]
+negative = balanced_data[balanced_data['wants_extra_baggage'] == 0]
+n_samples = min(len(positive), len(negative))
+balanced_data = pd.concat([positive.sample(n_samples, random_state=42), negative.sample(n_samples, random_state=42)])
+
+# Preprocess features
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', StandardScaler(), numeric_cols),
         ('cat', OneHotEncoder(), categorical_cols)
     ])
 
-X = preprocessor.fit_transform(data.drop(['wants_extra_baggage', 'wants_preferred_seat', 'wants_in_flight_meals'], axis=1))
-y = data[['wants_extra_baggage', 'wants_preferred_seat', 'wants_in_flight_meals']].values
+X = preprocessor.fit_transform(balanced_data.drop(['wants_extra_baggage', 'wants_preferred_seat', 'wants_in_flight_meals'], axis=1))
+y = balanced_data[['wants_extra_baggage', 'wants_preferred_seat', 'wants_in_flight_meals']].values
 
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
