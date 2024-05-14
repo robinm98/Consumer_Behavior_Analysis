@@ -259,67 +259,154 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
 </details>
-<p><em>The first model</em></p>
+<p><em>Above shows the reduced model for <code>wants_extra_baggage</code>, all predictor variables are significant and the model was reduced to 12 variables, in particular it is interesting that the day of the week has no real consequence on the outcome of whether a customer wants extra baggage or not. The AIC stands at 34371 after the variable reduction.</em></p>
+<details>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = wants_preferred_seat ~ length_of_stay + flight_hour + 
+    wants_extra_baggage + flight_duration + booking_complete + 
+    sales_channel_Mobile + trip_type_OneWay + flight_day_Thu + 
+    flight_day_Tue + continent_Americas + continent_Asia, family = "binomial", 
+    data = train_data_seat)
+
+Coefficients:
+                      Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)          -1.661425   0.087553 -18.976  &lt; 2e-16 ***
+length_of_stay       -0.001698   0.000389  -4.366 1.27e-05 ***
+flight_hour           0.006459   0.002493   2.591  0.00957 ** 
+wants_extra_baggage   1.080755   0.031138  34.709  &lt; 2e-16 ***
+flight_duration       0.128070   0.009843  13.012  &lt; 2e-16 ***
+booking_complete      0.381940   0.038541   9.910  &lt; 2e-16 ***
+sales_channel_Mobile  0.366482   0.042489   8.625  &lt; 2e-16 ***
+trip_type_OneWay     -0.308053   0.155181  -1.985  0.04713 *  
+flight_day_Thu       -0.080591   0.038629  -2.086  0.03695 *  
+flight_day_Tue       -0.106578   0.038301  -2.783  0.00539 ** 
+continent_Americas   -0.186436   0.130813  -1.425  0.15410    
+continent_Asia       -0.253656   0.030307  -8.369  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 33033  on 23827  degrees of freedom
+Residual deviance: 31209  on 23816  degrees of freedom
+AIC: 31233
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+</details>
+<p><em>Above shows the reduced model for <code>wants_preferred_seat</code>, most predictor variables are significant and the model was reduced to 11 variables, the remaining variables are very different from <code>wants_extra_baggage</code>, which is interesting as they share such correlation. The AIC stands at 31233 after the variable reduction.</em></p>
+<details>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = wants_in_flight_meals ~ num_passengers + purchase_lead + 
+    length_of_stay + flight_hour + wants_extra_baggage + wants_preferred_seat + 
+    flight_duration + booking_complete + sales_channel_Mobile + 
+    trip_type_RoundTrip + flight_day_Mon + flight_day_Tue + flight_day_Wed + 
+    continent_Americas + continent_Asia + continent_Europe + 
+    continent_Oceania + continent_Unknown, family = "binomial", 
+    data = train_data)
+
+Coefficients:
+                       Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)          -2.1018812  0.3367570  -6.242 4.33e-10 ***
+num_passengers        0.0368962  0.0111409   3.312 0.000927 ***
+purchase_lead        -0.0005680  0.0001272  -4.467 7.95e-06 ***
+length_of_stay        0.0029135  0.0003445   8.458  &lt; 2e-16 ***
+flight_hour           0.0075975  0.0020350   3.733 0.000189 ***
+wants_extra_baggage   0.6947210  0.0248461  27.961  &lt; 2e-16 ***
+wants_preferred_seat  1.2619666  0.0241095  52.343  &lt; 2e-16 ***
+flight_duration       0.1497557  0.0080219  18.668  &lt; 2e-16 ***
+booking_complete      0.1689283  0.0315341   5.357 8.46e-08 ***
+sales_channel_Mobile -0.1295023  0.0355612  -3.642 0.000271 ***
+trip_type_RoundTrip   0.4334617  0.1120420   3.869 0.000109 ***
+flight_day_Mon       -0.0594067  0.0311158  -1.909 0.056235 .  
+flight_day_Tue       -0.0709124  0.0318852  -2.224 0.026149 *  
+flight_day_Wed       -0.0565953  0.0316766  -1.787 0.073992 .  
+continent_Americas   -1.1033984  0.3285006  -3.359 0.000783 ***
+continent_Asia       -0.8191083  0.3106376  -2.637 0.008368 ** 
+continent_Europe     -0.9169358  0.3266989  -2.807 0.005006 ** 
+continent_Oceania    -0.5285831  0.3106931  -1.701 0.088886 .  
+continent_Unknown    -0.8084988  0.4126927  -1.959 0.050103 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 54604  on 39999  degrees of freedom
+Residual deviance: 48565  on 39981  degrees of freedom
+AIC: 48603
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+</details>
+<p><em>Above shows the reduced model for <code>wants_in_flight_meals</code>, most predictor variables are significant and the model was reduced to 18 variables, a lot more than the previous two. The AIC stands at 48603 after the variable reduction.</em></p>
 <p>Cross-validation was also employed for logistic regression to ensure the model’s stability and reliability. By partitioning the data into multiple subsets, we could train and validate the model multiple times on different segments of the data, which helps in assessing how the model will perform across different samples of the dataset.</p>
 <p>For the <strong>Random Forest model</strong>, extensive hyperparameter tuning was conducted using grid search cross-validation. This method systematically goes through multiple combinations of parameters, allowing us to find the best settings for parameters such as the number of trees (n_estimators), the maximum depth of the trees (max_depth), and the minimum number of samples required to split a node (min_samples_split). This approach is vital for fine-tuning the model to enhance its accuracy and efficiency.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameter grid focusing on fewer trees and tree complexity</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_features'</span>: [<span class="st">'sqrt'</span>, <span class="st">'log2'</span>, <span class="va">None</span>],  <span class="co"># Features considered for splitting at each leaf</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">10</span>, <span class="dv">20</span>],  <span class="co"># Minimum number of samples required to split an internal node</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">5</span>, <span class="dv">10</span>]  <span class="co"># Minimum number of samples required to be at a leaf node</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># GridSearchCV for parameter tuning</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(estimator<span class="op">=</span>model, param_grid<span class="op">=</span>param_grid, cv<span class="op">=</span><span class="dv">10</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>, verbose<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Best parameters</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best parameters:"</span>, grid_search.best_params_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameter grid focusing on fewer trees and tree complexity</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_features'</span>: [<span class="st">'sqrt'</span>, <span class="st">'log2'</span>, <span class="va">None</span>],  <span class="co"># Features considered for splitting at each leaf</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">10</span>, <span class="dv">20</span>],  <span class="co"># Minimum number of samples required to split an internal node</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">5</span>, <span class="dv">10</span>]  <span class="co"># Minimum number of samples required to be at a leaf node</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># GridSearchCV for parameter tuning</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(estimator<span class="op">=</span>model, param_grid<span class="op">=</span>param_grid, cv<span class="op">=</span><span class="dv">10</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>, verbose<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Best parameters</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best parameters:"</span>, grid_search.best_params_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Cross-validation was embedded in the grid search process, where each parameter combination was validated across multiple folds of data, ensuring generalizability of the model.</p>
 <p>Similarly, for the <strong>Neural Network</strong>, grid search cross-validation was used to optimize several hyperparameters including the number of layers, the number of neurons in each layer, dropout rates, and activation functions. This fine-tuning is crucial for deep learning models due to their complexity and the large number of training configurations possible.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.wrappers.scikit_learn <span class="im">import</span> KerasClassifier</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create model, for use in KerasClassifier</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_model(layers<span class="op">=</span><span class="dv">1</span>, activation<span class="op">=</span><span class="st">'relu'</span>, dropout_rate<span class="op">=</span><span class="fl">0.2</span>):</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> Sequential()</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    model.add(Dense(<span class="dv">64</span>, activation<span class="op">=</span>activation, input_dim<span class="op">=</span>X_train.shape[<span class="dv">1</span>]))</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    model.add(Dropout(dropout_rate))</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, layers):</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        model.add(Dense(<span class="dv">64</span>, activation<span class="op">=</span>activation))</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        model.add(Dropout(dropout_rate))</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    model.add(Dense(<span class="dv">3</span>, activation<span class="op">=</span><span class="st">'sigmoid'</span>))</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'binary_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter grid</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'epochs'</span>: [<span class="dv">20</span>, <span class="dv">50</span>],</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'batch_size'</span>: [<span class="dv">16</span>, <span class="dv">32</span>],</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'layers'</span>: [<span class="dv">1</span>, <span class="dv">2</span>],</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'activation'</span>: [<span class="st">'relu'</span>, <span class="st">'tanh'</span>],</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dropout_rate'</span>: [<span class="fl">0.5</span>, <span class="fl">0.6</span>]</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>best_score <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>best_params <span class="op">=</span> {}</span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> params <span class="kw">in</span> ParameterGrid(param_grid):</span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Separate model parameters and training parameters</span></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    model_params <span class="op">=</span> {key: params[key] <span class="cf">for</span> key <span class="kw">in</span> params <span class="cf">if</span> key <span class="kw">in</span> [<span class="st">'layers'</span>, <span class="st">'activation'</span>, <span class="st">'dropout_rate'</span>]}</span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    train_params <span class="op">=</span> {key: params[key] <span class="cf">for</span> key <span class="kw">in</span> params <span class="cf">if</span> key <span class="kw">in</span> [<span class="st">'epochs'</span>, <span class="st">'batch_size'</span>]}</span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> create_model(input_dim<span class="op">=</span>X_train.shape[<span class="dv">1</span>], <span class="op">**</span>model_params)</span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    model.fit(X_train, y_train, <span class="op">**</span>train_params, verbose<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    score <span class="op">=</span> model.evaluate(X_test, y_test, verbose<span class="op">=</span><span class="dv">0</span>)[<span class="dv">1</span>]  <span class="co"># Get accuracy</span></span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> score <span class="op">&gt;</span> best_score:</span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>        best_score <span class="op">=</span> score</span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        best_params <span class="op">=</span> params</span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best score: </span><span class="sc">{:.2f}</span><span class="st">"</span>.<span class="bu">format</span>(best_score))</span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best parameters:"</span>, best_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.wrappers.scikit_learn <span class="im">import</span> KerasClassifier</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create model, for use in KerasClassifier</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_model(layers<span class="op">=</span><span class="dv">1</span>, activation<span class="op">=</span><span class="st">'relu'</span>, dropout_rate<span class="op">=</span><span class="fl">0.2</span>):</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> Sequential()</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    model.add(Dense(<span class="dv">64</span>, activation<span class="op">=</span>activation, input_dim<span class="op">=</span>X_train.shape[<span class="dv">1</span>]))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    model.add(Dropout(dropout_rate))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, layers):</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        model.add(Dense(<span class="dv">64</span>, activation<span class="op">=</span>activation))</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        model.add(Dropout(dropout_rate))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    model.add(Dense(<span class="dv">3</span>, activation<span class="op">=</span><span class="st">'sigmoid'</span>))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'binary_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter grid</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'epochs'</span>: [<span class="dv">20</span>, <span class="dv">50</span>],</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'batch_size'</span>: [<span class="dv">16</span>, <span class="dv">32</span>],</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'layers'</span>: [<span class="dv">1</span>, <span class="dv">2</span>],</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'activation'</span>: [<span class="st">'relu'</span>, <span class="st">'tanh'</span>],</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dropout_rate'</span>: [<span class="fl">0.5</span>, <span class="fl">0.6</span>]</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>best_score <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>best_params <span class="op">=</span> {}</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> params <span class="kw">in</span> ParameterGrid(param_grid):</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Separate model parameters and training parameters</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    model_params <span class="op">=</span> {key: params[key] <span class="cf">for</span> key <span class="kw">in</span> params <span class="cf">if</span> key <span class="kw">in</span> [<span class="st">'layers'</span>, <span class="st">'activation'</span>, <span class="st">'dropout_rate'</span>]}</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    train_params <span class="op">=</span> {key: params[key] <span class="cf">for</span> key <span class="kw">in</span> params <span class="cf">if</span> key <span class="kw">in</span> [<span class="st">'epochs'</span>, <span class="st">'batch_size'</span>]}</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> create_model(input_dim<span class="op">=</span>X_train.shape[<span class="dv">1</span>], <span class="op">**</span>model_params)</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    model.fit(X_train, y_train, <span class="op">**</span>train_params, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    score <span class="op">=</span> model.evaluate(X_test, y_test, verbose<span class="op">=</span><span class="dv">0</span>)[<span class="dv">1</span>]  <span class="co"># Get accuracy</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> score <span class="op">&gt;</span> best_score:</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>        best_score <span class="op">=</span> score</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>        best_params <span class="op">=</span> params</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best score: </span><span class="sc">{:.2f}</span><span class="st">"</span>.<span class="bu">format</span>(best_score))</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best parameters:"</span>, best_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The use of cross-validation in this context ensures that the neural network’s performance assessment is not only based on a single train-test split but rather on multiple folds, thus providing a more robust estimate of the model’s performance on unseen data.</p>
 <p>These strategies collectively help in developing models that are not only tuned to perform well on the training data but also fit to handle new, unseen data effectively.</p>
 <p><em>Note: Computational resources and time constraints limited the exhaustive search for optimal hyperparameters. In practice, it is essential to balance the trade-off between model performance and computational efficiency.</em></p>
@@ -328,7 +415,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </section>
 <section id="model-evaluation" class="level3">
 <h3 class="anchored" data-anchor-id="model-evaluation">Model Evaluation</h3>
-<p>After training and tuning the models, we evaluated their performance using various metrics to assess their predictive capabilities. For each model, we calculated the following metrics:</p>
+<p>After training and tuning the models, we evaluated their performance using metrics to assess their predictive capabilities. For each model, we calculated the following metrics:</p>
 <ol type="1">
 <li><p><strong>Accuracy</strong>: The proportion of correctly classified instances out of the total instances. It provides a general overview of the model’s performance.</p></li>
 <li><p><strong>AUC</strong>: The area under the receiver operating characteristic (ROC) curve, which measures the model’s ability to distinguish between classes. A higher AUC indicates better performance.</p></li>
@@ -340,10 +427,6 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <h3 class="anchored" data-anchor-id="interpretation-of-results">Interpretation of Results</h3>
 <p>The evaluation metrics for each model are summarized below:</p>
 <ul>
-<li>Data splitting (if a training/test set split is enough for the global analysis, at least one CV or bootstrap must be used)</li>
-<li>Two or more models</li>
-<li>Two or more scores</li>
-<li>Tuning of one or more hyperparameters per model</li>
 <li>Interpretation of the model(s)</li>
 </ul>
 </section>

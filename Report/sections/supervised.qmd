@@ -207,7 +207,6 @@ library(ROSE)
 library(caret)
 library(dplyr)
 library(fastDummies)
-library(stargazer)
 
 data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
 
@@ -243,7 +242,40 @@ reduced_model <- stepAIC(logist_model1, direction = "backward", trace = FALSE)
 summary(reduced_model)
 ```
 </details>
-_The first model_
+_Above shows the reduced model for `wants_extra_baggage`, all predictor variables are significant and the model was reduced to 12 variables, in particular it is interesting that the day of the week has no real consequence on the outcome of whether a customer wants extra baggage or not. The AIC stands at 34371 after the variable reduction._
+
+##### Wants Preferred Seat Reduced Logistic Regression Model
+
+<details>
+```{r logistic-regression-model1, echo = FALSE, message = FALSE, warning=FALSE}
+# Downsampling for wants_preferred_seat
+train_data_seat <- ovun.sample(wants_preferred_seat ~ ., data = train_data, method = "under", N = sum(train_data$wants_preferred_seat == "1") * 2)$data
+
+# Initial logistic regression model
+logist_model2 <- glm(wants_preferred_seat ~ . - wants_preferred_seat - wants_in_flight_meals, data = train_data_seat, family = "binomial")
+
+# Stepwise backward elimination based on AIC
+reduced_model2 <- stepAIC(logist_model2, direction = "backward", trace = FALSE)
+summary(reduced_model2)
+```
+</details>
+
+_Above shows the reduced model for `wants_preferred_seat`, most predictor variables are significant and the model was reduced to 11 variables, the remaining variables are very different from `wants_extra_baggage`, which is interesting as they share such correlation. The AIC stands at 31233 after the variable reduction._
+
+##### Wants In-Flight Meals Reduced Logistic Regression Model
+
+<details>
+```{r logistic-regression-model2, echo = FALSE, message = FALSE, warning=FALSE}
+# Initial logistic regression model
+logist_model3 <- glm(wants_in_flight_meals ~ ., data = train_data, family = "binomial")
+
+# Stepwise backward elimination based on AIC
+reduced_model3 <- stepAIC(logist_model3, direction = "backward", trace = FALSE)
+summary(reduced_model3)
+```
+</details>
+
+_Above shows the reduced model for `wants_in_flight_meals`, most predictor variables are significant and the model was reduced to 18 variables, a lot more than the previous two. The AIC stands at 48603 after the variable reduction._
 
 Cross-validation was also employed for logistic regression to ensure the model's stability and reliability. By partitioning the data into multiple subsets, we could train and validate the model multiple times on different segments of the data, which helps in assessing how the model will perform across different samples of the dataset.
 
@@ -323,7 +355,7 @@ _Note: Computational resources and time constraints limited the exhaustive searc
 
 ### Model Evaluation
 
-After training and tuning the models, we evaluated their performance using various metrics to assess their predictive capabilities. For each model, we calculated the following metrics:
+After training and tuning the models, we evaluated their performance using metrics to assess their predictive capabilities. For each model, we calculated the following metrics:
 
 1. **Accuracy**: The proportion of correctly classified instances out of the total instances. It provides a general overview of the model's performance.
 
@@ -337,8 +369,4 @@ After training and tuning the models, we evaluated their performance using vario
 
 The evaluation metrics for each model are summarized below:
 
-* Data splitting (if a training/test set split is enough for the global analysis, at least one CV or bootstrap must be used)
-* Two or more models 
-* Two or more scores
-* Tuning of one or more hyperparameters per model
 * Interpretation of the model(s)
