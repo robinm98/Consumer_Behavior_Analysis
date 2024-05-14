@@ -218,6 +218,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="parameter-tuning">Parameter Tuning</h4>
 <p>Parameter tuning and cross-validation are critical components in developing robust machine learning models, ensuring that the models not only fit the training data well but also generalize effectively to new, unseen data. Here, we’ll detail how these methodologies were applied across the logistic regression, random forest, and neural network models.</p>
 <p>For <strong>logistic regression</strong>, the tuning process primarily involved feature selection rather than hyperparameter tuning. We utilized the stepwise backward elimination process based on AIC, which is a methodological approach to select the most significant predictors by iteratively removing the least important ones. While this doesn’t involve adjusting the hyperparameters of the logistic regression model, it is crucial for optimizing the model’s performance by reducing complexity and preventing overfitting.</p>
+<section id="wants-extra-baggage-reduced-logistic-regression-model" class="level5">
+<h5 class="anchored" data-anchor-id="wants-extra-baggage-reduced-logistic-regression-model">Wants Extra Baggage Reduced Logistic Regression Model</h5>
+<details>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -255,6 +258,8 @@ AIC: 34371
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
+</details>
+<p><em>The first model</em></p>
 <p>Cross-validation was also employed for logistic regression to ensure the model’s stability and reliability. By partitioning the data into multiple subsets, we could train and validate the model multiple times on different segments of the data, which helps in assessing how the model will perform across different samples of the dataset.</p>
 <p>For the <strong>Random Forest model</strong>, extensive hyperparameter tuning was conducted using grid search cross-validation. This method systematically goes through multiple combinations of parameters, allowing us to find the best settings for parameters such as the number of trees (n_estimators), the maximum depth of the trees (max_depth), and the minimum number of samples required to split a node (min_samples_split). This approach is vital for fine-tuning the model to enhance its accuracy and efficiency.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
@@ -318,6 +323,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <p>The use of cross-validation in this context ensures that the neural network’s performance assessment is not only based on a single train-test split but rather on multiple folds, thus providing a more robust estimate of the model’s performance on unseen data.</p>
 <p>These strategies collectively help in developing models that are not only tuned to perform well on the training data but also fit to handle new, unseen data effectively.</p>
 <p><em>Note: Computational resources and time constraints limited the exhaustive search for optimal hyperparameters. In practice, it is essential to balance the trade-off between model performance and computational efficiency.</em></p>
+</section>
 </section>
 </section>
 <section id="model-evaluation" class="level3">

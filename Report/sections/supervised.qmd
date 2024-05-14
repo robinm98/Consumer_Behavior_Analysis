@@ -197,6 +197,9 @@ Parameter tuning and cross-validation are critical components in developing robu
 
 For **logistic regression**, the tuning process primarily involved feature selection rather than hyperparameter tuning. We utilized the stepwise backward elimination process based on AIC, which is a methodological approach to select the most significant predictors by iteratively removing the least important ones. While this doesn't involve adjusting the hyperparameters of the logistic regression model, it is crucial for optimizing the model's performance by reducing complexity and preventing overfitting.
 
+##### Wants Extra Baggage Reduced Logistic Regression Model
+
+<details>
 ```{r logistic-regression-model, echo = FALSE, message = FALSE, warning=FALSE}
 # Load necessary libraries
 library(MASS)
@@ -217,12 +220,12 @@ data <- data |>
 data <- data |> 
   dummy_cols(select_columns = categorical_vars, remove_first_dummy = TRUE)
 
-# Remove unneeded columns if they are not used in any models (verify first), do we want to keep wants preferred seat and meal?
+# Remove unneeded columns
 data_lr1 <- data |> 
   dplyr::select(-route, -booking_origin, -departure, -arrival, -flight_day, -continent, -sales_channel, -trip_type)
 
 # Splitting data into training and testing sets
-set.seed(123)  # for reproducibility
+set.seed(123)
 trainIndex <- createDataPartition(data_lr1$wants_extra_baggage, p = 0.8, list = FALSE)
 train_data <- data_lr1[trainIndex, ]
 test_data <- data_lr1[-trainIndex, ]
@@ -236,9 +239,11 @@ logist_model1 <- glm(wants_extra_baggage ~ . - wants_preferred_seat - wants_in_f
 # Stepwise backward elimination based on AIC
 reduced_model <- stepAIC(logist_model1, direction = "backward", trace = FALSE)
 
-# Capture and print only the summary of the reduced model
+# Display the model summary
 summary(reduced_model)
 ```
+</details>
+_The first model_
 
 Cross-validation was also employed for logistic regression to ensure the model's stability and reliability. By partitioning the data into multiple subsets, we could train and validate the model multiple times on different segments of the data, which helps in assessing how the model will perform across different samples of the dataset.
 
