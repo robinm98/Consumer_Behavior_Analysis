@@ -12,6 +12,7 @@ library(lattice)
 library(caret)
 library(pROC)
 library(MASS)
+library(ROSE)
 
 # Load the data
 data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
@@ -259,5 +260,3 @@ plot(roc_curve3, print.thres="best", col = "blue", lwd = 2, main = "ROC Curve", 
 
 # AUC
 auc(roc_curve3)
-
-
