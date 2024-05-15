@@ -1,6 +1,6 @@
 # Introduction
 
-* **Overview and Motivation**
+## Overview and Motivation
 
 In the fast-paced world of air travel, airlines face a dual challenge: maintaining operational efficiency while personalizing the travel experience for their passengers. Key aspects that greatly influence passenger satisfaction include baggage handling, preferred seating, and in-flight meals. Each of these elements represents significant opportunities for airlines to enhance customer experiences and optimize their ancillary services.
 
@@ -8,31 +8,31 @@ The project aims to harness machine learning to predict and analyze passengers' 
 
 Our motivation stems from the logistical and customer service challenges faced by airlines when handling passengers’ preferences efficiently. Accurate prediction models will help airlines anticipate the demand for different services, from baggage needs to specific seating and meal preferences. This, in turn, will allow them to allocate resources more effectively and design better marketing strategies, enhancing customer satisfaction and maximizing revenue from ancillary services.
 
-* **Data**
+## Data
 
 The dataset for our project is sourced from Kaggle and titled "Airlines Booking", compiled by user Anand Shaw. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.
 
 
-* **Related Work**
+## Related Work
 
 Research on passenger preferences in air travel has highlighted several factors influencing travelers' choices and behaviors, notably service offerings like baggage handling, seat selection, and in-flight meal preferences. Ancillary and add-on revenues, such as those from baggage fees, preferred seating, and in-flight services, have become crucial for airline profitability [1]. The growth in these revenue streams underscores their importance in airline strategies, as ancillary revenues accounted for about 18% of total airline revenue in 2022 [2].
 
-Baggage Preferences:
+**Baggage Preferences:**
 
 Studies indicate that baggage fees and policies greatly affect customer behavior. Clear communication about baggage policies can influence booking decisions, and flexibility in these policies can enhance customer loyalty. Research shows that ancillary baggage fees impact travelers’ booking choices and willingness to pay [3], suggesting that transparent and adaptable baggage policies are crucial for maintaining customer satisfaction [3].
 
-Preferred Seating:
+**Preferred Seating:**
 
 Seat selection is critical for passenger comfort and satisfaction. Passengers value different seat attributes, such as proximity to exits, windows, or aisles, depending on their preferences. Research indicates that passengers are willing to pay extra for preferred seating, which underscores the importance of predictive models to cater to these preferences [4]. This willingness to pay highlights the revenue potential for airlines from charging for preferred seating [4].
 
-In-Flight Meals:
+**In-Flight Meals:**
 
 The diversity in passengers' dietary and cultural preferences necessitates a variety of meal options to meet these needs. Studies show that offering diverse in-flight meal options can significantly improve passenger satisfaction [5]. Airlines that effectively address these preferences can differentiate their services, leading to higher customer satisfaction and loyalty[5].
 
 
 In summary, the research on passenger preferences in air travel highlights the critical role of ancillary and add-on revenues such as baggage fees, preferred seating, and in-flight services. These elements not only significantly impact customer satisfaction but also contribute substantially to airline profitability. Clear communication and flexibility in baggage policies are essential for influencing booking decisions and enhancing customer loyalty. The willingness of passengers to pay extra for preferred seating and diverse in-flight meal options underscores the need for airlines to offer tailored services that meet diverse passenger preferences, ultimately driving higher customer satisfaction and loyalty.[1][2][3][4][5][6][7][8]
 
-* **Research questions**
+## Research questions
 
 Our study, "Modeling Passenger Preferences for Air Travel Upgrades," focuses on developing predictive models to determine passenger choices for additional services during air travel. The central research question explores the application of machine learning:
 

@@ -34,12 +34,4 @@ As previously introduced, our study utilizes the "Airlines Booking" dataset cura
 
 **`booking_complete`**: A flag indicating whether the booking was completed (yes/no).
 
-
-
-* Wrangling/cleaning
-* Spotting mistakes and missing data (could be part of EDA too)
-* Listing anomalies and outliers (could be part of EDA too)
-
-```{r}
-# Example of a code block
-```
+The data has already been cleaned and is in good condition. However, further data processing will be conducted. This will involve removing any unnecessary data and encoding the data appropriately for use in our different models.

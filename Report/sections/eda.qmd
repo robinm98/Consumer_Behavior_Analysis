@@ -1,7 +1,375 @@
-# Exploratory data analysis
+# Exploratory Data Analysis (EDA)
 
-* Mapping out the underlying structure
-* Identifying the most important variables
-* Univariate visualizations
-* Multivariate visualizations
-* Summary tables
+EDA is a crucial step in understanding the underlying structure and patterns within our dataset. By employing various statistical and graphical techniques, EDA helps in identifying key relationships, trends, and anomalies that can inform further analysis and model development. In this section, we will explore the characteristics of our data on passenger preferences for air travel upgrades, focusing on how different features influence the choices for extra baggage, in-flight meals, and preferred seating. The insights gained from EDA will provide a solid foundation for building predictive models
+
+
+## Correlation Heatmap: Relationship Between Variables of Interest
+
+The correlation heatmap visualizes the relationships between various variables related to passenger preferences for air travel upgrades. Each cell in the heatmap represents the correlation coefficient between two variables, with values ranging from -1 to 1. Darker shades of blue indicate a stronger positive correlation, while darker shades of red indicate a stronger negative correlation.
+
+Key Observations:
+
+**Length of Stay vs. Extra Baggage:** There is a slight positive correlation, suggesting that passengers with longer stays tend to opt for extra baggage.
+
+**Purchase Lead vs. Extra Baggage:** There is a noticeable negative correlation, indicating that passengers who book further in advance are less likely to select extra baggage.
+
+**Length of Stay vs. In-Flight Meals and Preferred Seats:** Both show positive correlations, implying that longer stays increase the likelihood of choosing these services.
+
+**Purchase Lead vs. Preferred Seats and In-Flight Meals:** Both show negative correlations, meaning advance bookers are less likely to choose these additional services.
+
+This heatmap provides a clear overview of how different factors, such as trip duration and booking behavior, influence passengers' choices for ancillary services. Understanding these relationships can help airlines optimize their service offerings and improve customer satisfaction.
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+library(corrplot)
+library(readr)
+library(here)
+library(ggplot2)
+library(ggthemes)
+library(gridExtra)
+library(dplyr)
+
+data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
+# Set up a 1x3 layout for the plots
+
+
+# Selecting only the numerical features
+numerical_data <- data[, sapply(data, is.numeric)]
+
+# Calculating the correlation matrix
+correlation_matrix <- cor(numerical_data)
+
+# Plotting the correlation matrix
+corrplot(correlation_matrix, method = "color", tl.col = "black")
+```
+
+
+## Target Variables (Y) vs. Predictive Features (X)
+In this section, we examine the relationships between our target variables (Y) and various predictive features (X) to better understand passenger preferences for air travel upgrades. By analyzing these relationships, we aim to uncover patterns that can help predict the likelihood of passengers opting for additional services such as extra baggage, in-flight meals, and preferred seating. This analysis will provide valuable insights for airlines to enhance customer satisfaction and optimize their service offerings.
+
+
+*Number of Passengers and Service Preferences*
+
+Extra Baggage Rates: Positive trend; larger groups more likely to want extra baggage.
+
+In-Flight Meals Rates: Slight negative trend; larger groups less likely to want in-flight meals.
+
+Preferred Seats Rates: Clear negative trend; larger groups less likely to choose preferred seats.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+### NUMBER OF PASSENGERS
+# Extra baggage rate per number of passengers
+extra_baggage_rate <- data |>
+  group_by(num_passengers) |>
+  summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
+
+plot1 <- ggplot(extra_baggage_rate, aes(x = num_passengers, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Extra Baggage Rates",
+       x = "Number of Passengers",
+       y = "Proportion Wanting Extra Baggage") +
+  theme_minimal()
+
+# In-flight meals rate per number of passengers
+in_flight_meals_rate <- data |>
+  group_by(num_passengers) |>
+  summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
+
+plot2 <- ggplot(in_flight_meals_rate, aes(x = num_passengers, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "In-Flight Meals Rates",
+       x = "Number of Passengers",
+       y = "Proportion Wanting In-Flight Meals") +
+  theme_minimal()
+
+# Preferred seats rate per number of passengers
+preferred_seats_rate <- data |>
+  group_by(num_passengers) |>
+  summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
+
+plot3 <- ggplot(preferred_seats_rate, aes(x = num_passengers, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Preferred Seats Rates",
+       x = "Number of Passengers",
+       y = "Proportion Wanting Preferred Seats") +
+  theme_minimal()
+
+# Arrange the plots side by side
+grid.arrange(plot1, plot2, plot3, ncol = 3)
+```
+
+
+
+
+*Flight Duration and Service Preferences*
+
+Extra Baggage Rates: Slight positive trend; longer flights slightly increase extra baggage demand.
+
+In-Flight Meals Rates: Clear positive correlation; longer flights increase in-flight meal demand.
+
+Preferred Seats Rates: Positive correlation; longer flights increase preferred seat selection.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+### FLIGHT DURATION
+
+# Extra baggage rate per flight duration
+extra_baggage_rate <- data |>
+  group_by(flight_duration) |>
+  summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
+
+plot4 <- ggplot(extra_baggage_rate, aes(x = flight_duration, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Extra Baggage Rates",
+       x = "Flight Duration (hours)",
+       y = "Proportion Wanting Extra Baggage") +
+  theme_minimal()
+
+# In-flight meals rate per flight duration
+in_flight_meals_rate <- data |>
+  group_by(flight_duration) |>
+  summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
+
+plot5 <- ggplot(in_flight_meals_rate, aes(x = flight_duration, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "In-Flight Meals Rates",
+       x = "Flight Duration (hours)",
+       y = "Proportion Wanting In-Flight Meals") +
+  theme_minimal()
+
+# Preferred seats rate per flight duration
+preferred_seats_rate <- data |>
+  group_by(flight_duration) |>
+  summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
+
+plot6 <- ggplot(preferred_seats_rate, aes(x = flight_duration, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Preferred Seats Rates",
+       x = "Flight Duration (hours)",
+       y = "Proportion Wanting Preferred Seats") +
+  theme_minimal()
+
+# Arrange the plots side by side
+grid.arrange(plot4, plot5, plot6, ncol = 3)
+```
+
+
+
+
+*Purchase Lead Time and Service Preferences*
+
+Extra Baggage Rates: Negative trend; advance bookers less likely to want extra baggage.
+
+In-Flight Meals Rates: Negative trend; advance bookers less likely to want in-flight meals.
+
+Preferred Seats Rates: Negative trend; advance bookers less likely to select preferred seats.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Extra baggage rate per purchase lead time
+extra_baggage_rate <- data |>
+  group_by(purchase_lead) |>
+  summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
+
+plot7 <- ggplot(extra_baggage_rate, aes(x = purchase_lead, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Extra Baggage Rates",
+       x = "Purchase Lead Time (days)",
+       y = "Proportion Wanting Extra Baggage") +
+  theme_minimal()
+
+# In-flight meals rate per purchase lead time
+in_flight_meals_rate <- data |>
+  group_by(purchase_lead) |>
+  summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
+
+plot8 <- ggplot(in_flight_meals_rate, aes(x = purchase_lead, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "In-Flight Meals Rates",
+       x = "Purchase Lead Time (days)",
+       y = "Proportion Wanting In-Flight Meals") +
+  theme_minimal()
+
+# Preferred seats rate per purchase lead time
+preferred_seats_rate <- data |>
+  group_by(purchase_lead) |>
+  summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
+
+plot9 <- ggplot(preferred_seats_rate, aes(x = purchase_lead, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Preferred Seats Rates",
+       x = "Purchase Lead Time (days)",
+       y = "Proportion Wanting Preferred Seats") +
+  theme_minimal()
+
+# Arrange the plots side by side
+grid.arrange(plot7, plot8, plot9, ncol = 3)
+
+```
+
+
+
+
+*Length of Stay and Service Preferences*
+
+Extra Baggage Rates: Slight decrease as length of stay increases.
+
+In-Flight Meals Rates: Positive correlation; longer stays increase the likelihood of wanting in-flight meals.
+
+Preferred Seats Rates: Positive correlation; longer stays increase the likelihood of choosing preferred seats.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Extra baggage rate per length of stay
+extra_baggage_rate <- data |>
+  group_by(length_of_stay) |>
+  summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
+
+plot10 <- ggplot(extra_baggage_rate, aes(x = length_of_stay, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Extra Baggage Rates",
+       x = "Length of Stay (days)",
+       y = "Proportion Wanting Extra Baggage") +
+  theme_minimal()
+
+# In-flight meals rate per length of stay
+in_flight_meals_rate <- data |>
+  group_by(length_of_stay) |>
+  summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
+
+plot11 <- ggplot(in_flight_meals_rate, aes(x = length_of_stay, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "In-Flight Meals Rates",
+       x = "Length of Stay (days)",
+       y = "Proportion Wanting In-Flight Meals") +
+  theme_minimal()
+
+# Preferred seats rate per length of stay
+preferred_seats_rate <- data |>
+  group_by(length_of_stay) |>
+  summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
+
+plot12 <- ggplot(preferred_seats_rate, aes(x = length_of_stay, y = yes_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Preferred Seats Rates",
+       x = "Length of Stay (days)",
+       y = "Proportion Wanting Preferred Seats") +
+  theme_minimal()
+
+# Arrange the plots side by side
+grid.arrange(plot10, plot11, plot12, ncol = 3)
+
+```
+
+
+
+
+## Relationship between variables of interest
+
+
+
+
+The first set of graphs compares the proportion of passengers wanting extra baggage and in-flight meals based on their preferred seat selection. The left graph shows that a higher proportion of passengers with preferred seats (1) want extra baggage compared to those without preferred seats (0). Similarly, the right graph indicates that passengers with preferred seats are also more likely to want in-flight meals than those without preferred seats. This suggests a correlation between the desire for preferred seating and the preference for additional services such as extra baggage and in-flight meals.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# In-flight meals rate per extra baggage
+in_flight_meals_rate <- data |>
+  group_by(wants_extra_baggage) |>
+  summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
+
+plot1 <- ggplot(in_flight_meals_rate, aes(x = as.factor(wants_extra_baggage), y = yes_rate)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "In-Flight Meals Rates",
+       x = "Extra Baggage",
+       y = "Proportion Wanting In-Flight Meals") +
+  theme_minimal()
+
+# Preferred seats rate per extra baggage
+preferred_seats_rate <- data |>
+  group_by(wants_extra_baggage) |>
+  summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
+
+plot2 <- ggplot(preferred_seats_rate, aes(x = as.factor(wants_extra_baggage), y = yes_rate)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Preferred Seats Rates",
+       x = "Extra Baggage",
+       y = "Proportion Wanting Preferred Seats") +
+  theme_minimal()
+
+# Arrange the plots side by side
+grid.arrange(plot1, plot2, ncol = 2)
+```
+
+
+
+
+The second set of graphs examines the proportion of passengers wanting extra baggage and preferred seats based on their in-flight meal preferences. The left graph demonstrates that passengers who opt for in-flight meals (1) have a higher proportion of wanting extra baggage than those who do not (0). The right graph reveals that passengers wanting in-flight meals are also more likely to choose preferred seats. This indicates that passengers' choice for in-flight meals is associated with a higher likelihood of selecting other additional services, such as extra baggage and preferred seats.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Extra baggage rate per in-flight meals
+extra_baggage_rate <- data |>
+  group_by(wants_in_flight_meals) |>
+  summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
+
+plot3 <- ggplot(extra_baggage_rate, aes(x = as.factor(wants_in_flight_meals), y = yes_rate)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Extra Baggage Rates",
+       x = "In-Flight Meals",
+       y = "Proportion Wanting Extra Baggage") +
+  theme_minimal()
+
+# Preferred seats rate per in-flight meals
+preferred_seats_rate <- data |>
+  group_by(wants_in_flight_meals) |>
+  summarise(yes_rate = mean(as.numeric(wants_preferred_seat) == 1))
+
+plot4 <- ggplot(preferred_seats_rate, aes(x = as.factor(wants_in_flight_meals), y = yes_rate)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Preferred Seats Rates",
+       x = "In-Flight Meals",
+       y = "Proportion Wanting Preferred Seats") +
+  theme_minimal()
+
+# Arrange the plots side by side
+grid.arrange(plot3, plot4, ncol = 2)
+```
+
+
+
+
+The third set of graphs explores the proportion of passengers wanting in-flight meals and preferred seats based on their extra baggage preferences. The left graph shows that passengers opting for extra baggage (1) have a higher proportion of wanting in-flight meals compared to those who do not (0). The right graph indicates that passengers with extra baggage are also more inclined to select preferred seats. This implies that passengers' preference for extra baggage correlates with their likelihood of choosing in-flight meals and preferred seats.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Extra baggage rate per preferred seats
+extra_baggage_rate <- data |>
+  group_by(wants_preferred_seat) |>
+  summarise(yes_rate = mean(as.numeric(wants_extra_baggage) == 1))
+
+plot5 <- ggplot(extra_baggage_rate, aes(x = as.factor(wants_preferred_seat), y = yes_rate)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Extra Baggage Rates",
+       x = "Preferred Seats",
+       y = "Proportion Wanting Extra Baggage") +
+  theme_minimal()
+
+# In-flight meals rate per preferred seats
+in_flight_meals_rate <- data |>
+  group_by(wants_preferred_seat) |>
+  summarise(yes_rate = mean(as.numeric(wants_in_flight_meals) == 1))
+
+plot6 <- ggplot(in_flight_meals_rate, aes(x = as.factor(wants_preferred_seat), y = yes_rate)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "In-Flight Meals Rates",
+       x = "Preferred Seats",
+       y = "Proportion Wanting In-Flight Meals") +
+  theme_minimal()
+
+# Arrange the plots side by side
+grid.arrange(plot5, plot6, ncol = 2)
+```
+
+
+These visualizations highlight the interrelationships between various ancillary services, suggesting that passengers who opt for one additional service are more likely to opt for others.
+
+
