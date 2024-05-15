@@ -55,6 +55,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = create_model(input_dim=X_train.shape[1])
 model.fit(X_train, y_train, batch_size=16, epochs=20, verbose=1)
 
+### TEST SET ###
+
 # Predictions
 y_pred_prob = model.predict(X_test)
 y_pred = (y_pred_prob > 0.5).astype(int)
@@ -76,3 +78,28 @@ for i, label in enumerate(labels):
     print("ROC AUC:", auc)
     print("Confusion Matrix:\n", cm)
     print("Classification Report:\n", cr)
+
+### Training Set ###
+
+# Predictions
+y_train_pred_prob = model.predict(X_train)
+y_train_pred = (y_train_pred_prob > 0.5).astype(int)
+
+# Calculate metrics for each label
+metrics_train = {}
+
+for i, label in enumerate(labels):
+    acc = accuracy_score(y_train[:, i], y_train_pred[:, i])
+    bal_acc = balanced_accuracy_score(y_train[:, i], y_train_pred[:, i])
+    auc = roc_auc_score(y_train[:, i], y_train_pred_prob[:, i])
+    metrics_train[label] = {'Accuracy': acc, 'Balanced Accuracy': bal_acc, 'ROC AUC': auc}
+    cm = confusion_matrix(y_train[:, i], y_train_pred[:, i])
+    cr = classification_report(y_train[:, i], y_train_pred[:, i])
+    print(f"Metrics for {label}:")
+    print("Accuracy:", acc)
+    print("Balanced Accuracy:", bal_acc)
+    print("ROC AUC:", auc)
+    print("Confusion Matrix:\n", cm)
+    print("Classification Report:\n", cr)
+    
+    

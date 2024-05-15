@@ -32,7 +32,7 @@ data <- data |>
 data <- data |> 
   dummy_cols(select_columns = categorical_vars, remove_first_dummy = TRUE)
 
-# Remove unneeded columns if they are not used in any models (verify first), do we want to keep wants preferred seat and meal?
+# Remove unneeded columns if they are not used in any models (verify first)
 data_lr1 <- data |> 
   dplyr::select(-route, -booking_origin, -departure, -arrival, -flight_day, -continent, -sales_channel, -trip_type)
 
@@ -81,7 +81,6 @@ train_control <- trainControl(
   classProbs = TRUE  # since it's a classification problem
 )
 
-
 # Train the model using cross-validation
 cv_model <- train(
   reduced_formula,
@@ -95,6 +94,7 @@ cv_model <- train(
 summary(cv_model)
 print(cv_model)
 
+### TEST SET ###
 
 # Predict on the test data
 test_prob <- predict(cv_model, newdata = test_data, type = "prob")
@@ -128,6 +128,19 @@ plot(roc_curve, print.thres="best", col = "blue", lwd = 2, main = "ROC Curve", x
 
 # AUC
 auc(roc_curve)
+
+### TRAINING SET ###
+
+# Predict on the training data
+train_prob <- predict(cv_model, newdata = train_data, type = "prob")
+train_pred <- ifelse(train_prob[, "Yes"] > 0.681, "Yes", "No")
+
+train_pred <- as.factor(train_pred)
+train_data$wants_extra_baggage <- as.factor(train_data$wants_extra_baggage)
+
+# Confusion matrix
+confusionMatrix(data=train_pred, reference = train_data$wants_extra_baggage)
+# --> NO SIGN OF OVERFITTING
 
 ### wants_preferred_seat ###
 ############################
@@ -165,6 +178,8 @@ cv_model2 <- train(
 summary(cv_model2)
 print(cv_model2)
 
+### TEST SET ###
+
 # Predict on the test data
 test_prob2 <- predict(cv_model2, newdata = test_data, type = "prob")
 test_pred2 <- ifelse(test_prob2[, "Yes"] > 0.357, "Yes", "No")
@@ -194,6 +209,19 @@ plot(roc_curve2, print.thres="best", col = "blue", lwd = 2, main = "ROC Curve", 
 
 # AUC
 auc(roc_curve2)
+
+### TRAINING SET ###
+
+# Predict on the training data
+train_prob2 <- predict(cv_model2, newdata = train_data, type = "prob")
+train_pred2 <- ifelse(train_prob2[, "Yes"] > 0.357, "Yes", "No")
+
+train_pred2 <- as.factor(train_pred2)
+train_data$wants_preferred_seat <- as.factor(train_data$wants_preferred_seat)
+
+# Confusion matrix
+confusionMatrix(data=train_pred2, reference = train_data$wants_preferred_seat)
+# --> NO SIGN OF OVERFITTING
 
 ### wants_in_flight_meals ###
 #############################
@@ -260,3 +288,16 @@ plot(roc_curve3, print.thres="best", col = "blue", lwd = 2, main = "ROC Curve", 
 
 # AUC
 auc(roc_curve3)
+
+### TRAINING SET ###
+
+# Predict on the training data
+train_prob3 <- predict(cv_model3, newdata = train_data, type = "prob")
+train_pred3 <- ifelse(train_prob3[, "Yes"] > 0.443, "Yes", "No")
+
+train_pred3 <- as.factor(train_pred3)
+train_data$wants_in_flight_meals <- as.factor(train_data$wants_in_flight_meals)
+
+# Confusion matrix
+confusionMatrix(data=train_pred3, reference = train_data$wants_in_flight_meals)
+# --> NO SIGN OF OVERFITTING
