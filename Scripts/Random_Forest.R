@@ -11,8 +11,8 @@ library(tidyr)
 data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
 
 # Remove the columns that are not needed and convert categorical variables
-data <- data %>%
-  select(-c("route", "departure", "arrival", "booking_origin")) %>%
+data <- data |>
+  dplyr::select(-c("route", "departure", "arrival", "booking_origin")) |>
   mutate(across(c("sales_channel", "trip_type", "flight_day"), as.factor))
 
 # Combine the labels into a single feature and convert to a factor with valid names
@@ -26,7 +26,7 @@ upsampled_data <- data %>%
   mutate(n = if_else(combined_label %in% minority_classes, 5, 1)) %>%
   ungroup() %>%
   slice(rep(row_number(), n)) %>%
-  select(-n)
+  dplyr::select(-n)
 
 # Prepare the training and testing data
 set.seed(123)
