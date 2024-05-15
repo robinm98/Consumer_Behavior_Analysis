@@ -57,5 +57,5 @@ Abstract: |
 source(here::here("src/setup.R"))
 ```
 
-```{r child = paste0('sections/', c('intro.qmd', 'data.qmd', 'eda.qmd', 'supervised.qmd', 'unsupervised.qmd', 'concl.qmd'))}
+```{r child = paste0('sections/', c('intro.qmd', 'data.qmd', 'eda.qmd', 'supervised.qmd', 'unsupervised.qmd', 'concl.qmd','references.qmd'))}
 ```
