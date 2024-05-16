@@ -67,24 +67,30 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="data-distribution-predictive-features-x">Data Distribution Predictive Features (X)</h2>
 <p>Understanding the distribution of predictive features is essential for gaining insights into the characteristics and variability of our dataset. In this section, we will examine the data distribution of key predictive features (X) that influence passenger preferences for air travel upgrades.</p>
 <p>This analysis will help us understand how these features interact and contribute to predicting passenger choices for additional services, thereby enhancing the accuracy and reliability of our predictive models.</p>
+<p><strong>Distribution of different trip types among passengers</strong></p>
 <p>The bar graph illustrates the distribution of different trip types among passengers. The trip types include CircleTrip, OneWay, and RoundTrip. The data reveals a significant skew towards RoundTrip bookings, which dominate the dataset with nearly 50,000 instances. In contrast, CircleTrip and OneWay bookings are comparatively rare.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="eda_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><em>Distribution of Sales Channel and Booking Completion</em></p>
+<p><strong>Distribution of Sales Channel and Booking Completion</strong></p>
 <p>The first plot shows the distribution of sales channels used by passengers for booking. The two categories are “Internet” and “Mobile.”</p>
-<p><strong>Internet:</strong> The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers. <strong>Mobile:</strong> A smaller segment, significantly less than 10,000, uses mobile devices for booking. This highlights a potential area for growth in mobile bookings.</p>
+<p><em>Internet:</em> The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers.</p>
+<p><em>Mobile:</em> A smaller segment, significantly less than 10,000, uses mobile devices for booking. This highlights a potential area for growth in mobile bookings.</p>
 <p>The second plot illustrates the distribution of booking completion status, categorized as 0 (incomplete) and 1 (complete).</p>
-<p><strong>Incomplete Bookings (0):</strong> The majority of instances, around 40,000, represent incomplete bookings. This suggests a high drop-off rate during the booking process. <strong>Complete Bookings (1):</strong> A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.</p>
+<p><em>Incomplete Bookings (0):</em> The majority of instances, around 40,000, represent incomplete bookings. This suggests a high drop-off rate during the booking process.</p>
+<p><em>Complete Bookings (1):</em> A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="eda_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><em>Description of Distribution of Flight Day</em> The bar graph shows the distribution of flight days, indicating how many flights occur on each day of the week.</p>
-<p><strong>Monday:</strong> Has the highest number of flights, with counts slightly above 8,000. This suggests that Monday is the busiest day for flights. <strong>Tuesday and Wednesday:</strong> These days also have high counts, slightly below 8,000, indicating significant travel activity. Thursday and Sunday: Both days show moderate flight activity, with counts around the 7,000 mark. <strong>Friday:</strong> Shows slightly lower flight counts compared to other weekdays, with counts around 6,500. <strong>Saturday:</strong> Has the lowest flight count, below 6,000, indicating it is the least busy day for flights.</p>
+<p><strong>Description of Distribution of Flight Day</strong> The bar graph shows the distribution of flight days, indicating how many flights occur on each day of the week.</p>
+<p><em>Monday:</em> Has the highest number of flights, with counts slightly above 8,000. This suggests that Monday is the busiest day for flights.</p>
+<p><em>Tuesday and Wednesday:</em> These days also have high counts, slightly below 8,000, indicating significant travel activity. Thursday and Sunday: Both days show moderate flight activity, with counts around the 7,000 mark.</p>
+<p><em>Friday:</em> Shows slightly lower flight counts compared to other weekdays, with counts around 6,500.</p>
+<p><em>Saturday:</em> Has the lowest flight count, below 6,000, indicating it is the least busy day for flights.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="eda_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
@@ -94,7 +100,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="target-variables-y-vs.-predictive-features-x" class="level2">
 <h2 class="anchored" data-anchor-id="target-variables-y-vs.-predictive-features-x">Target Variables (Y) vs.&nbsp;Predictive Features (X)</h2>
 <p>In this section, we examine the relationships between our target variables (Y) and various predictive features (X) to better understand passenger preferences for air travel upgrades. By analyzing these relationships, we aim to uncover patterns that can help predict the likelihood of passengers opting for additional services such as extra baggage, in-flight meals, and preferred seating. This analysis will provide valuable insights for airlines to enhance customer satisfaction and optimize their service offerings.</p>
-<p><em>Number of Passengers and Service Preferences</em></p>
+<p><strong>Number of Passengers and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Positive trend; larger groups more likely to want extra baggage.</p>
 <p>In-Flight Meals Rates: Slight negative trend; larger groups less likely to want in-flight meals.</p>
 <p>Preferred Seats Rates: Clear negative trend; larger groups less likely to choose preferred seats.</p>
@@ -103,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="eda_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><em>Flight Duration and Service Preferences</em></p>
+<p><strong>Flight Duration and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Slight positive trend; longer flights slightly increase extra baggage demand.</p>
 <p>In-Flight Meals Rates: Clear positive correlation; longer flights increase in-flight meal demand.</p>
 <p>Preferred Seats Rates: Positive correlation; longer flights increase preferred seat selection.</p>
@@ -112,7 +118,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="eda_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><em>Purchase Lead Time and Service Preferences</em></p>
+<p><strong>Purchase Lead Time and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Negative trend; advance bookers less likely to want extra baggage.</p>
 <p>In-Flight Meals Rates: Negative trend; advance bookers less likely to want in-flight meals.</p>
 <p>Preferred Seats Rates: Negative trend; advance bookers less likely to select preferred seats.</p>
@@ -121,7 +127,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="eda_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><em>Length of Stay and Service Preferences</em></p>
+<p><strong>Length of Stay and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Slight decrease as length of stay increases.</p>
 <p>In-Flight Meals Rates: Positive correlation; longer stays increase the likelihood of wanting in-flight meals.</p>
 <p>Preferred Seats Rates: Positive correlation; longer stays increase the likelihood of choosing preferred seats.</p>
