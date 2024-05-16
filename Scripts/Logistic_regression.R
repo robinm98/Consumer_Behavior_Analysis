@@ -13,6 +13,9 @@ library(caret)
 library(pROC)
 library(MASS)
 library(ROSE)
+library(DALEX)
+library(ggplot2)
+library(pdp)
 
 # Load the data
 data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
@@ -301,3 +304,101 @@ train_data$wants_in_flight_meals <- as.factor(train_data$wants_in_flight_meals)
 # Confusion matrix
 confusionMatrix(data=train_pred3, reference = train_data$wants_in_flight_meals)
 # --> NO SIGN OF OVERFITTING
+
+
+### INTERPRETABILITY ###
+########################
+
+### Variable Importance ###
+
+### Create DALEX explainers for the logistic regression models
+
+# For wants_extra_baggage
+explainer_log_reg1 <- DALEX::explain(
+  model = reduced_model1, 
+  data = train_data %>% select(-wants_extra_baggage, -wants_preferred_seat, -wants_in_flight_meals), 
+  y = as.numeric(train_data$wants_extra_baggage) - 1,  # Convert to numeric
+  label = "Logistic Regression for Baggage"
+)
+
+# For wants_preferred_seat
+explainer_log_reg2 <- DALEX::explain(
+  model = reduced_model2, 
+  data = train_data %>% select(-wants_preferred_seat, -wants_extra_baggage, -wants_in_flight_meals), 
+  y = as.numeric(train_data$wants_preferred_seat) - 1,  # Convert to numeric
+  label = "Logistic Regression for Seat"
+)
+
+# For wants_in_flight_meals
+explainer_log_reg3 <- DALEX::explain(
+  model = reduced_model3, 
+  data = train_data %>% select(-wants_in_flight_meals, -wants_preferred_seat, -wants_extra_baggage), 
+  y = as.numeric(train_data$wants_in_flight_meals) - 1,  # Convert to numeric
+  label = "Logistic Regression for Meals"
+)
+
+# Function to calculate variable importance
+calculate_importance <- function(your_model_explainer, n_permutations = 10) {
+  imp <- model_parts(
+    explainer = your_model_explainer,
+    B = n_permutations,
+    type = "ratio",
+    N = NULL
+  )
+  return(imp)
+}
+
+# Calculate variable importance for each model
+importance_log_reg1 <- calculate_importance(explainer_log_reg1)
+importance_log_reg2 <- calculate_importance(explainer_log_reg2)
+importance_log_reg3 <- calculate_importance(explainer_log_reg3)
+
+# Plot variable importance for each model
+
+# For wants_extra_baggage
+plot(importance_log_reg1) +
+  ggtitle("Variable Importance for Logistic Regression - Extra Baggage", "")
+
+# For wants_preferred_seat
+plot(importance_log_reg2) +
+  ggtitle("Variable Importance for Logistic Regression - Preferred Seat", "")
+
+# For wants_in_flight_meals
+plot(importance_log_reg3) +
+  ggtitle("Variable Importance for Logistic Regression - In-Flight Meals", "")
+
+### Partial Dependence Plots ###
+
+# Function to calculate partial dependence
+calculate_pdp <- function(your_model_explainer, variable_name) {
+  pdp <- DALEX::predict_profile(
+    explainer = your_model_explainer,
+    variable = variable_name,
+    type = "partial"
+  )
+  return(pdp)
+}
+
+# Calculate partial dependence for each model
+pdp_log_reg1 <- calculate_pdp(explainer_log_reg1, "flight_duration")
+pdp_log_reg2 <- calculate_pdp(explainer_log_reg2, "flight_duration")
+pdp_log_reg3 <- calculate_pdp(explainer_log_reg3, "flight_duration")
+
+# Plot partial dependence for each model
+
+# For wants_extra_baggage
+plot(pdp_log_reg1) +
+  ggtitle("Partial Dependence for Logistic Regression - Extra Baggage", "")
+
+# For wants_preferred_seat
+plot(pdp_log_reg2) +
+  ggtitle("Partial Dependence for Logistic Regression - Preferred Seat", "")
+
+# For wants_in_flight_meals
+plot(pdp_log_reg3) +
+  ggtitle("Partial Dependence for Logistic Regression - In-Flight Meals", "")
+
+### Partial Dependence Plot ###
+
+
+

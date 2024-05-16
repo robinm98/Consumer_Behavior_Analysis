@@ -42,7 +42,7 @@ smote = SMOTE(random_state=123)
 X_train, y_train = smote.fit_resample(X_train, y_train)
 
 # Define the RandomForest model using the specified parameters
-model = RandomForestClassifier(random_state=123, n_estimators=250, max_features=None, min_samples_split=10, min_samples_leaf=5)
+model = RandomForestClassifier(random_state=123, n_estimators=50, max_features=None, min_samples_split=10, min_samples_leaf=5)
 
 # Fit the model
 model.fit(X_train, y_train)
@@ -106,7 +106,7 @@ print(train_class_report)
 ##################
 
 # Prune the model (no package to prune RF like CART)
-model_pruned = RandomForestClassifier(random_state=123, n_estimators=250, max_features='sqrt', min_samples_split=50, min_samples_leaf=40, max_depth=5)
+model_pruned = RandomForestClassifier(random_state=123, n_estimators=50, max_features=None, min_samples_split=10, min_samples_leaf=5, max_depth=6)
 
 # Fit the pruned model
 model_pruned.fit(X_train, y_train)
@@ -148,3 +148,4 @@ print("Classification Report on Training Data for Pruned Model:")
 print(train_class_report_pruned)
 print("Training Set Accuracy:", accuracy_score(y_train,train_predictions_pruned))
 print("Training Set Balanced Accuracy:", balanced_accuracy_score(y_train,train_predictions_pruned))
+
