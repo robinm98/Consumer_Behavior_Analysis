@@ -34,7 +34,7 @@ In summary, the research on passenger preferences in air travel highlights the c
 
 ## Research questions
 
-Our study, "Modeling Passenger Preferences for Air Travel Upgrades," focuses on developing predictive models to determine passenger choices for additional services during air travel. The central research question explores the application of machine learning:
+Our study, "Modeling Passenger Preferences for Air Travel Upgrades," focuses on developing predictive models to determine passenger choices for additional services during air travel and determining the response of the three upgrade classes simultaneously for each individual, employing multi-class modeling to capture the comprehensive preferences of passengers. The central research question explores the application of machine learning:
 
 **How can machine learning models utilize passenger demographic and trip-specific data to predict preferences for air travel upgrades such as extra baggage, preferred seating, and in-flight meals?**
 

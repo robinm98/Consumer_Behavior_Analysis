@@ -63,6 +63,34 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
+<section id="data-distribution-predictive-features-x" class="level2">
+<h2 class="anchored" data-anchor-id="data-distribution-predictive-features-x">Data Distribution Predictive Features (X)</h2>
+<p>Understanding the distribution of predictive features is essential for gaining insights into the characteristics and variability of our dataset. In this section, we will examine the data distribution of key predictive features (X) that influence passenger preferences for air travel upgrades.</p>
+<p>This analysis will help us understand how these features interact and contribute to predicting passenger choices for additional services, thereby enhancing the accuracy and reliability of our predictive models.</p>
+<p>The bar graph illustrates the distribution of different trip types among passengers. The trip types include CircleTrip, OneWay, and RoundTrip. The data reveals a significant skew towards RoundTrip bookings, which dominate the dataset with nearly 50,000 instances. In contrast, CircleTrip and OneWay bookings are comparatively rare.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="eda_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Distribution of Sales Channel and Booking Completion</em></p>
+<p>The first plot shows the distribution of sales channels used by passengers for booking. The two categories are “Internet” and “Mobile.”</p>
+<p><strong>Internet:</strong> The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers. <strong>Mobile:</strong> A smaller segment, significantly less than 10,000, uses mobile devices for booking. This highlights a potential area for growth in mobile bookings.</p>
+<p>The second plot illustrates the distribution of booking completion status, categorized as 0 (incomplete) and 1 (complete).</p>
+<p><strong>Incomplete Bookings (0):</strong> The majority of instances, around 40,000, represent incomplete bookings. This suggests a high drop-off rate during the booking process. <strong>Complete Bookings (1):</strong> A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="eda_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Description of Distribution of Flight Day</em> The bar graph shows the distribution of flight days, indicating how many flights occur on each day of the week.</p>
+<p><strong>Monday:</strong> Has the highest number of flights, with counts slightly above 8,000. This suggests that Monday is the busiest day for flights. <strong>Tuesday and Wednesday:</strong> These days also have high counts, slightly below 8,000, indicating significant travel activity. Thursday and Sunday: Both days show moderate flight activity, with counts around the 7,000 mark. <strong>Friday:</strong> Shows slightly lower flight counts compared to other weekdays, with counts around 6,500. <strong>Saturday:</strong> Has the lowest flight count, below 6,000, indicating it is the least busy day for flights.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="eda_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
 <section id="target-variables-y-vs.-predictive-features-x" class="level2">
 <h2 class="anchored" data-anchor-id="target-variables-y-vs.-predictive-features-x">Target Variables (Y) vs.&nbsp;Predictive Features (X)</h2>
 <p>In this section, we examine the relationships between our target variables (Y) and various predictive features (X) to better understand passenger preferences for air travel upgrades. By analyzing these relationships, we aim to uncover patterns that can help predict the likelihood of passengers opting for additional services such as extra baggage, in-flight meals, and preferred seating. This analysis will provide valuable insights for airlines to enhance customer satisfaction and optimize their service offerings.</p>
@@ -72,7 +100,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Preferred Seats Rates: Clear negative trend; larger groups less likely to choose preferred seats.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="eda_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Flight Duration and Service Preferences</em></p>
@@ -81,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Preferred Seats Rates: Positive correlation; longer flights increase preferred seat selection.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="eda_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Purchase Lead Time and Service Preferences</em></p>
@@ -90,7 +118,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Preferred Seats Rates: Negative trend; advance bookers less likely to select preferred seats.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="eda_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Length of Stay and Service Preferences</em></p>
@@ -99,7 +127,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Preferred Seats Rates: Positive correlation; longer stays increase the likelihood of choosing preferred seats.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="eda_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -108,19 +136,19 @@ ul.task-list li input[type="checkbox"] {
 <p>The first set of graphs compares the proportion of passengers wanting extra baggage and in-flight meals based on their preferred seat selection. The left graph shows that a higher proportion of passengers with preferred seats (1) want extra baggage compared to those without preferred seats (0). Similarly, the right graph indicates that passengers with preferred seats are also more likely to want in-flight meals than those without preferred seats. This suggests a correlation between the desire for preferred seating and the preference for additional services such as extra baggage and in-flight meals.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="eda_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The second set of graphs examines the proportion of passengers wanting extra baggage and preferred seats based on their in-flight meal preferences. The left graph demonstrates that passengers who opt for in-flight meals (1) have a higher proportion of wanting extra baggage than those who do not (0). The right graph reveals that passengers wanting in-flight meals are also more likely to choose preferred seats. This indicates that passengers’ choice for in-flight meals is associated with a higher likelihood of selecting other additional services, such as extra baggage and preferred seats.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="eda_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The third set of graphs explores the proportion of passengers wanting in-flight meals and preferred seats based on their extra baggage preferences. The left graph shows that passengers opting for extra baggage (1) have a higher proportion of wanting in-flight meals compared to those who do not (0). The right graph indicates that passengers with extra baggage are also more inclined to select preferred seats. This implies that passengers’ preference for extra baggage correlates with their likelihood of choosing in-flight meals and preferred seats.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="eda_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>These visualizations highlight the interrelationships between various ancillary services, suggesting that passengers who opt for one additional service are more likely to opt for others.</p>

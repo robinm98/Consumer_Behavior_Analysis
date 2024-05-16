@@ -43,6 +43,78 @@ corrplot(correlation_matrix, method = "color", tl.col = "black")
 ```
 
 
+## Data Distribution Predictive Features (X)
+Understanding the distribution of predictive features is essential for gaining insights into the characteristics and variability of our dataset. In this section, we will examine the data distribution of key predictive features (X) that influence passenger preferences for air travel upgrades.
+
+This analysis will help us understand how these features interact and contribute to predicting passenger choices for additional services, thereby enhancing the accuracy and reliability of our predictive models.
+
+
+
+The bar graph illustrates the distribution of different trip types among passengers. The trip types include CircleTrip, OneWay, and RoundTrip. The data reveals a significant skew towards RoundTrip bookings, which dominate the dataset with nearly 50,000 instances. In contrast, CircleTrip and OneWay bookings are comparatively rare.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Plotting the distribution of 'trip_type'
+ggplot(data, aes(x = trip_type)) +
+  geom_bar(fill = "blue") +
+  theme_minimal() +
+  labs(title = "Distribution of Trip Type", x = "Trip Type", y = "Count")
+```
+
+
+
+
+*Distribution of Sales Channel and Booking Completion*
+
+The first plot shows the distribution of sales channels used by passengers for booking. The two categories are "Internet" and "Mobile."
+
+**Internet:** The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers.
+**Mobile:** A smaller segment, significantly less than 10,000, uses mobile devices for booking. This highlights a potential area for growth in mobile bookings.
+
+
+The second plot illustrates the distribution of booking completion status, categorized as 0 (incomplete) and 1 (complete).
+
+**Incomplete Bookings (0):** The majority of instances, around 40,000, represent incomplete bookings. This suggests a high drop-off rate during the booking process.
+**Complete Bookings (1):** A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Plotting the distribution of 'sales_channel'
+p1 <- ggplot(data, aes(x = sales_channel)) +
+  geom_bar(fill = "blue") +
+  theme_minimal() +
+  labs(title = "Distribution of Sales Channel", x = "Sales Channel", y = "Count")
+
+# Plotting the distribution of 'booking_complete'
+p2 <- ggplot(data, aes(x = booking_complete)) +
+  geom_bar(fill = "blue") +
+  scale_x_continuous(breaks = c(0, 1)) +
+  theme_minimal() +
+  labs(title = "Distribution of Booking Completion", x = "Booking Completion", y = "Count")
+
+# Arrange the plots in a grid
+grid.arrange(p1, p2, nrow = 1)
+```
+
+
+
+
+*Description of Distribution of Flight Day*
+The bar graph shows the distribution of flight days, indicating how many flights occur on each day of the week.
+
+**Monday:** Has the highest number of flights, with counts slightly above 8,000. This suggests that Monday is the busiest day for flights.
+**Tuesday and Wednesday:** These days also have high counts, slightly below 8,000, indicating significant travel activity.
+Thursday and Sunday: Both days show moderate flight activity, with counts around the 7,000 mark.
+**Friday:** Shows slightly lower flight counts compared to other weekdays, with counts around 6,500.
+**Saturday:** Has the lowest flight count, below 6,000, indicating it is the least busy day for flights.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Plotting the distribution of 'flight_day'
+ggplot(data, aes(x = flight_day)) +
+  geom_bar(fill = "blue") +
+  theme_minimal() +
+  labs(title = "Distribution of Flight Day", x = "Flight Day", y = "Count")
+```
+
+
+
+
 ## Target Variables (Y) vs. Predictive Features (X)
 In this section, we examine the relationships between our target variables (Y) and various predictive features (X) to better understand passenger preferences for air travel upgrades. By analyzing these relationships, we aim to uncover patterns that can help predict the likelihood of passengers opting for additional services such as extra baggage, in-flight meals, and preferred seating. This analysis will provide valuable insights for airlines to enhance customer satisfaction and optimize their service offerings.
 
