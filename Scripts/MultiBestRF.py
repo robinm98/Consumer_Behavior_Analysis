@@ -42,7 +42,7 @@ smote = SMOTE(random_state=123)
 X_train, y_train = smote.fit_resample(X_train, y_train)
 
 # Define the RandomForest model using the specified parameters
-model = RandomForestClassifier(random_state=123, n_estimators=50, max_features=None, min_samples_split=10, min_samples_leaf=5)
+model = RandomForestClassifier(random_state=123, n_estimators=50, max_features=None, min_samples_split=10, min_samples_leaf=5, max_depth = 5)
 
 # Fit the model
 model.fit(X_train, y_train)
