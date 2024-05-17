@@ -12,6 +12,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.regularizers import l2
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix, classification_report
 from sklearn.inspection import permutation_importance, PartialDependenceDisplay, partial_dependence
+from sklearn.metrics import roc_curve, auc
 from sklearn.base import BaseEstimator, ClassifierMixin
 from imblearn.over_sampling import SMOTE
 from matplotlib import pyplot as plt
@@ -57,7 +58,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 smote = SMOTE(random_state=123)
 X_train, y_train = smote.fit_resample(X_train, y_train)
 
-# Train the PRUNED best model found with GridSearchCV
+# Train the best model found with GridSearchCV
 best_model_params = {
     'activation': 'relu',
     'layers': 2,
@@ -72,6 +73,16 @@ early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weig
 # Train the model
 model.fit(X_train, y_train, batch_size=32, epochs=20, 
           verbose=1, validation_data=(X_test, y_test), callbacks=[early_stopping])
+
+# Save the trained model
+model.save('Data/nn_model.h5')
+
+# Save the preprocessor
+joblib.dump(preprocessor, 'Data/NNpreprocessor.joblib')
+
+# Save the test data and labels
+np.save('Data/NNX_test.npy', X_test)
+np.save('Data/NNy_test.npy', y_test)
 
 ### TEST SET ###
 
@@ -99,6 +110,10 @@ n_classes = y.shape[1]
 for i in range(n_classes):
     fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_test_pred_prob[:, i])
     roc_auc[i] = auc(fpr[i], tpr[i])
+
+np.save('Data/NNfpr.npy', fpr)
+np.save('Data/NNtpr.npy', tpr)
+np.save('Data/NNroc_auc.npy', roc_auc)
 
 # Plot ROC curve for each class
 plt.figure(figsize=(12, 8))
@@ -228,4 +243,3 @@ for feature in numerical_vars:
             plt.legend()
             plt.show()
 print("Done!")
-            

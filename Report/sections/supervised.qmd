@@ -256,6 +256,36 @@ _Note: Computational resources and time constraints limited the exhaustive searc
 
 Overfitting occurs when a model learns the training data too well, capturing noise and irrelevant patterns that do not generalize to unseen data. To address overfitting, we sought to keep the training set accuracy and balanced accuracy within a few percentage points of each other during the model development process. Cross-validation and hyperparameter tuning aided, as well as some manual pruning of `n_estimators` and reduction in parameters available in the gridsearch.
 
+In our models, we observed the following performance metrics:
+
+##### Neural Network
+
+**Test Set Accuracy:** 21.46%
+
+**Training Set Accuracy:** 21.20%
+
+The Neural Network model showed similar performance on both the training and test sets, indicating that it did not suffer from significant overfitting. The close alignment of training and test accuracies suggests that the NN model generalized well to unseen data, and no additional regularization was necessary.
+
+##### Logistic Regression:
+
+**Test Set Accuracy:** 19.12%
+
+**Training Set Accuracy:** 21.98%
+
+The Logistic Regression model also exhibited consistent performance between the training and test sets. This consistency indicates that the LR model did not overfit the training data and was able to generalize well without the need for further adjustments.
+
+##### Random Forest:
+
+**Test Set Accuracy (before pruning):** 29.11%
+
+**Training Set Accuracy (before pruning):** 82.05%
+
+**Test Set Accuracy (after pruning):** 28.89%
+
+**Training Set Accuracy (after pruning):** 28.68%
+
+The initial Random Forest model displayed a significant discrepancy between the training set accuracy (82.05%) and the test set accuracy (29.11%), indicating severe overfitting. To mitigate this, we pruned the model by reducing the `max_depth` of the trees to 6. After pruning, the training set accuracy dropped to 28.68%, closely matching the test set accuracy of 28.89%. This adjustment significantly reduced overfitting, resulting in a model that generalizes better to unseen data.
+
 ### Model Evaluation
 
 After training and tuning the models, we evaluated their performance on test data using metrics to assess their predictive capabilities. For each model, we calculated the following metrics:
@@ -279,8 +309,79 @@ kable(all_results, "html")
 
 #### ROC Curve and AUC
 
-![ROC Curve for Random Forest](../Figs/ROC_RF.png)
-### Interpretation of Results
+In addition to the evaluation metrics, we also plotted the Receiver Operating Characteristic (ROC) curve for the best two models of Random Forest and Neural Network to visualize its performance across different thresholds. The ROC curve illustrates the trade-off between true positive rate (sensitivity) and false positive rate (1-specificity) for various threshold values. The Area Under the Curve (AUC) summarizes the ROC curve's performance in a single value, with higher AUC indicating better model performance.
 
+##### Neural Network
 
-* Interpretation of the model(s)
+```{r, engine='python', echo=FALSE, warning=FALSE, message=FALSE}
+# pip install numpy matplotlib tensorflow joblib if needed
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.models import load_model
+import joblib
+
+# Load the trained model
+model = load_model('../../Data/nn_model.h5', compile=False)
+
+# Load the preprocessor and test data
+X_test = np.load('../../Data/NNX_test.npy')
+y_test = np.load('../../Data/NNy_test.npy')
+
+# Load ROC curve data
+fpr = np.load('../../Data/NNfpr.npy', allow_pickle=True).item()
+tpr = np.load('../../Data/NNtpr.npy', allow_pickle=True).item()
+roc_auc = np.load('../../Data/NNroc_auc.npy', allow_pickle=True).item()
+
+# Plot ROC curve for each class
+plt.figure(figsize=(12, 8))
+colors = ['aqua', 'darkorange', 'cornflowerblue', 'darkgreen', 'darkred', 'purple', 'gold', 'lime']
+n_classes = len(roc_auc)
+for i in range(n_classes):
+    plt.plot(fpr[i], tpr[i], color=colors[i], lw=2, label=f'Class {i} (area = {roc_auc[i]:.2f})')
+plt.plot([0, 1], [0, 1], 'k--', lw=2)
+_ = plt.xlim(0.0, 1.0)  # Set x-axis limits and suppress output
+_ = plt.ylim(0.0, 1.0)  # Set y-axis limits and suppress output
+_ = plt.xlabel('False Positive Rate')  # Suppress output
+_ = plt.ylabel('True Positive Rate')  # Suppress output
+_ = plt.title('Receiver Operating Characteristic for Neural Network - Test Set')  # Suppress output
+_ = plt.legend(loc="lower right")  # Suppress output
+plt.show()
+```
+
+The ROC graph for the Neural Network model shows the performance of the model in distinguishing between the different classes. The AUC values indicate that the model performs relatively well for some classes (e.g., Class 7 with an AUC of 0.71 and Class 6 with an AUC of 0.69), while the performance is lower for others (e.g., Class 2 with an AUC of 0.55 and Class 0 with an AUC of 0.59). The closer the AUC is to 1, the better the model is at distinguishing that particular class. Overall, the NN model has a moderate ability to distinguish between the classes, with some variation in performance across different classes.
+
+##### Random Forest
+
+```{r, engine='python', echo=FALSE, warning=FALSE, message=FALSE}
+# Load the trained model
+model = joblib.load('../../Data/rf_model.joblib')
+
+# Load the preprocessor and test data
+X_test = np.load('../../Data/RFX_test.npy')
+y_test = np.load('../../Data/RFy_test.npy')
+
+# Load ROC curve data
+fpr = np.load('../../Data/RFfpr.npy', allow_pickle=True).item()
+tpr = np.load('../../Data/RFtpr.npy', allow_pickle=True).item()
+roc_auc = np.load('../../Data/RFroc_auc.npy', allow_pickle=True).item()
+
+# Plot ROC curve for each class
+plt.figure(figsize=(12, 8))
+colors = ['aqua', 'darkorange', 'cornflowerblue', 'darkgreen', 'darkred', 'purple', 'gold', 'lime']
+n_classes = len(roc_auc)
+for i in range(n_classes):
+    plt.plot(fpr[i], tpr[i], color=colors[i], lw=2, label=f'Class {i} (area = {roc_auc[i]:.2f})')
+plt.plot([0, 1], [0, 1], 'k--', lw=2)
+_ = plt.xlim(0.0, 1.0)  # Set x-axis limits and suppress output
+_ = plt.ylim(0.0, 1.05)  # Set y-axis limits and suppress output
+_ = plt.xlabel('False Positive Rate')  # Suppress output
+_ = plt.ylabel('True Positive Rate')  # Suppress output
+_ = plt.title('Receiver Operating Characteristic for Random Forest Pruned- Test Set')  # Suppress output
+_ = plt.legend(loc="lower right")  # Suppress output
+plt.show()
+```
+
+The ROC graph for the Random Forest model also illustrates the model's performance in distinguishing between the different classes. The AUC values are fairly consistent across classes, with Class 6 having the highest AUC of 0.71, indicating good performance, while Class 2 has the lowest AUC of 0.58. Similar to the NN model, the RF model shows a moderate ability to distinguish between the classes. The performance is slightly better for some classes (e.g., Class 6 and Class 7) and lower for others (e.g., Class 2 and Class 0).
+
+**Comparison**
+Both models show similar patterns in performance with some variation in the AUC values across different classes. The NN model slightly outperforms the RF model in Class 7 and Class 6, but both models struggle with Class 2. The overall performance of both models is moderate, and neither model shows a clear advantage over the other across all classes.
