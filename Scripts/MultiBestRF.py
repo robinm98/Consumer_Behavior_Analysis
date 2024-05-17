@@ -9,6 +9,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.inspection import permutation_importance
 import numpy as np
 from matplotlib import pyplot as plt
+import joblib
 
 # Load the data
 data = pd.read_csv('Data/cleaned_customer_booking.csv')
@@ -104,6 +105,8 @@ train_predictions = model.predict(X_train)
 train_conf_matrix = confusion_matrix(y_train, train_predictions)
 
 # Print the confusion matrix for the training data
+print("Training accuracy", accuracy_score(y_train, predictions))
+print("Training Balanced Accuracy", balanced_accuracy_score(y_train, predictions))
 print("Confusion Matrix on Training Data:")
 print(train_conf_matrix)
 
