@@ -209,6 +209,7 @@ importance_df = pd.DataFrame(data={
     'Feature': feature_names,
     'Importance': result.importances_mean
 })
+print(feature_names)
 
 # Sort the DataFrame by importance in descending order
 importance_df = importance_df.sort_values(by='Importance', ascending=False)
@@ -228,6 +229,8 @@ plt.show()
 
 ### Partial Dependence Plot ###
 ###############################
+
+### Numerical Features ###
 
 def compute_pdp(model, X, feature_index, values):
     pdp = []
@@ -260,3 +263,26 @@ for feature in numerical_vars:
             plt.legend()
             plt.show()
 
+
+### Continent Feature ###
+
+# Generate PDP for each one-hot encoded continent feature
+for feature in one_hot_encoded_continents:
+    if feature in feature_indices:
+        feature_index = feature_indices[feature]
+        # Values for one-hot encoded feature: 0 (not this category) and 1 (this category)
+        values = [0, 1]
+        pdp = compute_pdp_categorical(model_pruned, X_test, feature_index, values)
+
+        # Ensure PDP has data and plot it
+        if pdp.size > 0:
+            for i in range(pdp.shape[1]):
+                plt.figure(figsize=(8, 6))
+                plt.plot(values, pdp[:, i], marker='o', linestyle='-', label=f'Class {i}')
+                plt.xlabel(feature)
+                plt.ylabel('Partial Dependence')
+                plt.title(f'Partial Dependence of {feature} for Class {i}')
+                plt.legend()
+                plt.show()
+
+print("PDP generation complete.")
