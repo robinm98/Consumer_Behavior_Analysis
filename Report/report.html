@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-04-05">
 
 <title>report</title>
 <style>
@@ -97,18 +96,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>The dataset for our project is sourced from Kaggle and titled “Airlines Booking”, compiled by user Anand Shaw. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.</p>
+<p>The dataset for our project is sourced from Kaggle and titled “Airlines Booking”, compiled by user <em>Anand Shaw</em>. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.</p>
 </section>
 <section id="related-work" class="level2">
 <h2 class="anchored" data-anchor-id="related-work">Related Work</h2>
-<p>Research on passenger preferences in air travel has highlighted several factors influencing travelers’ choices and behaviors, notably service offerings like baggage handling, seat selection, and in-flight meal preferences. Ancillary and add-on revenues, such as those from baggage fees, preferred seating, and in-flight services, have become crucial for airline profitability [1]. The growth in these revenue streams underscores their importance in airline strategies, as ancillary revenues accounted for about 18% of total airline revenue in 2022 [2].</p>
+<p>Research on passenger preferences in air travel has highlighted several factors influencing travelers’ choices and behaviors, notably service offerings like baggage handling, seat selection, and in-flight meal preferences. Add-on revenues, such as those from baggage fees, preferred seating, and in-flight services, have become essential for airline profitability [1]. The growth in these revenue streams underscores their importance in airline strategies, as ancillary revenues accounted for about 18% of total airline revenue in 2022 [2].</p>
 <p><strong>Baggage Preferences:</strong></p>
 <p>Studies indicate that baggage fees and policies greatly affect customer behavior. Clear communication about baggage policies can influence booking decisions, and flexibility in these policies can enhance customer loyalty. Research shows that ancillary baggage fees impact travelers’ booking choices and willingness to pay [3], suggesting that transparent and adaptable baggage policies are crucial for maintaining customer satisfaction [3].</p>
 <p><strong>Preferred Seating:</strong></p>
 <p>Seat selection is critical for passenger comfort and satisfaction. Passengers value different seat attributes, such as proximity to exits, windows, or aisles, depending on their preferences. Research indicates that passengers are willing to pay extra for preferred seating, which underscores the importance of predictive models to cater to these preferences [4]. This willingness to pay highlights the revenue potential for airlines from charging for preferred seating [4].</p>
 <p><strong>In-Flight Meals:</strong></p>
 <p>The diversity in passengers’ dietary and cultural preferences necessitates a variety of meal options to meet these needs. Studies show that offering diverse in-flight meal options can significantly improve passenger satisfaction [5]. Airlines that effectively address these preferences can differentiate their services, leading to higher customer satisfaction and loyalty[5].</p>
-<p>In summary, the research on passenger preferences in air travel highlights the critical role of ancillary and add-on revenues such as baggage fees, preferred seating, and in-flight services. These elements not only significantly impact customer satisfaction but also contribute substantially to airline profitability. Clear communication and flexibility in baggage policies are essential for influencing booking decisions and enhancing customer loyalty. The willingness of passengers to pay extra for preferred seating and diverse in-flight meal options underscores the need for airlines to offer tailored services that meet diverse passenger preferences, ultimately driving higher customer satisfaction and loyalty.[1][2][3][4][5][6][7][8]</p>
+<p>In summary, the research on passenger preferences in air travel highlights the critical role of add-on revenues such as baggage fees, preferred seating, and in-flight services. These elements not only significantly impact customer satisfaction but also contribute substantially to airline profitability. Clear communication and flexibility in baggage policies are essential for influencing booking decisions and enhancing customer loyalty. The willingness of passengers to pay extra for preferred seating and diverse in-flight meal options underscores the need for airlines to offer tailored services that meet diverse passenger preferences, ultimately driving higher customer satisfaction and loyalty.[1][2][3][4][5][6][7][8]</p>
 </section>
 <section id="research-questions" class="level2">
 <h2 class="anchored" data-anchor-id="research-questions">Research questions</h2>
@@ -122,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><strong>Sources</strong></li>
 </ul>
-<p>As previously introduced, our study utilizes the “Airlines Booking” dataset curated by Anand Shaw and hosted on Kaggle. This dataset, provided in CSV format, is essential for our analysis aimed at modeling passenger preferences for air travel upgrades.</p>
+<p>As previously introduced, our study utilizes the “Airlines Booking” dataset curated by Anand Shaw and hosted on Kaggle. This dataset, provided in CSV format, will be used for our analysis aimed at modeling passenger preferences for air travel upgrades.</p>
 <ul>
 <li><strong>Description</strong></li>
 </ul>
@@ -140,11 +139,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong><code>wants_in_flight_meals</code></strong>: A binary indicator (yes/no) if the passenger requested in-flight meals.</p>
 <p><strong><code>flight_duration</code></strong>: The total duration of the flight in hours.</p>
 <p><strong><code>booking_complete</code></strong>: A flag indicating whether the booking was completed (yes/no).</p>
-<p>The data has already been cleaned and is in good condition. However, further data processing will be conducted. This will involve removing any unnecessary data and encoding the data appropriately for use in our different models.</p>
+<p>The data has already been cleaned and is in good condition. However, further data processing will be conducted and explained in the Method’s section. This will involve removing any unnecessary data and encoding the data appropriately for use in our different models.</p>
 </section>
 <section id="exploratory-data-analysis-eda" class="level1">
 <h1>Exploratory Data Analysis (EDA)</h1>
-<p>EDA is a crucial step in understanding the underlying structure and patterns within our dataset. By employing various statistical and graphical techniques, EDA helps in identifying key relationships, trends, and anomalies that can inform further analysis and model development. In this section, we will explore the characteristics of our data on passenger preferences for air travel upgrades, focusing on how different features influence the choices for extra baggage, in-flight meals, and preferred seating. The insights gained from EDA will provide a solid foundation for building predictive models</p>
+<p>EDA is a necessary step in understanding the underlying structure and patterns within our dataset. By employing various statistical and graphical techniques, EDA helps in identifying key relationships, trends, and anomalies that can inform further analysis and model development. In this section, we will explore the characteristics of our data on passenger preferences for air travel upgrades, focusing on how different features influence the choices for extra baggage, in-flight meals, and preferred seating. The insights gained from EDA will provide a solid foundation for building predictive models</p>
+<section id="data-distribution-of-predictive-features-x" class="level2">
+<h2 class="anchored" data-anchor-id="data-distribution-of-predictive-features-x">Data Distribution of Predictive Features (X)</h2>
+<p>In this section, we will examine the data distribution of key predictive features (X) that influence passenger preferences for air travel upgrades. This analysis will help us understand how these features interact and contribute to predicting passenger choices for additional services.</p>
+<p><strong>Distribution of different trip types among passengers</strong></p>
+<p>The bar graph illustrates the distribution of different trip types among passengers. The trip types include <code>CircleTrip</code>, <code>OneWay</code>, and <code>RoundTrip</code>. The data reveals a significant skew towards <code>RoundTrip</code> bookings, which dominate the dataset with nearly 50,000 instances. In contrast, <code>CircleTrip</code> and <code>OneWay</code> bookings are comparatively rare. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p><strong>Distribution of Sales Channel and Booking Completion</strong></p>
+<p>The first plot shows the distribution of sales channels used by passengers for booking. The two categories are <code>Internet</code> and <code>Mobile</code>.</p>
+<p><em>Internet:</em> The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers.</p>
+<p><em>Mobile:</em> A smaller segment, significantly less than 10,000, uses mobile devices for booking. This highlights a potential area for growth in mobile bookings.</p>
+<p>The second plot illustrates the distribution of booking completion status, categorized as 0 (incomplete) and 1 (complete).</p>
+<p><em>Incomplete Bookings (0):</em> The majority of instances, around 40,000, represent incomplete bookings. This suggests a high drop-off rate during the booking process.</p>
+<p><em>Complete Bookings (1):</em> A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Description of Distribution of Flight Day</strong></p>
+<p>The bar graph shows the distribution of flight days, indicating how many flights occur on each day of the week.</p>
+<p><em>Monday:</em> Has the highest number of flights, with counts slightly above 8,000. Thus, Monday is the busiest day for flights.</p>
+<p><em>Tuesday and Wednesday:</em> These days also have high counts, slightly below 8,000, indicating significant travel activity. Thursday and Sunday: Both days show moderate flight activity, with counts around the 7,000 mark.</p>
+<p><em>Friday:</em> Shows slightly lower flight counts compared to other weekdays, with counts around 6,500.</p>
+<p><em>Saturday:</em> Has the lowest flight count, below 6,000, indicating it is the least busy day for flights. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"> ::: :::</p>
+</section>
 <section id="correlation-heatmap-relationship-between-variables-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="correlation-heatmap-relationship-between-variables-of-interest">Correlation Heatmap: Relationship Between Variables of Interest</h2>
 <p>The correlation heatmap visualizes the relationships between various variables related to passenger preferences for air travel upgrades. Each cell in the heatmap represents the correlation coefficient between two variables, with values ranging from -1 to 1. Darker shades of blue indicate a stronger positive correlation, while darker shades of red indicate a stronger negative correlation.</p>
@@ -156,60 +179,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This heatmap provides a clear overview of how different factors, such as trip duration and booking behavior, influence passengers’ choices for ancillary services. Understanding these relationships can help airlines optimize their service offerings and improve customer satisfaction.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section>
-<section id="data-distribution-predictive-features-x" class="level2">
-<h2 class="anchored" data-anchor-id="data-distribution-predictive-features-x">Data Distribution Predictive Features (X)</h2>
-<p>Understanding the distribution of predictive features is essential for gaining insights into the characteristics and variability of our dataset. In this section, we will examine the data distribution of key predictive features (X) that influence passenger preferences for air travel upgrades.</p>
-<p>This analysis will help us understand how these features interact and contribute to predicting passenger choices for additional services, thereby enhancing the accuracy and reliability of our predictive models.</p>
-<p><strong>Distribution of different trip types among passengers</strong></p>
-<p>The bar graph illustrates the distribution of different trip types among passengers. The trip types include CircleTrip, OneWay, and RoundTrip. The data reveals a significant skew towards RoundTrip bookings, which dominate the dataset with nearly 50,000 instances. In contrast, CircleTrip and OneWay bookings are comparatively rare. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"> ::: :::</p>
-<p><strong>Distribution of Sales Channel and Booking Completion</strong></p>
-<p>The first plot shows the distribution of sales channels used by passengers for booking. The two categories are “Internet” and “Mobile.”</p>
-<p><em>Internet:</em> The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers.</p>
-<p><em>Mobile:</em> A smaller segment, significantly less than 10,000, uses mobile devices for booking. This highlights a potential area for growth in mobile bookings.</p>
-<p>The second plot illustrates the distribution of booking completion status, categorized as 0 (incomplete) and 1 (complete).</p>
-<p><em>Incomplete Bookings (0):</em> The majority of instances, around 40,000, represent incomplete bookings. This suggests a high drop-off rate during the booking process.</p>
-<p><em>Complete Bookings (1):</em> A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p><strong>Description of Distribution of Flight Day</strong> The bar graph shows the distribution of flight days, indicating how many flights occur on each day of the week.</p>
-<p><em>Monday:</em> Has the highest number of flights, with counts slightly above 8,000. This suggests that Monday is the busiest day for flights.</p>
-<p><em>Tuesday and Wednesday:</em> These days also have high counts, slightly below 8,000, indicating significant travel activity. Thursday and Sunday: Both days show moderate flight activity, with counts around the 7,000 mark.</p>
-<p><em>Friday:</em> Shows slightly lower flight counts compared to other weekdays, with counts around 6,500.</p>
-<p><em>Saturday:</em> Has the lowest flight count, below 6,000, indicating it is the least busy day for flights. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"> ::: :::</p>
 </section>
 <section id="target-variables-y-vs.-predictive-features-x" class="level2">
 <h2 class="anchored" data-anchor-id="target-variables-y-vs.-predictive-features-x">Target Variables (Y) vs.&nbsp;Predictive Features (X)</h2>
-<p>In this section, we examine the relationships between our target variables (Y) and various predictive features (X) to better understand passenger preferences for air travel upgrades. By analyzing these relationships, we aim to uncover patterns that can help predict the likelihood of passengers opting for additional services such as extra baggage, in-flight meals, and preferred seating. This analysis will provide valuable insights for airlines to enhance customer satisfaction and optimize their service offerings.</p>
+<p>In this section, we examine the relationships between our target variables (Y) and various predictive features (X) to better understand passenger preferences for air travel upgrades. By analyzing these relationships, we aim to uncover patterns that can help predict the likelihood of passengers opting for additional services such as extra baggage, in-flight meals, and preferred seating.</p>
 <p><strong>Number of Passengers and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Positive trend; larger groups more likely to want extra baggage.</p>
 <p>In-Flight Meals Rates: Slight negative trend; larger groups less likely to want in-flight meals.</p>
-<p>Preferred Seats Rates: Clear negative trend; larger groups less likely to choose preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>Preferred Seats Rates: Clear negative trend; larger groups less likely to choose preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"> ::: :::</p>
 <p><strong>Flight Duration and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Slight positive trend; longer flights slightly increase extra baggage demand.</p>
 <p>In-Flight Meals Rates: Clear positive correlation; longer flights increase in-flight meal demand.</p>
-<p>Preferred Seats Rates: Positive correlation; longer flights increase preferred seat selection. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>Preferred Seats Rates: Positive correlation; longer flights increase preferred seat selection. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"> ::: :::</p>
 <p><strong>Purchase Lead Time and Service Preferences</strong></p>
-<p>Extra Baggage Rates: Negative trend; advance bookers less likely to want extra baggage.</p>
-<p>In-Flight Meals Rates: Negative trend; advance bookers less likely to want in-flight meals.</p>
-<p>Preferred Seats Rates: Negative trend; advance bookers less likely to select preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>Extra Baggage Rates: Negative trend; early bookers less likely to want extra baggage.</p>
+<p>In-Flight Meals Rates: Negative trend; early bookers less likely to want in-flight meals.</p>
+<p>Preferred Seats Rates: Negative trend; early bookers less likely to select preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"> ::: :::</p>
 <p><strong>Length of Stay and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Slight decrease as length of stay increases.</p>
 <p>In-Flight Meals Rates: Positive correlation; longer stays increase the likelihood of wanting in-flight meals.</p>
-<p>Preferred Seats Rates: Positive correlation; longer stays increase the likelihood of choosing preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>Preferred Seats Rates: Positive correlation; longer stays increase the likelihood of choosing preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"> ::: :::</p>
 </section>
 <section id="relationship-between-variables-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="relationship-between-variables-of-interest">Relationship between variables of interest</h2>
-<p>The first set of graphs compares the proportion of passengers wanting extra baggage and in-flight meals based on their preferred seat selection. The left graph shows that a higher proportion of passengers with preferred seats (1) want extra baggage compared to those without preferred seats (0). Similarly, the right graph indicates that passengers with preferred seats are also more likely to want in-flight meals than those without preferred seats. This suggests a correlation between the desire for preferred seating and the preference for additional services such as extra baggage and in-flight meals. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"> ::: :::</p>
-<p>The second set of graphs examines the proportion of passengers wanting extra baggage and preferred seats based on their in-flight meal preferences. The left graph demonstrates that passengers who opt for in-flight meals (1) have a higher proportion of wanting extra baggage than those who do not (0). The right graph reveals that passengers wanting in-flight meals are also more likely to choose preferred seats. This indicates that passengers’ choice for in-flight meals is associated with a higher likelihood of selecting other additional services, such as extra baggage and preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"> ::: :::</p>
-<p>The third set of graphs explores the proportion of passengers wanting in-flight meals and preferred seats based on their extra baggage preferences. The left graph shows that passengers opting for extra baggage (1) have a higher proportion of wanting in-flight meals compared to those who do not (0). The right graph indicates that passengers with extra baggage are also more inclined to select preferred seats. This implies that passengers’ preference for extra baggage correlates with their likelihood of choosing in-flight meals and preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"> ::: :::</p>
-<p>These visualizations highlight the interrelationships between various ancillary services, suggesting that passengers who opt for one additional service are more likely to opt for others.</p>
+<p>The first set of graphs compares the proportion of passengers wanting in-flight meals and preferred seats based on their baggage selection. The left graph indicates that passengers with extra baggage are more likely to want in-flight meals compared to those without extra baggage (0). Similarly, the right graph shows that a higher proportion of passengers with extra baggage (1) want preferred seat.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The second set of graphs examines the proportion of passengers wanting extra baggage and preferred seats based on their in-flight meal preferences. The left graph demonstrates that passengers who opt for in-flight meals (1) have a higher proportion of wanting extra baggage than those who do not want in-flight meals (0). The right graph reveals that passengers wanting in-flight meals are also more likely to choose preferred seats.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The third set of graphs explores the proportion of passengers wanting in-flight meals and extra baggage based on their seats preferences. The left graph shows that passengers opting for preferred seats (1) have a higher proportion of wanting extra baggage compared to those who do not (0). The right graph indicates that passengers with preffered seats are also more inclined to select in-flight meals.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This analysis highlights the interrelationships between ancillary services, suggesting that passengers who opt for one additional service are more likely to opt for others.</p>
 </section>
 </section>
 <section id="unsupervised-learning" class="level1">
@@ -223,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="supervised-learning" class="level2">
 <h2 class="anchored" data-anchor-id="supervised-learning">Supervised Learning</h2>
 <p>For our study on modeling passenger preferences for air travel upgrades, we selected three supervised machine learning techniques: logistic regression, random forest, and neural networks. Each of these models brings unique strengths and suitability for different aspects of our dataset.</p>
-<p><strong>Logistic Regression</strong> is a fundamental technique in statistical modeling and machine learning, particularly adept at classification tasks. In our study, we adapted logistic regression for multiclass classification to predict whether a passenger would opt for extra baggage or not, a preferred seat or not, and an in-flight meal or not. Logistic regression offers clear interpretability through the statistical significance of variables and their coefficients, allowing us to understand the influence of each predictor on the response variable.</p>
+<p><strong>Logistic Regression</strong> is a fundamental technique in statistical modeling and machine learning, particularly adept at classification tasks, it represents our baseline model. In our study, we adapted logistic regression for multiclass classification to predict whether a passenger would opt for extra baggage or not, a preferred seat or not, and an in-flight meal or not. Logistic regression offers clear interpretability through the statistical significance of variables and their coefficients, allowing us to understand the influence of each predictor on the response variable.</p>
 <p><strong>Random Forest</strong> is an ensemble learning technique that operates by building multiple decision trees and merging them together to obtain more accurate and stable predictions. It is particularly effective for handling datasets with complex structures and high dimensionality without requiring feature scaling. For multiclass classification issues, random forest can manage categorical variables and their interactions effectively, providing importance scores for each feature, which helps in interpreting the driving factors behind passenger preferences.</p>
 <p><strong>Neural Networks</strong>, known for its deep learning capabilities, it is well-suited for capturing complex and nonlinear relationships. We utilized neural networks for multiclassification to simultaneously predict preferences across our categories of in-flight meals, seating, and baggage. Despite requiring more computational resources and being less interpretable, neural networks can model intricate patterns in large-scale data, potentially offering higher accuracy and generalization capabilities.</p>
 <p>Together, these models encompass a broad spectrum of analytical capabilities, from basic statistical inference to complex pattern recognition. This diversified approach not only enhances the accuracy of our predictions but also enriches our understanding of the data’s underlying dynamics.</p>
@@ -238,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="handling-categorical-variables" class="level4">
 <h4 class="anchored" data-anchor-id="handling-categorical-variables">Handling Categorical Variables</h4>
-<p>Categorical variables such as <code>sales_channel</code>, <code>trip_type</code>, <code>flight_day</code>, and <code>continent</code> are crucial for our analysis. We transform these variables into a format suitable for modeling through one-hot encoding in python and mutating as factors in R.</p>
+<p>Categorical variables such as <code>sales_channel</code>, <code>trip_type</code>, <code>flight_day</code>, and <code>continent</code> are central for our analysis. We transform these variables into a format suitable for modeling through one-hot encoding in python.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare categorical variables with OneHotEncoder</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>categorical_vars <span class="op">=</span> [<span class="st">'sales_channel'</span>, <span class="st">'trip_type'</span>, <span class="st">'flight_day'</span>, <span class="st">'continent'</span>]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ct <span class="op">=</span> ColumnTransformer([(<span class="st">'one_hot_encoder'</span>, OneHotEncoder(), categorical_vars)], remainder<span class="op">=</span><span class="st">'passthrough'</span>)</span>
@@ -260,26 +274,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="addressing-class-imbalances" class="level4">
 <h4 class="anchored" data-anchor-id="addressing-class-imbalances">Addressing Class Imbalances</h4>
-<p>In our dataset, the classes are imbalanced, with some preferences being more prevalent than others. To address this issue, we used the technique of Synthetic Minority Over-sampling Technique (SMOTE) to balance the classes. This ensures that the models do not become biased towards the majority class and can make accurate predictions for all classes.</p>
+<p>In our dataset, the classes are imbalanced, with some preferences being more prevalent than others. To address this issue, we used the technique of Synthetic Minority Over-sampling Technique (SMOTE) to balance the classes on our training set. This ensures that the models do not become biased towards the majority class and can make accurate predictions for all classes.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Note: The plot above shows the distribution of the target variable <code>wants_extra_baggage</code>. There is a clear imbalance towards cases whereby customers often purchased extra baggage.</em></p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Note: The plot above shows the distribution of the target variable <code>wants_in_flight_meals</code>. In this case the data was more evenly distrubuted so we decided to leave the classes as they were.</em></p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Note: The plot above shows the distribution of the target variable <code>wants_preferred_seat</code>. There is a clear imbalance towards cases whereby customers often did not purchase preferred seats.</em></p>
-<p>To address the class imbalance, we used the Synthetic Minority Over-sampling Technique (<code>SMOTE</code>) from <code>imblearn</code>, which generates synthetic samples for the minority class to balance the class distribution.</p>
+<p>To address the class imbalance, we used the <code>SMOTE</code> function from <code>imblearn</code>, which generates synthetic samples for the minority class to balance the class distribution.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SMOTE for Random Forest</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Handle class imbalance with SMOTE</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>smote <span class="op">=</span> SMOTE(random_state<span class="op">=</span><span class="dv">123</span>)</span>
@@ -365,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the LogisticRegression model with best parameters</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(multi_class<span class="op">=</span><span class="st">'multinomial'</span>, solver<span class="op">=</span>best_params[<span class="st">'solver'</span>], C<span class="op">=</span>best_params[<span class="st">'C'</span>], max_iter<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The GridSearchCV process identified <code>C=0.1</code> and <code>solver='sag'</code> as the optimal hyperparameters for our logistic regression model after performing 5-fold cross-validation. The choice of <code>C=0.1</code> indicates that a moderate level of regularization was most effective for this dataset, helping to prevent overfitting without under-penalizing the coefficients. The <code>sag</code> solver, which is efficient for large datasets and supports L2 regularization, was found to be the most suitable optimization algorithm for this multiclass classification problem.</p>
-<p>For the <strong>Random Forest</strong> model, we tuned the <code>max_features</code>, <code>min_samples_split</code>, and <code>min_samples_leaf</code> parameters. The <code>max_features</code> parameter determines the number of features to consider when looking for the best split. The <code>min_samples_split</code> parameter specifies the minimum number of samples required to split an internal node, and the <code>min_samples_leaf</code> parameter defines the minimum number of samples required to be at a leaf node. These parameters are critical for controlling the complexity and the depth of the individual trees within the forest, thereby influencing both the bias and variance of the model.</p>
+<p>For the <strong>Random Forest</strong> model, we tuned the <code>max_features</code>, <code>min_samples_split</code>, and <code>min_samples_leaf</code> parameters. The <code>max_features</code> parameter determines the number of features to consider when looking for the best split. The <code>min_samples_split</code> parameter specifies the minimum number of samples required to split an internal node, and the <code>min_samples_leaf</code> parameter defines the minimum number of samples required to be at a leaf node. These parameters are use to control the complexity and the depth of the individual trees within the forest, thereby influencing both the bias and variance of the model.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameter grid focusing on fewer trees and tree complexity</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_features'</span>: [<span class="st">'sqrt'</span>, <span class="st">'log2'</span>, <span class="va">None</span>],  <span class="co"># Features considered for splitting at each leaf</span></span>
@@ -492,7 +506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="logistic-regression-1" class="level2">
 <h2 class="anchored" data-anchor-id="logistic-regression-1">Logistic Regression</h2>
 <p>The Logistic Regression model showed the lowest accuracy at 19.13% and a balanced accuracy of 20.51%. The precision and recall values are also lower, at 29% and 24%, respectively. This suggests that the logistic regression model, while interpretable and straightforward, is not as effective in capturing the complexities and interactions within the dataset compared to the Random Forest and Neural Network models. The lower performance might be due to the model’s linear nature, which may not adequately capture the nonlinear relationships present in the data.</p>
-<p>Overall, the Random Forest model outperformed the other models in terms of accuracy, precision, and recall, indicating its relative success in handling complex, multiclass classification tasks. The Neural Network, while slightly less effective, still showed potential with a balanced approach to precision and recall. Future work may involve further tuning of the neural network and exploring more complex architectures or ensembles to enhance performance.</p>
+<p>Overall, the Random Forest model outperformed the other models in terms of accuracy, precision, and recall, indicating its relative success in handling complex, multiclass classification tasks. The Neural Network, while slightly less effective, still showed potential with a balanced approach to precision and recall.</p>
 </section>
 </section>
 <section id="conclusion" class="level1">
