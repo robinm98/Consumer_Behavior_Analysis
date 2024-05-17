@@ -50,6 +50,8 @@ This analysis will help us understand how these features interact and contribute
 
 
 
+**Distribution of different trip types among passengers**
+
 The bar graph illustrates the distribution of different trip types among passengers. The trip types include CircleTrip, OneWay, and RoundTrip. The data reveals a significant skew towards RoundTrip bookings, which dominate the dataset with nearly 50,000 instances. In contrast, CircleTrip and OneWay bookings are comparatively rare.
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Plotting the distribution of 'trip_type'
@@ -62,18 +64,19 @@ ggplot(data, aes(x = trip_type)) +
 
 
 
-*Distribution of Sales Channel and Booking Completion*
+**Distribution of Sales Channel and Booking Completion**
 
 The first plot shows the distribution of sales channels used by passengers for booking. The two categories are "Internet" and "Mobile."
 
-**Internet:** The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers.
-**Mobile:** A smaller segment, significantly less than 10,000, uses mobile devices for booking. This highlights a potential area for growth in mobile bookings.
+*Internet:* The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers.
 
+*Mobile:* A smaller segment, significantly less than 10,000, uses mobile devices for booking. This highlights a potential area for growth in mobile bookings.
 
 The second plot illustrates the distribution of booking completion status, categorized as 0 (incomplete) and 1 (complete).
 
-**Incomplete Bookings (0):** The majority of instances, around 40,000, represent incomplete bookings. This suggests a high drop-off rate during the booking process.
-**Complete Bookings (1):** A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.
+*Incomplete Bookings (0):* The majority of instances, around 40,000, represent incomplete bookings. This suggests a high drop-off rate during the booking process.
+
+*Complete Bookings (1):* A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Plotting the distribution of 'sales_channel'
@@ -96,14 +99,17 @@ grid.arrange(p1, p2, nrow = 1)
 
 
 
-*Description of Distribution of Flight Day*
+**Description of Distribution of Flight Day**
 The bar graph shows the distribution of flight days, indicating how many flights occur on each day of the week.
 
-**Monday:** Has the highest number of flights, with counts slightly above 8,000. This suggests that Monday is the busiest day for flights.
-**Tuesday and Wednesday:** These days also have high counts, slightly below 8,000, indicating significant travel activity.
+*Monday:* Has the highest number of flights, with counts slightly above 8,000. This suggests that Monday is the busiest day for flights.
+
+*Tuesday and Wednesday:* These days also have high counts, slightly below 8,000, indicating significant travel activity.
 Thursday and Sunday: Both days show moderate flight activity, with counts around the 7,000 mark.
-**Friday:** Shows slightly lower flight counts compared to other weekdays, with counts around 6,500.
-**Saturday:** Has the lowest flight count, below 6,000, indicating it is the least busy day for flights.
+
+*Friday:* Shows slightly lower flight counts compared to other weekdays, with counts around 6,500.
+
+*Saturday:* Has the lowest flight count, below 6,000, indicating it is the least busy day for flights.
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Plotting the distribution of 'flight_day'
 ggplot(data, aes(x = flight_day)) +
@@ -119,7 +125,7 @@ ggplot(data, aes(x = flight_day)) +
 In this section, we examine the relationships between our target variables (Y) and various predictive features (X) to better understand passenger preferences for air travel upgrades. By analyzing these relationships, we aim to uncover patterns that can help predict the likelihood of passengers opting for additional services such as extra baggage, in-flight meals, and preferred seating. This analysis will provide valuable insights for airlines to enhance customer satisfaction and optimize their service offerings.
 
 
-*Number of Passengers and Service Preferences*
+**Number of Passengers and Service Preferences**
 
 Extra Baggage Rates: Positive trend; larger groups more likely to want extra baggage.
 
@@ -174,7 +180,7 @@ grid.arrange(plot1, plot2, plot3, ncol = 3)
 
 
 
-*Flight Duration and Service Preferences*
+**Flight Duration and Service Preferences**
 
 Extra Baggage Rates: Slight positive trend; longer flights slightly increase extra baggage demand.
 
@@ -230,7 +236,7 @@ grid.arrange(plot4, plot5, plot6, ncol = 3)
 
 
 
-*Purchase Lead Time and Service Preferences*
+**Purchase Lead Time and Service Preferences**
 
 Extra Baggage Rates: Negative trend; advance bookers less likely to want extra baggage.
 
@@ -285,7 +291,7 @@ grid.arrange(plot7, plot8, plot9, ncol = 3)
 
 
 
-*Length of Stay and Service Preferences*
+**Length of Stay and Service Preferences**
 
 Extra Baggage Rates: Slight decrease as length of stay increases.
 
