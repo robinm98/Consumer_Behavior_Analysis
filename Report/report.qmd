@@ -1,6 +1,6 @@
 ---
 format: html
-date: "04.05.2024"
+date: "17.05.2024"
 university: "University of Lausanne, HEC"
 course: "Machine Learning in Business Analytics"
 group: "Group E"
