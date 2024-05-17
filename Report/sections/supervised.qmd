@@ -4,27 +4,21 @@
 
 For our study on modeling passenger preferences for air travel upgrades, we selected three supervised machine learning techniques: logistic regression, random forest, and neural networks. Each of these models brings unique strengths and suitability for different aspects of our dataset.
 
-**Logistic Regression** is a foundational tool in statistical modeling and machine learning, particularly adept at binary classification tasks. Its simplicity and interpretability make it a prime choice for initial explorations of binary outcomes such as determining whether a passenger would want extra baggage, to select a seat, or add a meal. Logistic regression provides clear insights through the statistical significance of variables and their coefficients, allowing us to understand the influence of each predictor on the response variable straightforwardly.
+**Logistic Regression**  is a fundamental technique in statistical modeling and machine learning, particularly adept at classification tasks. In our study, we adapted logistic regression for multiclass classification to predict whether a passenger would opt for extra baggage or not, a preferred seat or not, and an in-flight meal or not. Logistic regression offers clear interpretability through the statistical significance of variables and their coefficients, allowing us to understand the influence of each predictor on the response variable.
 
 **Random Forest** is an ensemble learning technique that operates by building multiple decision trees and merging them together to obtain more accurate and stable predictions. It is particularly effective for handling datasets with complex structures and high dimensionality without requiring feature scaling. For multiclass classification issues, random forest can manage categorical variables and their interactions effectively, providing importance scores for each feature, which helps in interpreting the driving factors behind passenger preferences.
 
-**Neural Networks**, with their deep learning capabilities, are well-suited for capturing complex and nonlinear relationships that other models might miss. This makes them extremely versatile for multilabel classification tasks, such as simultaneously predicting preferences across several categories like in-flight meals, seating, and baggage. Although they require more computational resources and are less interpretable than simpler models, neural networks can model intricate patterns in large-scale data, offering potentially higher accuracy and the ability to generalize across various types of data inputs.
+**Neural Networks**, known for its deep learning capabilities, it is well-suited for capturing complex and nonlinear relationships. We utilized neural networks for multiclassification to simultaneously predict preferences across our categories of in-flight meals, seating, and baggage. Despite requiring more computational resources and being less interpretable, neural networks can model intricate patterns in large-scale data, potentially offering higher accuracy and generalization capabilities.
 
-Together, these models encompass a broad spectrum of analytical capabilities, from basic statistical inference to complex pattern recognition, ensuring our analysis is both robust and nuanced. This diversified approach not only enhances the accuracy of our predictions but also enriches our understanding of the data’s underlying dynamics.
+Together, these models encompass a broad spectrum of analytical capabilities, from basic statistical inference to complex pattern recognition. This diversified approach not only enhances the accuracy of our predictions but also enriches our understanding of the data’s underlying dynamics.
 
 ### Data Preprocessing
 
-Before applying the models, we preprocess the data to ensure it is in a suitable format for analysis. This involves removing columns that will not be of use in the models, encoding categorical variables, splitting the data into training and testing sets, and addressing class imbalances.
+Before applying the models, we preprocess the data to ensure it is in a suitable format for analysis. This involves removing columns that will not be of use in the models, encoding categorical variables, creating the necessary multiclass outcome variables, splitting the data into training and testing sets, and addressing class imbalances.
 
 #### Removing Unneeded Columns
 
 We remove columns that are not used in any models to streamline the data and reduce computational complexity. This step ensures that the models focus on relevant predictors and avoid overfitting due to irrelevant features or features that are not computationally efficient to create dummies for given their lack of importance.
-
-```r
-# R code for Logistic Regression
-data_lr1 <- data |> 
-  dplyr::select(-route, -booking_origin, -departure, -arrival)
-```
 
 ```python
 # Python code for Random Forest and Neural Networks
@@ -35,34 +29,27 @@ data = data.drop(columns=['route', 'booking_origin', 'departure', 'arrival'])
 
 Categorical variables such as `sales_channel`, `trip_type`, `flight_day`, and `continent` are crucial for our analysis. We transform these variables into a format suitable for modeling through one-hot encoding in python and mutating as factors in R.
 
-```r
-# R code for Logistic Regression
-categorical_vars <- c("sales_channel", "trip_type", "flight_day", "continent")
-data <- data |> 
-  mutate(across(all_of(categorical_vars), as.factor)) |> 
-  dummy_cols(select_columns = categorical_vars, remove_first_dummy = TRUE)
-```
-
 ```python
-# Python code for Random Forest and Neural Networks
 # Prepare categorical variables with OneHotEncoder
 categorical_vars = ['sales_channel', 'trip_type', 'flight_day', 'continent']
 ct = ColumnTransformer([('one_hot_encoder', OneHotEncoder(), categorical_vars)], remainder='passthrough')
 data_processed = ct.fit_transform(data)
 ```
 
+#### Creating the Outcome Combinations
+
+In our study, passengers can choose multiple services (`wants_extra_baggage`, `wants_preferred_seat`, and `wants_in_flight_meals`), and each combination of choices represents a distinct class. This creates a "power set" of outcome variables, forming all possible combinations as unique classes in a multiclass classification framework. We combine these outcome variables into a single multiclass target variable, encoding each unique combination (e.g., "000" for no preferences, "101" for extra baggage and an in-flight meal but not a preferred seat) into a distinct label. This allows the models to predict the exact combination of services a passenger is likely to choose, effectively modeling complex interactions between features.
+
+```python
+# Combine the three binary target variables into a single multi-class label
+data['combined_label'] = pd.factorize(data['wants_extra_baggage'].astype(str) + 
+                                      data['wants_in_flight_meals'].astype(str) + 
+                                      data['wants_preferred_seat'].astype(str))[0]
+```
+
 #### Data Splitting
 
 To ensure the reliability of our models, we split the data into training and testing sets. This division allows us to train the models on one subset and evaluate their performance on another, ensuring that the models generalize well to unseen data. We split at a 80/20 ratio to maintain a balance between training and testing data.
-
-```r
-# R code for Logistic Regression
-# Splitting data into training and testing sets
-set.seed(123)  # for reproducibility
-trainIndex <- createDataPartition(data_lr1$wants_extra_baggage, p = 0.8, list = FALSE)
-train_data <- data_lr1[trainIndex, ]
-test_data <- data_lr1[-trainIndex, ]
-```
 
 ```python
 # Python code for Random Forest and Neural Networks
@@ -71,7 +58,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 #### Addressing Class Imbalances
 
-In our dataset, the classes are imbalanced, with some preferences being more prevalent than others. To address this issue, we use the techniques of downsampling or Synthetic Minority Over-sampling Technique (SMOTE) to balance the classes. This ensures that the models do not become biased towards the majority class and can make accurate predictions for all classes.
+In our dataset, the classes are imbalanced, with some preferences being more prevalent than others. To address this issue, we used the technique of Synthetic Minority Over-sampling Technique (SMOTE) to balance the classes. This ensures that the models do not become biased towards the majority class and can make accurate predictions for all classes.
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 library(ggplot2)
@@ -106,14 +93,7 @@ ggplot(data, aes(x = wants_preferred_seat)) +
 ```
 _Note: The plot above shows the distribution of the target variable `wants_preferred_seat`. There is a clear imbalance towards cases whereby customers often did not purchase preferred seats._
 
-To address the class imbalance, for both logistic regression and the neural network, we used downsampling, which involves randomly removing samples from the majority class to balance the class distribution. For the random forest model, we used the Synthetic Minority Over-sampling Technique (SMOTE), which generates synthetic samples for the minority class to balance the class distribution.
-
-```r
-# Downsampling for wants_extra_baggage
-train_data_baggage <- ovun.sample(wants_extra_baggage ~ ., data = train_data, method = "under", N = sum(train_data$wants_extra_baggage == "0") * 2)$data
-# Downsampling for wants_preferred_seat
-train_data_seat <- ovun.sample(wants_preferred_seat ~ ., data = train_data, method = "under", N = sum(train_data$wants_preferred_seat == "1") * 2)$data
-```
+To address the class imbalance, we used the Synthetic Minority Over-sampling Technique (`SMOTE`) from `imblearn`, which generates synthetic samples for the minority class to balance the class distribution.
 
 ```python
 # SMOTE for Random Forest
@@ -122,41 +102,28 @@ smote = SMOTE(random_state=123)
 X_train, y_train = smote.fit_resample(X_train, y_train)
 ```
 
-
 ### Model Development and Tuning
 
 This subsection outlines how each model is developed, including the initial setup, parameter tuning, and the specific adjustments made for each type.
 
 #### Logistic Regression
 
-The logistic regression model is developed using the `glm` function in R, with a focus on predicting the binary outcomes of `wants_extra_baggage`, `wants_in_flight_meals`, and `wants_preferred_seat`. 3 models were created to predict individually each outcome variable, the decision was made to not include any of the outcome variables in any of the models as they have such strong correlation between eachother. A stepwise backward elimination process based on the Akaike Information Criterion (AIC) was used to refine the model. This process helps identify the most relevant predictors and improve the model's performance by removing variables of lesser importance.
+The logistic regression model is developed using the `LogisticRegression` module from `sklearn` on python. Using the `multinomial` feature we are able to predict `wants_extra_baggage`, `wants_in_flight_meals`, and `wants_preferred_seat` simultaneously.
 
-```r
-# Initial logistic regression model
-logist_model1 <- glm(wants_extra_baggage ~ . - wants_preferred_seat - wants_in_flight_meals, data = train_data_baggage, family = "binomial")
-# Stepwise backward elimination based on AIC
-reduced_model <- stepAIC(logist_model1, direction = "backward")
+```python
+# Define the LogisticRegression model
+model = LogisticRegression(multi_class='multinomial', solver='sag', max_iter=1000)
 ```
 
 #### Random Forest
 
-The Random Forest model is implemented using the `RandomForestClassifier` from the scikit-learn library in Python. For the implementation, we took advantage of its inherent capability to handle multiclass classification problems effectively. In the context of our study, where passengers can choose multiple services (such as extra baggage, preferred seating, and in-flight meals), each combination of choices represents a distinct class. This is often referred to as the "power set" of the outcome variables, essentially forming a grid of all possible combinations where each combination is treated as a unique class in a multiclass classification framework.
-
-To accommodate this approach, we combine the outcome variables into a single multiclass target variable, where each unique combination of `wants_extra_baggage`, `wants_preferred_seat`, and `wants_in_flight_meals` is encoded into a distinct label. This transformation allows the Random Forest model to predict the exact combination of services a passenger is likely to choose, leveraging its capability to model complex interactions between features effectively.
+The Random Forest model is implemented using the `RandomForestClassifier` from the `scikit-learn` library in Python. For the implementation, we took advantage of its inherent capability to handle multiclass classification problems effectively.
 
 ```python
-# Ensure labels are combined into a single feature and converted to numeric
-data['combined_label'] = pd.factorize(data['wants_extra_baggage'].astype(str) + 
-                                      data['wants_in_flight_meals'].astype(str) + 
-                                      data['wants_preferred_seat'].astype(str))[0]
-
-# Append combined_label to processed data
-data_processed['combined_label'] = data['combined_label']
-
 # Define the RandomForest model using the specified parameters
-model = RandomForestClassifier(random_state=123, n_estimators=250,       max_features=None, min_samples_split=10, min_samples_leaf=5)
+model = RandomForestClassifier(random_state=123, n_estimators=50, max_features=None, min_samples_split=10, min_samples_leaf=5, max_depth = 5)
 
-# Train the model
+# Fit the model
 model.fit(X_train, y_train)
 
 # Predict on the test data
@@ -165,125 +132,75 @@ predictions = model.predict(X_test)
 
 #### Neural Network
 
-The Neural Network model was implemented using the `Keras` library in Python, which provides a high-level neural networks API that allows for easy and flexible model building. In contrast to the Random Forest model, the Neural Network was utilized for its multilabel classification capabilities. Multilabel classification differs from multiclass classification in that each instance (passenger) can be assigned multiple labels (services) simultaneously, rather than being restricted to one out of many possible categories.
-
-This approach aligns well with the nature of our data, where a passenger might opt for a combination of extras like baggage, seating, and meals without these choices being mutually exclusive. We structure the Neural Network to output multiple probabilities, one for each service, using a sigmoid activation function at the output layer to predict the likelihood of each service independently.
+The Neural Network model was implemented using the `Keras` library in Python, which provides a high-level neural networks API that allows for easy and flexible model building.
 
 ```python
 # Define the Neural Network model using the specified parameters
-def create_model(input_dim, activation='relu', layers=2, dropout_rate=0.6):
+def create_model(input_dim, activation='relu', layers=2, dropout_rate=0.5, num_classes=8, nodes=128, l2_penalty=0.01):
     model = Sequential()
-    model.add(Dense(64, activation=activation, input_dim=input_dim))
+    model.add(Dense(nodes, activation=activation, input_dim=input_dim, kernel_regularizer=l2(l2_penalty)))
     model.add(Dropout(dropout_rate))
     for _ in range(1, layers):
-        model.add(Dense(64, activation=activation))
+        model.add(Dense(nodes, activation=activation, kernel_regularizer=l2(l2_penalty)))
         model.add(Dropout(dropout_rate))
-    model.add(Dense(3, activation='sigmoid'))
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    model.add(Dense(num_classes, activation='softmax'))
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
-# Create and train the model with the best parameters
-model = create_model(input_dim=X_train.shape[1])
-model.fit(X_train, y_train, batch_size=16, epochs=20, verbose=1)
+# Train the PRUNED best model found with GridSearchCV
+best_model_params = {
+    'activation': 'relu',
+    'layers': 2,
+    'dropout_rate': 0.5,
+    'nodes': 128,
+    'l2_penalty': 0.01,
+}
 
-# Predictions
-y_pred_prob = model.predict(X_test)
-y_pred = (y_pred_prob > 0.5).astype(int)
+model = create_model(input_dim=X_train.shape[1], num_classes=y.shape[1], **best_model_params)
+early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+
+# Train the model
+model.fit(X_train, y_train, batch_size=32, epochs=20, 
+          verbose=1, validation_data=(X_test, y_test), callbacks=[early_stopping])
+
+# Predict on the test data
+y_test_pred_prob = model.predict(X_test)
+y_test_pred = np.argmax(y_test_pred_prob, axis=1)
+y_test_classes = np.argmax(y_test, axis=1)
 ```
 
 #### Parameter Tuning
 
-Parameter tuning and cross-validation are critical components in developing robust machine learning models, ensuring that the models not only fit the training data well but also generalize effectively to new, unseen data. Here, we'll detail how these methodologies were applied across the logistic regression, random forest, and neural network models.
+Parameter tuning and cross-validation are critical components in developing machine learning models, ensuring that the models not only fit the training data well but also generalize effectively to new, unseen data. Here, we'll detail how these methodologies were applied across the logistic regression, random forest, and neural network models.
 
-For **logistic regression**, the tuning process primarily involved feature selection rather than hyperparameter tuning. We utilized the stepwise backward elimination process based on AIC, which is a methodological approach to select the most significant predictors by iteratively removing the least important ones. While this doesn't involve adjusting the hyperparameters of the logistic regression model, it is crucial for optimizing the model's performance by reducing complexity and preventing overfitting.
+##### GridsearchCV
 
-##### Wants Extra Baggage Reduced Logistic Regression Model
+For all of our models, we used GridSearchCV from `sklearn` to find the optimal hyperparameters. This method exhaustively searches through a specified parameter grid to find the best combination of hyperparameters for each model. It also doubles as a cross-validation method, allowing us to evaluate the model's performance on different subsets of the data, ensuring robust and generalized model selection.
 
-<details>
-```{r logistic-regression-model, echo = FALSE, message = FALSE, warning=FALSE}
-# Load necessary libraries
-library(MASS)
-library(ROSE)
-library(caret)
-library(dplyr)
-library(fastDummies)
-
-data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
-
-# Convert categorical variables to factor
-categorical_vars <- c("sales_channel", "trip_type", "flight_day", "continent")
-data <- data |> 
-  mutate(across(all_of(categorical_vars), as.factor))
-
-# Prepare dummy variables
-data <- data |> 
-  dummy_cols(select_columns = categorical_vars, remove_first_dummy = TRUE)
-
-# Remove unneeded columns
-data_lr1 <- data |> 
-  dplyr::select(-route, -booking_origin, -departure, -arrival, -flight_day, -continent, -sales_channel, -trip_type)
-
-# Splitting data into training and testing sets
-set.seed(123)
-trainIndex <- createDataPartition(data_lr1$wants_extra_baggage, p = 0.8, list = FALSE)
-train_data <- data_lr1[trainIndex, ]
-test_data <- data_lr1[-trainIndex, ]
-
-# Downsampling for wants_extra_baggage
-train_data_baggage <- ovun.sample(wants_extra_baggage ~ ., data = train_data, method = "under", N = sum(train_data$wants_extra_baggage == "0") * 2)$data
-
-# Initial logistic regression model
-logist_model1 <- glm(wants_extra_baggage ~ . - wants_preferred_seat - wants_in_flight_meals, data = train_data_baggage, family = "binomial")
-
-# Stepwise backward elimination based on AIC
-reduced_model <- stepAIC(logist_model1, direction = "backward", trace = FALSE)
-
-# Display the model summary
-summary(reduced_model)
-```
-</details>
-_Above shows the reduced model for `wants_extra_baggage`, all predictor variables are significant and the model was reduced to 12 variables, in particular it is interesting that the day of the week has no real consequence on the outcome of whether a customer wants extra baggage or not. The AIC stands at 34371 after the variable reduction._
-
-##### Wants Preferred Seat Reduced Logistic Regression Model
-
-<details>
-```{r logistic-regression-model1, echo = FALSE, message = FALSE, warning=FALSE}
-# Downsampling for wants_preferred_seat
-train_data_seat <- ovun.sample(wants_preferred_seat ~ ., data = train_data, method = "under", N = sum(train_data$wants_preferred_seat == "1") * 2)$data
-
-# Initial logistic regression model
-logist_model2 <- glm(wants_preferred_seat ~ . - wants_preferred_seat - wants_in_flight_meals, data = train_data_seat, family = "binomial")
-
-# Stepwise backward elimination based on AIC
-reduced_model2 <- stepAIC(logist_model2, direction = "backward", trace = FALSE)
-summary(reduced_model2)
-```
-</details>
-
-_Above shows the reduced model for `wants_preferred_seat`, most predictor variables are significant and the model was reduced to 11 variables, the remaining variables are very different from `wants_extra_baggage`, which is interesting as they share such correlation. The AIC stands at 31233 after the variable reduction._
-
-##### Wants In-Flight Meals Reduced Logistic Regression Model
-
-<details>
-```{r logistic-regression-model2, echo = FALSE, message = FALSE, warning=FALSE}
-# Initial logistic regression model
-logist_model3 <- glm(wants_in_flight_meals ~ ., data = train_data, family = "binomial")
-
-# Stepwise backward elimination based on AIC
-reduced_model3 <- stepAIC(logist_model3, direction = "backward", trace = FALSE)
-summary(reduced_model3)
-```
-</details>
-
-_Above shows the reduced model for `wants_in_flight_meals`, most predictor variables are significant and the model was reduced to 18 variables, a lot more than the previous two. The AIC stands at 48603 after the variable reduction._
-
-Cross-validation was also employed for logistic regression to ensure the model's stability and reliability. By partitioning the data into multiple subsets, we could train and validate the model multiple times on different segments of the data, which helps in assessing how the model will perform across different samples of the dataset.
-
-For the **Random Forest model**, extensive hyperparameter tuning was conducted using grid search cross-validation. This method systematically goes through multiple combinations of parameters, allowing us to find the best settings for parameters such as the number of trees (n_estimators), the maximum depth of the trees (max_depth), and the minimum number of samples required to split a node (min_samples_split). This approach is vital for fine-tuning the model to enhance its accuracy and efficiency.
+For **Logistic Regression**, we tuned the `C` parameter and the `solver`. The C parameter is the inverse of regularization strength, where a smaller value indicates stronger regularization. The solver parameter determines the algorithm used in the optimization problem.
 
 ```python
-from sklearn.model_selection import GridSearchCV
+# Grid Search for best parameters
+param_grid = {
+    'C': [0.1, 1, 10],
+    'solver': ['lbfgs', 'liblinear', 'sag', 'saga']
+}
+grid_search = GridSearchCV(LogisticRegression(multi_class='multinomial', max_iter=1000), param_grid, cv=5, scoring='accuracy', n_jobs=-1)
+grid_search.fit(X_train, y_train)
 
+# Best parameters
+best_params = grid_search.best_params_
+print("Best parameters from grid search:", best_params)
+
+# Define the LogisticRegression model with best parameters
+model = LogisticRegression(multi_class='multinomial', solver=best_params['solver'], C=best_params['C'], max_iter=1000)
+```
+
+The GridSearchCV process identified `C=0.1` and `solver='sag'` as the optimal hyperparameters for our logistic regression model after performing 5-fold cross-validation. The choice of `C=0.1` indicates that a moderate level of regularization was most effective for this dataset, helping to prevent overfitting without under-penalizing the coefficients. The `sag` solver, which is efficient for large datasets and supports L2 regularization, was found to be the most suitable optimization algorithm for this multiclass classification problem.
+
+For the **Random Forest** model, we tuned the `max_features`, `min_samples_split`, and `min_samples_leaf` parameters. The `max_features` parameter determines the number of features to consider when looking for the best split. The `min_samples_split` parameter specifies the minimum number of samples required to split an internal node, and the `min_samples_leaf` parameter defines the minimum number of samples required to be at a leaf node. These parameters are critical for controlling the complexity and the depth of the individual trees within the forest, thereby influencing both the bias and variance of the model.
+
+```python
 # Define parameter grid focusing on fewer trees and tree complexity
 param_grid = {
     'max_features': ['sqrt', 'log2', None],  # Features considered for splitting at each leaf
@@ -295,78 +212,75 @@ param_grid = {
 grid_search = GridSearchCV(estimator=model, param_grid=param_grid, cv=10, scoring='accuracy', verbose=2)
 grid_search.fit(X_train, y_train)
 
-# Best parameters
-print("Best parameters:", grid_search.best_params_)
+# Predict probabilities for the test set
+probs = grid_search.predict_proba(X_test)
 ```
 
-Cross-validation was embedded in the grid search process, where each parameter combination was validated across multiple folds of data, ensuring generalizability of the model.
+The GridSearchCV process identified `max_features=None`, `min_samples_split=10`, and `min_samples_leaf=5` as the optimal hyperparameters for our Random Forest model after performing 10-fold cross-validation. The choice of `max_features=None` indicates that all features were considered when looking for the best split, allowing the model to potentially capture more complex patterns in the data. The parameters `min_samples_split=10` and `min_samples_leaf=5` help control the complexity of the trees by ensuring that splits and leaf nodes have a sufficient number of samples, reducing the risk of overfitting.
+_The `n_estimators` parameter was manually tested._
 
-Similarly, for the **Neural Network**, grid search cross-validation was used to optimize several hyperparameters including the number of layers, the number of neurons in each layer, dropout rates, and activation functions. This fine-tuning is crucial for deep learning models due to their complexity and the large number of training configurations possible.
+For the **Neural Network** model, we tuned the `layers`, `nodes`, and `activation`, leaving the other parameters set as `epochs = 20`, `batch_size = 32`, and `dropout_rate = 0.5`. The `layers` parameter determines the number of hidden layers in the network, while the `nodes` parameter specifies the number of neurons in each layer. The `activation` parameter defines the activation function used in the hidden layers, affecting how the model learns and represents complex patterns. The `epochs` and `batch_size` parameters control the training process, determining how many times the entire dataset is passed through the network and the number of samples per gradient update, respectively. The `dropout_rate` parameter helps prevent overfitting by randomly dropping neurons during training.
 
 ```python
-from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn.model_selection import GridSearchCV
+# Wrap the model using KerasClassifier
+num_classes = y.shape[1]
+model = KerasClassifier(build_fn=create_model, input_dim=X_train.shape[1], verbose=1, activation='relu', layers=1, nodes=64, dropout_rate=0.5, num_classes=8)
 
-# Function to create model, for use in KerasClassifier
-def create_model(layers=1, activation='relu', dropout_rate=0.2):
-    model = Sequential()
-    model.add(Dense(64, activation=activation, input_dim=X_train.shape[1]))
-    model.add(Dropout(dropout_rate))
-    for i in range(1, layers):
-        model.add(Dense(64, activation=activation))
-        model.add(Dropout(dropout_rate))
-    model.add(Dense(3, activation='sigmoid'))
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-    return model
-
-# Parameter grid
+# Define parameter grid
 param_grid = {
-    'epochs': [20, 50],
-    'batch_size': [16, 32],
-    'layers': [1, 2],
+    'layers': [1, 2, 3],
+    'nodes': [32, 64, 128],
     'activation': ['relu', 'tanh'],
-    'dropout_rate': [0.5, 0.6]
+    'epochs': [20],
+    'batch_size': [32],
+    'dropout_rate': [0.5]
 }
 
-best_score = 0
-best_params = {}
+# GridSearchCV
+grid_search = GridSearchCV(estimator=model, param_grid=param_grid, cv=5, scoring='accuracy', verbose=2)
+grid_search.fit(X_train, y_train)
 
-for params in ParameterGrid(param_grid):
-    # Separate model parameters and training parameters
-    model_params = {key: params[key] for key in params if key in ['layers', 'activation', 'dropout_rate']}
-    train_params = {key: params[key] for key in params if key in ['epochs', 'batch_size']}
-    
-    model = create_model(input_dim=X_train.shape[1], **model_params)
-    model.fit(X_train, y_train, **train_params, verbose=0)
-    score = model.evaluate(X_test, y_test, verbose=0)[1]  # Get accuracy
-    if score > best_score:
-        best_score = score
-        best_params = params
+# Best model from GridSearchCV
+best_model = grid_search.best_estimator_
+print("Best Parameters:", grid_search.best_params_)
+print("Best Model:", best_model)
 
-print("Best score: {:.2f}".format(best_score))
-print("Best parameters:", best_params)
+# Predict on the test set
+y_pred_prob = best_model.predict_proba(X_test)
 ```
-
-The use of cross-validation in this context ensures that the neural network's performance assessment is not only based on a single train-test split but rather on multiple folds, thus providing a more robust estimate of the model's performance on unseen data.
-
-These strategies collectively help in developing models that are not only tuned to perform well on the training data but also fit to handle new, unseen data effectively.
+The GridSearchCV process identified `activation='relu'`, `layers=2`, and `nodes=128` as the optimal hyperparameters for our Neural Network model after performing 5-fold cross-validation. The chosen configuration of `layers=2` and `nodes=128` ensures that the network has sufficient capacity to learn complex patterns in the data. The relu activation function was selected for its ability to introduce non-linearity while being computationally efficient. The dropout_rate=0.5 helps mitigate overfitting by preventing the network from becoming too reliant on specific neurons.
 
 _Note: Computational resources and time constraints limited the exhaustive search for optimal hyperparameters. In practice, it is essential to balance the trade-off between model performance and computational efficiency._
 
+#### Overfitting
+
+Overfitting occurs when a model learns the training data too well, capturing noise and irrelevant patterns that do not generalize to unseen data. To address overfitting, we sought to keep the training set accuracy and balanced accuracy within a few percentage points of each other during the model development process. Cross-validation and hyperparameter tuning aided, as well as some manual pruning of `n_estimators` and reduction in parameters available in the gridsearch.
+
 ### Model Evaluation
 
-After training and tuning the models, we evaluated their performance using metrics to assess their predictive capabilities. For each model, we calculated the following metrics:
+After training and tuning the models, we evaluated their performance on test data using metrics to assess their predictive capabilities. For each model, we calculated the following metrics:
 
 1. **Accuracy**: The proportion of correctly classified instances out of the total instances. It provides a general overview of the model's performance.
 
-2. **AUC**: The area under the receiver operating characteristic (ROC) curve, which measures the model's ability to distinguish between classes. A higher AUC indicates better performance.
+2. **Balanced Accuracy**: The average of recall obtained on each class. It is useful for large datasets as it considers the class distribution.
 
 3. **Precision**: The proportion of true positive predictions out of all positive predictions. It measures the model's ability to avoid false positives.
 
 4. **Recall**: The proportion of true positive predictions out of all actual positives. It measures the model's ability to capture all positive instances.
 
+The evaluation metrics for each model are summarized below:
+
+```{r, echo=FALSE}
+# Display evaluation metrics for each model
+library(knitr)
+source(here("scripts", "Metrics.R"))
+kable(all_results, "html")
+```
+
+#### ROC Curve and AUC
+
+![ROC Curve for Random Forest](../Figs/ROC_RF.png)
 ### Interpretation of Results
 
-The evaluation metrics for each model are summarized below:
 
 * Interpretation of the model(s)

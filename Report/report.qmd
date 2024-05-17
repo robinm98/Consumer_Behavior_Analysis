@@ -1,5 +1,5 @@
 ---
-format: pdf
+format: html
 date: "04.05.2024"
 university: "University of Lausanne, HEC"
 course: "Machine Learning in Business Analytics"
@@ -57,5 +57,5 @@ Abstract: |
 source(here::here("src/setup.R"))
 ```
 
-```{r child = paste0('sections/', c('intro.qmd', 'data.qmd', 'eda.qmd', 'supervised.qmd', 'unsupervised.qmd', 'concl.qmd','references.qmd'))}
+```{r child = paste0('sections/', c('intro.qmd', 'data.qmd', 'eda.qmd', 'unsupervised.qmd', 'supervised.qmd',  'concl.qmd','references.qmd'))}
 ```

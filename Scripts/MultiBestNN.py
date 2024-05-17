@@ -90,6 +90,15 @@ print("Test Set Balanced Accuracy:", test_bal_acc)
 print("Confusion Matrix:\n", test_cm)
 print("Classification Report:\n", test_cr)
 
+# save the accuracy, balanced accuracy, precision, recall and auc to a csv file
+results = pd.DataFrame({
+    'Accuracy': [test_acc],
+    'Balanced Accuracy': [test_bal_acc],
+    'Precision': [test_cr.split()[5]],
+    'Recall': [test_cr.split()[6]]
+    })
+results.to_csv('Data/NN_results.csv', index=False)
+
 ### TRAINING SET ###
 
 # Predict on the training data

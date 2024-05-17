@@ -32,7 +32,6 @@ numeric_cols = data.select_dtypes(include=['int64', 'float64']).columns.differen
     ['wants_extra_baggage', 'wants_preferred_seat', 'wants_in_flight_meals']
 )
 
-
 # Combine labels into a single feature and convert to numeric
 balanced_data['combined_label'] = pd.factorize(balanced_data['wants_extra_baggage'].astype(str) + 
                                                balanced_data['wants_in_flight_meals'].astype(str) + 

@@ -78,6 +78,10 @@ plt.legend(loc="lower right")
 plt.show()
 
 # Print confusion matrix and classification report
+acc = accuracy_score(y_test, predictions)
+bal_acc = balanced_accuracy_score(y_test, predictions)
+print("Test Set Accuracy:", acc)
+print("Test Set Balanced Accuracy:", bal_acc)
 print("Confusion Matrix:")
 print(confusion_matrix(y_test, predictions))
 print("Classification Report:")
@@ -129,6 +133,15 @@ print("Classification Report for Pruned Model:")
 print(class_report_pruned)
 print("Test Set Accuracy:", accuracy_score(y_test, predictions_pruned))
 print("Test set Balanced Accuracy:", balanced_accuracy_score(y_test, predictions_pruned))
+
+# save the accuracy, balanced accuracy, precision, and recall to a file
+results = pd.DataFrame({
+    'Accuracy': [accuracy_score(y_test, predictions_pruned)],
+    'Balanced Accuracy': [balanced_accuracy_score(y_test, predictions_pruned)],
+    'Precision': [class_report_pruned.split()[5]],
+    'Recall': [class_report_pruned.split()[6]]
+    })
+results.to_csv('Data/RF_results.csv', index=False)
 
 ### TRAINING SET ###
 

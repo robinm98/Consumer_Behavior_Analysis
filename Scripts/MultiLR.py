@@ -1,12 +1,11 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix, classification_report, roc_auc_score, roc_curve, auc
+from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix, classification_report, roc_curve, auc
 from sklearn.inspection import permutation_importance
 import numpy as np
-from pdpbox import pdp
 from matplotlib import pyplot as plt
 from imblearn.over_sampling import SMOTE
 
@@ -38,7 +37,7 @@ smote = SMOTE(random_state=123)
 X_train, y_train = smote.fit_resample(X_train, y_train)
 
 # Define the LogisticRegression model
-model = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=1000)
+model = LogisticRegression(multi_class='multinomial', C=0.1, solver='sag', max_iter=1000)
 
 # Train the model
 model.fit(X_train, y_train)
@@ -58,6 +57,15 @@ print("Test Set Accuracy:", acc)
 print("Test Set Balanced Accuracy:", bal_acc)
 print("Confusion Matrix:\n", cm)
 print("Classification Report:\n", cr)
+
+# save the accuracy, balanced accuracy, precision, and recall to a file
+results = pd.DataFrame({
+    'Accuracy': [acc],
+    'Balanced Accuracy': [bal_acc],
+    'Precision': [cr.split()[5]],
+    'Recall': [cr.split()[6]]
+    })
+results.to_csv('Data/LR_results.csv', index=False)
 
 # Calculate ROC AUC for each class
 y_test_binarized = label_binarize(y_test, classes=model.classes_)
@@ -120,5 +128,3 @@ plt.ylabel('Feature')
 plt.title('Feature Importances for Logistic Regression')
 plt.gca().invert_yaxis()
 plt.show()
-
-

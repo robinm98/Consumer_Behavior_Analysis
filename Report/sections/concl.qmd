@@ -1,6 +1,15 @@
+# Results
+
+## Random Forest
+The Random Forest model achieved an accuracy of 29.16% and a balanced accuracy of 19.79%. This indicates that while the model can correctly classify a significant portion of the instances, it struggles with class imbalances, as evidenced by the lower balanced accuracy. The precision of 35% suggests that the model makes relatively accurate positive predictions, while the recall of 42% indicates that it captures most of the actual positive cases. This balance between precision and recall demonstrates that the Random Forest model is reasonably effective in identifying true positives but still misses some.
+
+## Neural Network
+The Neural Network model achieved an accuracy of 21.53% and a balanced accuracy of 21.49%. The balanced accuracy being close to the overall accuracy suggests that the model is performing uniformly across different classes, though it still has room for improvement. With a precision of 36% and a recall of 33%, the neural network demonstrates a better ability to identify positive instances compared to logistic regression. However, its performance is still lower than that of the Random Forest model, indicating a need for further optimization or perhaps more training data.
+
+## Logistic Regression
+The Logistic Regression model showed the lowest accuracy at 19.13% and a balanced accuracy of 20.51%. The precision and recall values are also lower, at 29% and 24%, respectively. This suggests that the logistic regression model, while interpretable and straightforward, is not as effective in capturing the complexities and interactions within the dataset compared to the Random Forest and Neural Network models. The lower performance might be due to the model's linear nature, which may not adequately capture the nonlinear relationships present in the data.
+
+Overall, the Random Forest model outperformed the other models in terms of accuracy, precision, and recall, indicating its relative success in handling complex, multiclass classification tasks. The Neural Network, while slightly less effective, still showed potential with a balanced approach to precision and recall. Future work may involve further tuning of the neural network and exploring more complex architectures or ensembles to enhance performance.
+
 # Conclusion
 
-* Brief summary of the project
-* Take home message
-* Limitations
-* Future work?

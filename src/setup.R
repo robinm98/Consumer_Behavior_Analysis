@@ -29,13 +29,6 @@ packages <- c(
   "caret" # for the modelling part
 )
 
-# Install missing packages and load all the required libraries
-purrr::walk(packages, function(pkg) {
-  if (!require(pkg, character.only = TRUE)) {
-    install.packages(pkg)
-    library(pkg, character.only = TRUE)
-  }
-})
 
 ########################################
 ## The following sets the python path ##
