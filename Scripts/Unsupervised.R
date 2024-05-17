@@ -88,7 +88,6 @@ ggplot(pca_data, aes(x = PC1, y = PC2, color = as.factor(cluster))) +
        y = "Principal Component 2",
        color = "Cluster")
 
-
 ### Boxplot of all numerical variables by cluster ###
 
 # Melting data for ggplot2 usage
@@ -126,7 +125,7 @@ table(data$booking_complete, data_num$cluster)
 # wants_extra_baggage
 
 # Create a table of counts
-baggage_cluster_table <- table(data$wants_preferred_seat, data_num$cluster)
+baggage_cluster_table <- table(data$wants_extra_baggage, data_num$cluster)
 
 # Convert counts to proportions
 prop_cluster_table <- prop.table(baggage_cluster_table, margin = 2)
@@ -145,7 +144,7 @@ prop_cluster_df$Var1 <- as.character(prop_cluster_df$Var1)
 # Plot the proportions
 ggplot(prop_cluster_df, aes(x = Var2, y = percentage, fill = Var1, group = Var1)) +
   geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
-  labs(x = "Cluster", y = "Percentage", fill = "Wants Preferred Seat") +
+  labs(x = "Cluster", y = "Percentage", fill = "Wants Extra Bagage") +
   scale_fill_manual(values = c("0" = "blue", "1" = "red")) +  # Customize fill colors if needed
   theme_minimal()
 
@@ -344,7 +343,7 @@ prop_cluster_df$Var1 <- as.character(prop_cluster_df$Var1)
 # Plot the proportions
 ggplot(prop_cluster_df, aes(x = Var2, y = percentage, fill = Var1, group = Var1)) +
   geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
-  labs(x = "Cluster", y = "Percentage", fill = "Wants Preferred Seat") +
+  labs(x = "Cluster", y = "Percentage", fill = "Wants Extra Baggage") +
   scale_fill_manual(values = c("0" = "blue", "1" = "red")) +  # Customize fill colors if needed
   theme_minimal()
 
