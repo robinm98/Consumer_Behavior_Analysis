@@ -9,7 +9,7 @@ The Neural Network model achieved an accuracy of 21.53% and a balanced accuracy 
 ## Logistic Regression
 The Logistic Regression model showed the lowest accuracy at 19.13% and a balanced accuracy of 20.51%. The precision and recall values are also lower, at 29% and 24%, respectively. This suggests that the logistic regression model, while interpretable and straightforward, is not as effective in capturing the complexities and interactions within the dataset compared to the Random Forest and Neural Network models. The lower performance might be due to the model's linear nature, which may not adequately capture the nonlinear relationships present in the data.
 
-Overall, the Random Forest model outperformed the other models in terms of accuracy, precision, and recall, indicating its relative success in handling complex, multiclass classification tasks. The Neural Network, while slightly less effective, still showed potential with a balanced approach to precision and recall. Future work may involve further tuning of the neural network and exploring more complex architectures or ensembles to enhance performance.
+Overall, the Random Forest model outperformed the other models in terms of accuracy, precision, and recall, indicating its relative success in handling complex, multiclass classification tasks. The Neural Network, while slightly less effective, still showed potential with a balanced approach to precision and recall.
 
 # Conclusion
 

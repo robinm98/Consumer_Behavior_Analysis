@@ -4,7 +4,7 @@
 
 For our study on modeling passenger preferences for air travel upgrades, we selected three supervised machine learning techniques: logistic regression, random forest, and neural networks. Each of these models brings unique strengths and suitability for different aspects of our dataset.
 
-**Logistic Regression**  is a fundamental technique in statistical modeling and machine learning, particularly adept at classification tasks. In our study, we adapted logistic regression for multiclass classification to predict whether a passenger would opt for extra baggage or not, a preferred seat or not, and an in-flight meal or not. Logistic regression offers clear interpretability through the statistical significance of variables and their coefficients, allowing us to understand the influence of each predictor on the response variable.
+**Logistic Regression**  is a fundamental technique in statistical modeling and machine learning, particularly adept at classification tasks, it represents our baseline model. In our study, we adapted logistic regression for multiclass classification to predict whether a passenger would opt for extra baggage or not, a preferred seat or not, and an in-flight meal or not. Logistic regression offers clear interpretability through the statistical significance of variables and their coefficients, allowing us to understand the influence of each predictor on the response variable.
 
 **Random Forest** is an ensemble learning technique that operates by building multiple decision trees and merging them together to obtain more accurate and stable predictions. It is particularly effective for handling datasets with complex structures and high dimensionality without requiring feature scaling. For multiclass classification issues, random forest can manage categorical variables and their interactions effectively, providing importance scores for each feature, which helps in interpreting the driving factors behind passenger preferences.
 
@@ -27,7 +27,7 @@ data = data.drop(columns=['route', 'booking_origin', 'departure', 'arrival'])
 
 #### Handling Categorical Variables
 
-Categorical variables such as `sales_channel`, `trip_type`, `flight_day`, and `continent` are crucial for our analysis. We transform these variables into a format suitable for modeling through one-hot encoding in python and mutating as factors in R.
+Categorical variables such as `sales_channel`, `trip_type`, `flight_day`, and `continent` are central for our analysis. We transform these variables into a format suitable for modeling through one-hot encoding in python.
 
 ```python
 # Prepare categorical variables with OneHotEncoder
@@ -58,7 +58,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 #### Addressing Class Imbalances
 
-In our dataset, the classes are imbalanced, with some preferences being more prevalent than others. To address this issue, we used the technique of Synthetic Minority Over-sampling Technique (SMOTE) to balance the classes. This ensures that the models do not become biased towards the majority class and can make accurate predictions for all classes.
+In our dataset, the classes are imbalanced, with some preferences being more prevalent than others. To address this issue, we used the technique of Synthetic Minority Over-sampling Technique (SMOTE) to balance the classes on our training set. This ensures that the models do not become biased towards the majority class and can make accurate predictions for all classes.
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 library(ggplot2)
@@ -93,7 +93,7 @@ ggplot(data, aes(x = wants_preferred_seat)) +
 ```
 _Note: The plot above shows the distribution of the target variable `wants_preferred_seat`. There is a clear imbalance towards cases whereby customers often did not purchase preferred seats._
 
-To address the class imbalance, we used the Synthetic Minority Over-sampling Technique (`SMOTE`) from `imblearn`, which generates synthetic samples for the minority class to balance the class distribution.
+To address the class imbalance, we used the `SMOTE` function from `imblearn`, which generates synthetic samples for the minority class to balance the class distribution.
 
 ```python
 # SMOTE for Random Forest
@@ -198,7 +198,7 @@ model = LogisticRegression(multi_class='multinomial', solver=best_params['solver
 
 The GridSearchCV process identified `C=0.1` and `solver='sag'` as the optimal hyperparameters for our logistic regression model after performing 5-fold cross-validation. The choice of `C=0.1` indicates that a moderate level of regularization was most effective for this dataset, helping to prevent overfitting without under-penalizing the coefficients. The `sag` solver, which is efficient for large datasets and supports L2 regularization, was found to be the most suitable optimization algorithm for this multiclass classification problem.
 
-For the **Random Forest** model, we tuned the `max_features`, `min_samples_split`, and `min_samples_leaf` parameters. The `max_features` parameter determines the number of features to consider when looking for the best split. The `min_samples_split` parameter specifies the minimum number of samples required to split an internal node, and the `min_samples_leaf` parameter defines the minimum number of samples required to be at a leaf node. These parameters are critical for controlling the complexity and the depth of the individual trees within the forest, thereby influencing both the bias and variance of the model.
+For the **Random Forest** model, we tuned the `max_features`, `min_samples_split`, and `min_samples_leaf` parameters. The `max_features` parameter determines the number of features to consider when looking for the best split. The `min_samples_split` parameter specifies the minimum number of samples required to split an internal node, and the `min_samples_leaf` parameter defines the minimum number of samples required to be at a leaf node. These parameters are use to control the complexity and the depth of the individual trees within the forest, thereby influencing both the bias and variance of the model.
 
 ```python
 # Define parameter grid focusing on fewer trees and tree complexity

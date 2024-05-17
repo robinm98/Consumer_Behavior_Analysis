@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -90,15 +56,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p><strong><code>num_passengers</code></strong>: Indicates the total number of passengers traveling on the booking.</p>
 <p><strong><code>sales_channel</code></strong>: Specifies the platform or method through which the booking was made.</p>
-<p><strong><code>trip_type</code></strong>: Describes the type of trip (e.g., Round Trip, One Way, Circle Trip). <strong><code>purchase_lead</code></strong>: Represents the number of days between the booking date and the travel date. <strong><code>length_of_stay</code></strong>: The number of days the passenger intends to stay at the destination. <strong><code>flight_hour</code></strong>: The hour of the day when the flight is scheduled to depart. <strong><code>flight_day</code></strong>: The day of the week on which the flight is scheduled. <strong><code>route</code></strong>: The flight route from origin to destination. <strong><code>booking_origin</code></strong>: The country from which the booking was made. <strong><code>wants_extra_baggage</code></strong>: A binary indicator (yes/no) if the passenger opted for extra baggage. <strong><code>wants_preferred_seat</code></strong>: A binary indicator (yes/no) if the passenger chose a preferred seating option during booking. <strong><code>wants_in_flight_meals</code></strong>: A binary indicator (yes/no) if the passenger requested in-flight meals. <strong><code>flight_duration</code></strong>: The total duration of the flight in hours. <strong><code>booking_complete</code></strong>: A flag indicating whether the booking was completed (yes/no).</p>
-<ul>
-<li>Wrangling/cleaning</li>
-<li>Spotting mistakes and missing data (could be part of EDA too)</li>
-<li>Listing anomalies and outliers (could be part of EDA too)</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a code block</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p><strong><code>trip_type</code></strong>: Describes the type of trip (e.g., Round Trip, One Way, Circle Trip).</p>
+<p><strong><code>purchase_lead</code></strong>: Represents the number of days between the booking date and the travel date.</p>
+<p><strong><code>length_of_stay</code></strong>: The number of days the passenger intends to stay at the destination.</p>
+<p><strong><code>flight_hour</code></strong>: The hour of the day when the flight is scheduled to depart.</p>
+<p><strong><code>flight_day</code></strong>: The day of the week on which the flight is scheduled.</p>
+<p><strong><code>route</code></strong>: The flight route from origin to destination.</p>
+<p><strong><code>booking_origin</code></strong>: The country from which the booking was made.</p>
+<p><strong><code>wants_extra_baggage</code></strong>: A binary indicator (yes/no) if the passenger opted for extra baggage.</p>
+<p><strong><code>wants_preferred_seat</code></strong>: A binary indicator (yes/no) if the passenger chose a preferred seating option during booking.</p>
+<p><strong><code>wants_in_flight_meals</code></strong>: A binary indicator (yes/no) if the passenger requested in-flight meals.</p>
+<p><strong><code>flight_duration</code></strong>: The total duration of the flight in hours.</p>
+<p><strong><code>booking_complete</code></strong>: A flag indicating whether the booking was completed (yes/no).</p>
+<p>The data has already been cleaned and is in good condition. However, further data processing will be conducted. This will involve removing any unnecessary data and encoding the data appropriately for use in our different models.</p>
 </section>
 
 </main>

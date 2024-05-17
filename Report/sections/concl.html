@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>intro</title>
+<title>concl</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,16 +23,16 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="intro_files/libs/clipboard/clipboard.min.js"></script>
-<script src="intro_files/libs/quarto-html/quarto.js"></script>
-<script src="intro_files/libs/quarto-html/popper.min.js"></script>
-<script src="intro_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="intro_files/libs/quarto-html/anchor.min.js"></script>
-<link href="intro_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="intro_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="intro_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="intro_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="intro_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="concl_files/libs/clipboard/clipboard.min.js"></script>
+<script src="concl_files/libs/quarto-html/quarto.js"></script>
+<script src="concl_files/libs/quarto-html/popper.min.js"></script>
+<script src="concl_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="concl_files/libs/quarto-html/anchor.min.js"></script>
+<link href="concl_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="concl_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="concl_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="concl_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="concl_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -45,35 +45,24 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<section id="overview-and-motivation" class="level2">
-<h2 class="anchored" data-anchor-id="overview-and-motivation">Overview and Motivation</h2>
-<p>In the fast-paced world of air travel, airlines face a dual challenge: maintaining operational efficiency while personalizing the travel experience for their passengers. Key aspects that greatly influence passenger satisfaction include baggage handling, preferred seating, and in-flight meals. Each of these elements represents significant opportunities for airlines to enhance customer experiences and optimize their ancillary services.</p>
-<p>The project aims to harness machine learning to predict and analyze passengers’ choices regarding baggage, preferred seating, and in-flight meal options. By examining a range of influencing factors, such as trip duration and purpose, the project seeks to generate actionable insights that airlines can use to improve operational efficiency and tailor their services to individual customer preferences.</p>
-<p>Our motivation stems from the logistical and customer service challenges faced by airlines when handling passengers’ preferences efficiently. Accurate prediction models will help airlines anticipate the demand for different services, from baggage needs to specific seating and meal preferences. This, in turn, will allow them to allocate resources more effectively and design better marketing strategies, enhancing customer satisfaction and maximizing revenue from ancillary services.</p>
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="random-forest" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest">Random Forest</h2>
+<p>The Random Forest model achieved an accuracy of 29.16% and a balanced accuracy of 19.79%. This indicates that while the model can correctly classify a significant portion of the instances, it struggles with class imbalances, as evidenced by the lower balanced accuracy. The precision of 35% suggests that the model makes relatively accurate positive predictions, while the recall of 42% indicates that it captures most of the actual positive cases. This balance between precision and recall demonstrates that the Random Forest model is reasonably effective in identifying true positives but still misses some.</p>
 </section>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>The dataset for our project is sourced from Kaggle and titled “Airlines Booking”, compiled by user Anand Shaw. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.</p>
+<section id="neural-network" class="level2">
+<h2 class="anchored" data-anchor-id="neural-network">Neural Network</h2>
+<p>The Neural Network model achieved an accuracy of 21.53% and a balanced accuracy of 21.49%. The balanced accuracy being close to the overall accuracy suggests that the model is performing uniformly across different classes, though it still has room for improvement. With a precision of 36% and a recall of 33%, the neural network demonstrates a better ability to identify positive instances compared to logistic regression. However, its performance is still lower than that of the Random Forest model, indicating a need for further optimization or perhaps more training data.</p>
 </section>
-<section id="related-work" class="level2">
-<h2 class="anchored" data-anchor-id="related-work">Related Work</h2>
-<p>Research on passenger preferences in air travel has highlighted several factors influencing travelers’ choices and behaviors, notably service offerings like baggage handling, seat selection, and in-flight meal preferences. Add-on revenues, such as those from baggage fees, preferred seating, and in-flight services, have become essential for airline profitability [1]. The growth in these revenue streams underscores their importance in airline strategies, as ancillary revenues accounted for about 18% of total airline revenue in 2022 [2].</p>
-<p><strong>Baggage Preferences:</strong></p>
-<p>Studies indicate that baggage fees and policies greatly affect customer behavior. Clear communication about baggage policies can influence booking decisions, and flexibility in these policies can enhance customer loyalty. Research shows that ancillary baggage fees impact travelers’ booking choices and willingness to pay [3], suggesting that transparent and adaptable baggage policies are crucial for maintaining customer satisfaction [3].</p>
-<p><strong>Preferred Seating:</strong></p>
-<p>Seat selection is critical for passenger comfort and satisfaction. Passengers value different seat attributes, such as proximity to exits, windows, or aisles, depending on their preferences. Research indicates that passengers are willing to pay extra for preferred seating, which underscores the importance of predictive models to cater to these preferences [4]. This willingness to pay highlights the revenue potential for airlines from charging for preferred seating [4].</p>
-<p><strong>In-Flight Meals:</strong></p>
-<p>The diversity in passengers’ dietary and cultural preferences necessitates a variety of meal options to meet these needs. Studies show that offering diverse in-flight meal options can significantly improve passenger satisfaction [5]. Airlines that effectively address these preferences can differentiate their services, leading to higher customer satisfaction and loyalty[5].</p>
-<p>In summary, the research on passenger preferences in air travel highlights the critical role of add-on revenues such as baggage fees, preferred seating, and in-flight services. These elements not only significantly impact customer satisfaction but also contribute substantially to airline profitability. Clear communication and flexibility in baggage policies are essential for influencing booking decisions and enhancing customer loyalty. The willingness of passengers to pay extra for preferred seating and diverse in-flight meal options underscores the need for airlines to offer tailored services that meet diverse passenger preferences, ultimately driving higher customer satisfaction and loyalty.[1][2][3][4][5][6][7][8]</p>
+<section id="logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
+<p>The Logistic Regression model showed the lowest accuracy at 19.13% and a balanced accuracy of 20.51%. The precision and recall values are also lower, at 29% and 24%, respectively. This suggests that the logistic regression model, while interpretable and straightforward, is not as effective in capturing the complexities and interactions within the dataset compared to the Random Forest and Neural Network models. The lower performance might be due to the model’s linear nature, which may not adequately capture the nonlinear relationships present in the data.</p>
+<p>Overall, the Random Forest model outperformed the other models in terms of accuracy, precision, and recall, indicating its relative success in handling complex, multiclass classification tasks. The Neural Network, while slightly less effective, still showed potential with a balanced approach to precision and recall. Future work may involve further tuning of the neural network and exploring more complex architectures or ensembles to enhance performance.</p>
 </section>
-<section id="research-questions" class="level2">
-<h2 class="anchored" data-anchor-id="research-questions">Research questions</h2>
-<p>Our study, “Modeling Passenger Preferences for Air Travel Upgrades,” focuses on developing predictive models to determine passenger choices for additional services during air travel and determining the response of the three upgrade classes simultaneously for each individual, employing multi-class modeling to capture the comprehensive preferences of passengers. The central research question explores the application of machine learning:</p>
-<p><strong>How can machine learning models utilize passenger demographic and trip-specific data to predict preferences for air travel upgrades such as extra baggage, preferred seating, and in-flight meals?</strong></p>
-<p>This question aims to uncover the potential of using various data points to accurately forecast which upgrades passengers are most likely to select, thereby enhancing personalized service delivery and operational efficiency.</p>
 </section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
 </section>
 
 </main>

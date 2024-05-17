@@ -2,7 +2,7 @@
 
 * **Sources**
 
-As previously introduced, our study utilizes the "Airlines Booking" dataset curated by Anand Shaw and hosted on Kaggle. This dataset, provided in CSV format, is essential for our analysis aimed at modeling passenger preferences for air travel upgrades.
+As previously introduced, our study utilizes the "Airlines Booking" dataset curated by Anand Shaw and hosted on Kaggle. This dataset, provided in CSV format, will be used for our analysis aimed at modeling passenger preferences for air travel upgrades.
 
 * **Description**
 
@@ -34,4 +34,4 @@ As previously introduced, our study utilizes the "Airlines Booking" dataset cura
 
 **`booking_complete`**: A flag indicating whether the booking was completed (yes/no).
 
-The data has already been cleaned and is in good condition. However, further data processing will be conducted. This will involve removing any unnecessary data and encoding the data appropriately for use in our different models.
+The data has already been cleaned and is in good condition. However, further data processing will be conducted and explained in the Method's section. This will involve removing any unnecessary data and encoding the data appropriately for use in our different models.
