@@ -26,7 +26,8 @@ packages <- c(
   "patchwork", "maps", "scales", # for plotting
   "knitr", "kableExtra", "rmarkdown", # for the report
   # "reticulate", # for using python
-  "caret" # for the modelling part
+  "caret", # for the modelling part
+  "ggplot2" # for the plots
 )
 
 
@@ -50,7 +51,7 @@ packages <- c(
 # )
 
 # ggplot options for the report
-theme_set(theme_light())
+#theme_set(theme_light())
 
 # knitr options 
 # opts_chunk$set(

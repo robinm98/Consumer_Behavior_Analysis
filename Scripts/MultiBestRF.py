@@ -161,4 +161,3 @@ print("Classification Report on Training Data for Pruned Model:")
 print(train_class_report_pruned)
 print("Training Set Accuracy:", accuracy_score(y_train,train_predictions_pruned))
 print("Training Set Balanced Accuracy:", balanced_accuracy_score(y_train,train_predictions_pruned))
-
