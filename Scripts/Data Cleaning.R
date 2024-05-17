@@ -58,6 +58,7 @@ data$booking_origin <- as.factor(data$booking_origin)
 data$departure <- as.factor(data$departure)
 data$arrival <- as.factor(data$arrival)
 data$continent <- as.factor(data$continent)
+data$booking_complete <- as.factor(data$booking_complete)
 
 # Convert wants_extra_baggage to numeric : other 'wants' already numeric
 data$wants_extra_baggage <- as.numeric(as.character(data$wants_extra_baggage))
@@ -65,3 +66,4 @@ data$wants_extra_baggage <- as.numeric(as.character(data$wants_extra_baggage))
 
 # Save the cleaned data
 write.csv(data, here("Data", "cleaned_customer_booking.csv"), row.names = FALSE)
+

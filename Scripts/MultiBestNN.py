@@ -11,7 +11,7 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.regularizers import l2
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix, classification_report
-from sklearn.inspection import permutation_importance
+from sklearn.inspection import permutation_importance, PartialDependenceDisplay, partial_dependence
 from sklearn.base import BaseEstimator, ClassifierMixin
 from imblearn.over_sampling import SMOTE
 from matplotlib import pyplot as plt
@@ -90,6 +90,30 @@ print("Test Set Balanced Accuracy:", test_bal_acc)
 print("Confusion Matrix:\n", test_cm)
 print("Classification Report:\n", test_cr)
 
+# Calculate ROC curve and AUC for each class
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+n_classes = y.shape[1]
+
+for i in range(n_classes):
+    fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_test_pred_prob[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+
+# Plot ROC curve for each class
+plt.figure(figsize=(12, 8))
+colors = ['aqua', 'darkorange', 'cornflowerblue', 'darkgreen', 'darkred', 'purple', 'gold', 'lime']
+for i in range(n_classes):
+    plt.plot(fpr[i], tpr[i], color=colors[i], lw=2, label=f'Class {i} (area = {roc_auc[i]:.2f})')
+plt.plot([0, 1], [0, 1], 'k--', lw=2)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic - Test Set')
+plt.legend(loc="lower right")
+plt.show()
+
 # save the accuracy, balanced accuracy, precision, recall and auc to a csv file
 results = pd.DataFrame({
     'Accuracy': [test_acc],
@@ -165,3 +189,43 @@ plt.title('Feature Importance - Neural Network')
 plt.gca().invert_yaxis()  # Invert y-axis to have the highest importance on top
 plt.subplots_adjust(left=0.4)  # Adjust left margin to make room for feature names
 plt.show()
+
+
+### Partial Dependence Plots ###
+################################
+
+def compute_pdp(model, X, feature_index, values):
+    pdp = []
+    X_temp = X.copy()
+    for value in values:
+        X_temp[:, feature_index] = value
+        preds = model.predict(X_temp)
+        pdp.append(np.mean(preds, axis=0))
+    return np.array(pdp)
+
+# Numerical features to plot
+numerical_vars = ['flight_duration', 'purchase_lead', 'num_passengers', 'length_of_stay', 'flight_hour']
+
+# Get feature names and indices
+feature_names = preprocessor.get_feature_names_out()
+feature_indices = {name: idx for idx, name in enumerate(feature_names)}
+
+# Generate PDP for each numerical feature
+for feature in numerical_vars:
+    feature_name_transformed = f'num__{feature}'
+    if feature_name_transformed in feature_indices:
+        feature_index = feature_indices[feature_name_transformed]
+        values = np.linspace(X_test[:, feature_index].min(), X_test[:, feature_index].max(), num=100)
+        pdp = compute_pdp(model, X_test, feature_index, values)
+
+        # Plot PDP for each class
+        for i in range(pdp.shape[1]):
+            plt.figure(figsize=(8, 6))
+            plt.plot(values, pdp[:, i], label=f'Class {i}')
+            plt.xlabel(feature)
+            plt.ylabel('Partial Dependence')
+            plt.title(f'Partial Dependence of {feature} for Class {i}')
+            plt.legend()
+            plt.show()
+print("Done!")
+            
