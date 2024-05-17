@@ -6,6 +6,7 @@ from sklearn.preprocessing import label_binarize
 from imblearn.over_sampling import SMOTE
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.inspection import permutation_importance
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -15,34 +16,41 @@ data = pd.read_csv('Data/cleaned_customer_booking.csv')
 # Remove unneeded columns
 data = data.drop(columns=['route', 'departure', 'arrival', 'booking_origin'])
 
-# Prepare categorical variables with OneHotEncoder
-categorical_vars = ['sales_channel', 'trip_type', 'flight_day', 'continent']
-ct = ColumnTransformer([('one_hot_encoder', OneHotEncoder(), categorical_vars)], remainder='passthrough')
-data_processed = ct.fit_transform(data)
-
-# Reconstruct dataframe after encoding
-data_processed = pd.DataFrame(data_processed, columns=ct.get_feature_names_out())
-
-# Ensure labels are combined into a single feature and converted to numeric
+# Combine labels into a single feature and convert to numeric
 data['combined_label'] = pd.factorize(data['wants_extra_baggage'].astype(str) + 
                                       data['wants_in_flight_meals'].astype(str) + 
                                       data['wants_preferred_seat'].astype(str))[0]
 
-# Append combined_label to processed data
-data_processed['combined_label'] = data['combined_label']
+# Define categorical and numerical columns
+categorical_vars = ['sales_channel', 'trip_type', 'flight_day', 'continent']
+numerical_vars = ['flight_duration', 'purchase_lead', 'num_passengers', 'length_of_stay', 'flight_hour']
 
-# Prepare training and testing data
-X = data_processed.drop(columns=['remainder__wants_extra_baggage',
-       'remainder__wants_preferred_seat', 'remainder__wants_in_flight_meals','combined_label'], errors='ignore')
-y = data_processed['combined_label']
+# Preprocess features with ColumnTransformer
+ct = ColumnTransformer([
+    ('one_hot_encoder', OneHotEncoder(), categorical_vars)
+], remainder='passthrough')
+
+# Define X and y
+X = data.drop(columns=['wants_extra_baggage', 'wants_preferred_seat', 'wants_in_flight_meals', 'combined_label', 'booking_complete'])
+y = data['combined_label']
+
+# Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+
+# Ensure the same preprocessing is applied
+X_train = ct.fit_transform(X_train)
+X_test = ct.transform(X_test)
+
+# Reconstruct DataFrame for consistency
+X_train = pd.DataFrame(X_train, columns=ct.get_feature_names_out())
+X_test = pd.DataFrame(X_test, columns=ct.get_feature_names_out())
 
 # Handle class imbalance with SMOTE
 smote = SMOTE(random_state=123)
 X_train, y_train = smote.fit_resample(X_train, y_train)
 
 # Define the RandomForest model using the specified parameters
-model = RandomForestClassifier(random_state=123, n_estimators=50, max_features=None, min_samples_split=10, min_samples_leaf=5, max_depth = 5)
+model = RandomForestClassifier(random_state=123, n_estimators=50, max_features=None, min_samples_split=10, min_samples_leaf=5)
 
 # Fit the model
 model.fit(X_train, y_train)
@@ -115,24 +123,48 @@ model_pruned = RandomForestClassifier(random_state=123, n_estimators=50, max_fea
 # Fit the pruned model
 model_pruned.fit(X_train, y_train)
 
-### TEST SET ###
+### TEST SET FOR PRUNED MODEL ###
 
 # Predict on the test data
 predictions_pruned = model_pruned.predict(X_test)
 
-# Compute confusion matrix for the pruned model
-conf_matrix_pruned = confusion_matrix(y_test, predictions_pruned)
+# Predict probabilities for ROC and AUC calculations for pruned model
+probs_pruned = model_pruned.predict_proba(X_test)
+
+# Calculate ROC curve and AUC for each class for pruned model
+fpr_pruned, tpr_pruned, roc_auc_pruned = {}, {}, {}
+for i in range(y_test_binarized.shape[1]):
+    fpr_pruned[i], tpr_pruned[i], _ = roc_curve(y_test_binarized[:, i], probs_pruned[:, i])
+    roc_auc_pruned[i] = auc(fpr_pruned[i], tpr_pruned[i])
+
+# Plot ROC curve for each class for pruned model
+plt.figure()
+for i in range(y_test_binarized.shape[1]):
+    plt.plot(fpr_pruned[i], tpr_pruned[i], label=f'Class {i} (area = {roc_auc_pruned[i]:.2f})')
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic for Pruned Model')
+plt.legend(loc="lower right")
+plt.show()
 
 # Print the confusion matrix for the pruned model
 print("Confusion Matrix for Pruned Model:")
-print(conf_matrix_pruned)
+print(confusion_matrix(y_test, predictions_pruned))
 
 # Print a classification report for the pruned model
-class_report_pruned = classification_report(y_test, predictions_pruned)
 print("Classification Report for Pruned Model:")
-print(class_report_pruned)
+print(classification_report(y_test, predictions_pruned))
 print("Test Set Accuracy:", accuracy_score(y_test, predictions_pruned))
 print("Test set Balanced Accuracy:", balanced_accuracy_score(y_test, predictions_pruned))
+
+# AUC for each class for pruned model
+for i in range(y_test_binarized.shape[1]):
+    print(f"Class {i} AUC (Pruned): {roc_auc_pruned[i]:.2f}")
+
+class_report_pruned = classification_report(y_test, predictions_pruned)
 
 # save the accuracy, balanced accuracy, precision, and recall to a file
 results = pd.DataFrame({
@@ -161,3 +193,70 @@ print("Classification Report on Training Data for Pruned Model:")
 print(train_class_report_pruned)
 print("Training Set Accuracy:", accuracy_score(y_train,train_predictions_pruned))
 print("Training Set Balanced Accuracy:", balanced_accuracy_score(y_train,train_predictions_pruned))
+
+
+### VARIABLE IMPORTANCE ###
+###########################
+
+# Compute feature importance using permutation importance
+result = permutation_importance(model_pruned, X_test, y_test, n_repeats=10, random_state=42, n_jobs=-1)
+
+# Get feature names from the preprocessor
+feature_names = preprocessor.get_feature_names_out()
+
+# Create a DataFrame to hold the feature importances
+importance_df = pd.DataFrame(data={
+    'Feature': feature_names,
+    'Importance': result.importances_mean
+})
+
+# Sort the DataFrame by importance in descending order
+importance_df = importance_df.sort_values(by='Importance', ascending=False)
+
+# Print the feature importances
+print(importance_df)
+
+# Plot feature importances
+plt.figure(figsize=(12, 10))
+plt.barh(importance_df['Feature'], importance_df['Importance'], color='skyblue')
+plt.xlabel('Mean Importance')
+plt.ylabel('Feature')
+plt.title('Feature Importance - Pruned Random Forest')
+plt.gca().invert_yaxis()
+plt.subplots_adjust(left=0.4) # Adjust left margin to make room for feature names
+plt.show()
+
+### Partial Dependence Plot ###
+###############################
+
+def compute_pdp(model, X, feature_index, values):
+    pdp = []
+    X_temp = X.copy()
+    for value in values:
+        X_temp.iloc[:, feature_index] = value
+        preds = model.predict_proba(X_temp)
+        pdp.append(np.mean(preds, axis=0))
+    return np.array(pdp)
+
+# Get feature names and indices
+feature_names = ct.get_feature_names_out()
+feature_indices = {name: idx for idx, name in enumerate(feature_names)}
+
+# Generate PDP for each numerical feature
+for feature in numerical_vars:
+    feature_name_transformed = f'remainder__{feature}'  # Adjust based on your pipeline's naming
+    if feature_name_transformed in feature_indices:
+        feature_index = feature_indices[feature_name_transformed]
+        values = np.linspace(X_test.iloc[:, feature_index].min(), X_test.iloc[:, feature_index].max(), num=100)
+        pdp = compute_pdp(model, X_test, feature_index, values)
+
+        # Plot PDP for each class
+        for i in range(pdp.shape[1]):
+            plt.figure(figsize=(8, 6))
+            plt.plot(values, pdp[:, i], label=f'Class {i}')
+            plt.xlabel(feature)
+            plt.ylabel('Partial Dependence')
+            plt.title(f'Partial Dependence of {feature} for Class {i}')
+            plt.legend()
+            plt.show()
+
