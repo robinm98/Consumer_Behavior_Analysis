@@ -232,12 +232,12 @@ plt.show()
 
 ### Numerical Features ###
 
-def compute_pdp(model, X, feature_index, values):
+def compute_pdp(model_pruned, X, feature_index, values):
     pdp = []
     X_temp = X.copy()
     for value in values:
         X_temp.iloc[:, feature_index] = value
-        preds = model.predict_proba(X_temp)
+        preds = model_pruned.predict_proba(X_temp)
         pdp.append(np.mean(preds, axis=0))
     return np.array(pdp)
 
@@ -251,7 +251,7 @@ for feature in numerical_vars:
     if feature_name_transformed in feature_indices:
         feature_index = feature_indices[feature_name_transformed]
         values = np.linspace(X_test.iloc[:, feature_index].min(), X_test.iloc[:, feature_index].max(), num=100)
-        pdp = compute_pdp(model, X_test, feature_index, values)
+        pdp = compute_pdp(model_pruned, X_test, feature_index, values)
 
         # Plot PDP for each class
         for i in range(pdp.shape[1]):
@@ -262,7 +262,7 @@ for feature in numerical_vars:
             plt.title(f'Partial Dependence of {feature} for Class {i}')
             plt.legend()
             plt.show()
-
+print("PDP generation complete.")
 
 ### Continent Feature ###
 
