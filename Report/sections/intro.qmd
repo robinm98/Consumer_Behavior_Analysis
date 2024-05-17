@@ -10,7 +10,7 @@ Our motivation stems from the logistical and customer service challenges faced b
 
 ## Data
 
-The dataset for our project is sourced from Kaggle and titled "Airlines Booking", compiled by user Anand Shaw. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.
+The dataset for our project is sourced from Kaggle and titled "Airlines Booking", compiled by user _Anand Shaw_. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.
 
 
 ## Related Work
