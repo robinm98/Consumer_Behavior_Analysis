@@ -1,3 +1,226 @@
-# Unsupervised learning
+# Unsupervised Learning
 
-* Clustering and/or dimension reduction
+## K-means Clustering
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+
+# Load libraries
+library(here)
+library(ggplot2)
+library(factoextra)
+library(cluster)
+library(dplyr)
+library(GGally)
+library(reshape2)
+library(fastDummies)
+
+# Load data
+data <- read.csv(here("data", "cleaned_customer_booking.csv"))
+
+set.seed(123)
+```
+
+To gain deeper insights into our data prior to predictive modeling, we conducted an unsupervised learning analysis using K-means clustering with 3 clusters. This approach allowed us to identify clusters within the data based on numerical variables, providing a clearer understanding of the underlying structure and relationships among observations.
+
+```{r, echo = TRUE, message = FALSE, warning=FALSE}
+# Scale the numerical features
+data_num <- data[, c(1, 4:6, 13)]
+data_num_scaled <- as.data.frame(scale(data_num))
+
+# Sample 10000 rows to find optimal number of clusters
+data_sample <- data_num_scaled[sample(nrow(data_num_scaled), 10000), ] 
+
+```
+
+### Number of Clusters
+
+We employed the Within-Cluster Sum of Squares (WSS) and Silhouette methods to determine the optimal number of clusters. Due to the computational intensity of working with the full dataset of 50,000 observations, we first scaled the data and conducted the optimal number of cluster analysis on a sample of 10,000 observations. The full dataset was then used for the final clustering.
+
+From the WSS method, a noticeable decrease in the total within-cluster sum of squares is observed starting from 3 clusters, although one could argue that the elbow method might also suggest clustering into 6-7 clusters. On the other hand, the silhouette method indicates an optimal number of clusters as 2. Balancing these insights, we decided to use three clusters. This choice aims to find a good balance between complexity and obtaining meaningful business insights. Using 2 clusters might oversimplify the data, while more than 3 clusters could increase complexity without substantial additional benefits.
+
+```{r, echo = TRUE, message = FALSE, warning=FALSE}
+
+# K-means clustering
+km_model <- kmeans(data_num_scaled, centers = 3, nstart = 25)
+
+```
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+
+# WSS
+fviz_nbclust(data_sample, kmeans, method = "wss", verbose = FALSE)
+
+```
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+
+# Silhouette
+fviz_nbclust(data_sample, kmeans, method = "silhouette", verbose = FALSE) 
+
+```
+
+### Cluster Analysis
+
+The K-means clustering resulted in the following distribution of observations across three clusters:
+
+- **Cluster 1** contains 9,009 observations.
+- **Cluster 2** contains 19,732 observations.
+- **Cluster 3** contains 21,259 observations.
+    
+The following box plot illustrates the distinct profiles of the three clusters based on several numerical features.
+
+**Cluster 1** has a higher number of passengers per booking, averaging around 2.5. It also exhibits a significantly higher purchase lead, with an average of about 200 days. This cluster tends to have a relatively low length of stay and falls in the middle range for flight duration.
+
+**Cluster 2** shows the lowest values across most features. It has a low number of passengers, a low purchase lead, and the shortest length of stay and flight duration, averaging around 5 hours.
+
+**Cluster 3** is characterized by a low number of passengers and purchase lead but stands out with the highest average length of stay, approximately 20 days. It also has the longest average flight duration, around 8 hours and 45 minutes.
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+
+# Add cluster assignments to data
+data_num$cluster <- km_model$cluster
+
+# Melting data for ggplot2 usage
+data_melted <- reshape2::melt(data_num, id.vars = "cluster")
+
+# Filter the data for purchase_lead and length_of_stay conditions
+data_filtered <- data_melted %>%
+  filter((variable != "purchase_lead" | value < 300) &
+           (variable != "length_of_stay" | value < 50))
+
+# Boxplot of filtered variables by cluster
+ggplot(data_filtered, aes(x = as.factor(cluster), y = value, fill = as.factor(cluster))) +
+  geom_boxplot() +
+  facet_wrap(~variable, scales = "free_y") +  # Ensure variable names are correct for faceting
+  theme_minimal() +
+  labs(title = "Distribution of Features Across Clusters",
+       x = "Cluster",
+       y = "Value",
+       fill = "Cluster")
+
+```
+
+The insights derived from the box plot are further confirmed by the Principal Component Analysis (PCA). The PCA clearly indicates that Cluster 3 is associated with higher flight duration and longer length of stay. Cluster 2 consistently exhibits lower values across all features, confirming its profile as the cluster with the shortest average lengths for stay, purchase lead, and flight duration. Conversely, Cluster 1 shows higher purchase lead times and a greater number of passengers per booking, as indicated by the positioning and direction of the principal component vectors.
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Add cluster assignments to scaled data
+data_num_scaled$cluster <- km_model$cluster
+
+# Perform PCA on the scaled data
+pca_res <- prcomp(data_num_scaled[, -ncol(data_num_scaled)], scale. = TRUE)
+summary(pca_res)
+
+# Extract PCA loadings
+loadings <- data.frame(Variable = rownames(pca_res$rotation), pca_res$rotation)
+
+# Scale loadings for better visualization
+loadings$PC1 <- loadings$PC1 * max(pca_res$x[, 1])
+loadings$PC2 <- loadings$PC2 * max(pca_res$x[, 2])
+
+# Create a data frame for plotting
+pca_data <- data.frame(pca_res$x, cluster = km_model$cluster)
+
+# Plotting the first two principal components with loadings
+ggplot(pca_data, aes(x = PC1, y = PC2, color = as.factor(cluster))) +
+  geom_point(alpha = 0.5) +
+  geom_segment(data = loadings, aes(x = 0, y = 0, xend = PC1, yend = PC2), 
+               arrow = arrow(length = unit(0.2, "cm")), color = "black") +
+  geom_text(data = loadings, aes(x = PC1, y = PC2, label = Variable), 
+            vjust = 1, hjust = 1, color = "black") +
+  labs(title = "PCA Plot of Clusters with Loadings",
+       x = "Principal Component 1",
+       y = "Principal Component 2",
+       color = "Cluster") +
+  coord_cartesian(xlim = c(-17, 12), ylim = c(-3, 10))
+```
+
+
+### Variables of Interest across Clusters
+
+To further explore the differences between clusters, we examined the distribution of our variables of interest across the three clusters. 
+
+For `wants_extra_baggage`, the proportion of bookings with extra baggage is rather similar across all clusters except for a slightly smaller proportion of bookings with extra baggage for cluster 2.
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Create a table of counts
+baggage_cluster_table <- table(data$wants_extra_baggage, data_num$cluster)
+
+# Convert counts to proportions
+prop_cluster_table <- prop.table(baggage_cluster_table, margin = 2)
+
+# Convert the table to a data frame for plotting
+prop_cluster_df <- as.data.frame(prop_cluster_table)
+
+# Calculate percentages within each cluster
+prop_cluster_df <- prop_cluster_df %>%
+  group_by(Var2) %>%
+  mutate(percentage = Freq / sum(Freq) * 100)
+
+# Convert factor column to character
+prop_cluster_df$Var1 <- as.character(prop_cluster_df$Var1)
+
+# Plot the proportions
+ggplot(prop_cluster_df, aes(x = Var2, y = percentage, fill = Var1, group = Var1)) +
+  geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
+  labs(x = "Cluster", y = "Percentage", fill = "Wants Extra Bagage") +
+  scale_fill_manual(values = c("0" = "blue", "1" = "red")) +  # Customize fill colors if needed
+  theme_minimal()
+```
+
+The distribution across the three clusters for `wants_in_flight_meals` is mixed. We can observe that Cluster 3 exhibits almost a 50/50 proportion of bookings with and without in-flight meals. Cluster 2 shows a strong proportion of bookings without in-flight meals, indicating a preference against this service. In contrast, Cluster 1 has a slight increase in bookings with in-flight meals compared to Cluster 2.
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+# Table of counts
+meal_cluster_table <- table(data$wants_in_flight_meal, data_num$cluster)
+
+# Convert counts to proportions
+prop_cluster_table <- prop.table(meal_cluster_table, margin = 2)
+
+# Convert the table to a data frame for plotting
+prop_cluster_df <- as.data.frame(prop_cluster_table)
+
+# Calculate percentages within each cluster
+prop_cluster_df <- prop_cluster_df %>%
+  group_by(Var2) %>%
+  mutate(percentage = Freq / sum(Freq) * 100)
+
+# Convert factor column to character
+prop_cluster_df$Var1 <- as.character(prop_cluster_df$Var1)
+
+# Plot the proportions
+ggplot(prop_cluster_df, aes(x = Var2, y = percentage, fill = Var1, group = Var1)) +
+  geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
+  labs(x = "Cluster", y = "Percentage", fill = "Wants In-Flight Meal") +
+  scale_fill_manual(values = c("0" = "blue", "1" = "red")) +  # Customize fill colors if needed
+  theme_minimal()
+```
+
+The distribution of bookings with preferred seats is similar across the three clusters, much like the proportion of bookings with extra baggage. Each cluster maintains a consistent proportion of bookings with and without preferred seats, indicating that the preference for this service is relatively uniform across all customer segments.
+
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
+
+# Table of counts
+seat_cluster_table <- table(data$wants_preferred_seat, data_num$cluster)
+
+# Convert counts to proportions
+prop_cluster_table <- prop.table(seat_cluster_table, margin = 2)
+
+# Convert the table to a data frame for plotting
+prop_cluster_df <- as.data.frame(prop_cluster_table)
+
+# Calculate percentages within each cluster
+prop_cluster_df <- prop_cluster_df %>%
+  group_by(Var2) %>%
+  mutate(percentage = Freq / sum(Freq) * 100)
+
+# Convert factor column to character
+prop_cluster_df$Var1 <- as.character(prop_cluster_df$Var1)
+
+# Plot the proportions
+ggplot(prop_cluster_df, aes(x = Var2, y = percentage, fill = Var1, group = Var1)) +
+  geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
+  labs(x = "Cluster", y = "Percentage", fill = "Wants Preferred Seat") +
+  scale_fill_manual(values = c("0" = "blue", "1" = "red")) +  # Customize fill colors if needed
+  theme_minimal()
+```
+

@@ -36,7 +36,7 @@ data_sample <- data_num_scaled[sample(nrow(data_num_scaled), 10000), ]
 ### Find the optimal number of clusters
 
 # WSS
-fviz_nbclust(data_sample, kmeans, method = "wss", verbose = FALSE) # 7 clusters
+fviz_nbclust(data_sample, kmeans, method = "wss", verbose = FALSE) # 3 clusters
 
 # Silhouette
 fviz_nbclust(data_sample, kmeans, method = "silhouette", verbose = FALSE) # 2 clusters
@@ -65,6 +65,9 @@ cluster_profiles <- data_num |>
 
 print(cluster_profiles)
 
+### Number of observations in each cluster
+table(data_num$cluster)
+
 ### PCA Analysis ###
 
 # Add cluster assignments to scaled data
@@ -74,27 +77,41 @@ data_num_scaled$cluster <- km_model$cluster
 pca_res <- prcomp(data_num_scaled[, -ncol(data_num_scaled)], scale. = TRUE)
 summary(pca_res)
 
-# Plot PCA
-biplot(pca_res, scale = 0, cex = 0.6)
+# Extract PCA loadings
+loadings <- data.frame(Variable = rownames(pca_res$rotation), pca_res$rotation)
+
+# Scale loadings for better visualization
+loadings$PC1 <- loadings$PC1 * max(pca_res$x[, 1])
+loadings$PC2 <- loadings$PC2 * max(pca_res$x[, 2])
 
 # Create a data frame for plotting
 pca_data <- data.frame(pca_res$x, cluster = km_model$cluster)
 
-# Plotting the first two principal components
+# Plotting the first two principal components with loadings
 ggplot(pca_data, aes(x = PC1, y = PC2, color = as.factor(cluster))) +
   geom_point(alpha = 0.5) +
-  labs(title = "PCA Plot of Clusters",
+  geom_segment(data = loadings, aes(x = 0, y = 0, xend = PC1, yend = PC2), 
+               arrow = arrow(length = unit(0.2, "cm")), color = "black") +
+  geom_text(data = loadings, aes(x = PC1, y = PC2, label = Variable), 
+            vjust = 1, hjust = 1, color = "black") +
+  labs(title = "PCA Plot of Clusters with Loadings",
        x = "Principal Component 1",
        y = "Principal Component 2",
-       color = "Cluster")
+       color = "Cluster") +
+  coord_cartesian(xlim = c(-17, 12), ylim = c(-3, 10)) 
 
 ### Boxplot of all numerical variables by cluster ###
 
 # Melting data for ggplot2 usage
 data_melted <- reshape2::melt(data_num, id.vars = "cluster")
 
-# Boxplot of all variables by cluster using the correctly melted data
-ggplot(data_melted, aes(x = as.factor(cluster), y = value, fill = as.factor(cluster))) +
+# Filter the data for purchase_lead and length_of_stay conditions
+data_filtered <- data_melted %>%
+  filter((variable != "purchase_lead" | value < 300) &
+           (variable != "length_of_stay" | value < 50))
+
+# Boxplot of filtered variables by cluster
+ggplot(data_filtered, aes(x = as.factor(cluster), y = value, fill = as.factor(cluster))) +
   geom_boxplot() +
   facet_wrap(~variable, scales = "free_y") +  # Ensure variable names are correct for faceting
   theme_minimal() +
