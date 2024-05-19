@@ -1,14 +1,14 @@
 # Data
 
-* **Sources**
+## Sources
 
-As previously introduced, our study utilizes the "Airlines Booking" dataset curated by Anand Shaw and hosted on Kaggle. This dataset, provided in CSV format, will be used for our analysis aimed at modeling passenger preferences for air travel upgrades.
+As previously introduced, our study utilizes the "Airlines Booking" dataset curated by Anand Shaw and hosted on Kaggle, with a records from 50,000 users of the ticket booking portal across 14 distinct columns. This dataset, provided in CSV format, will be used for our analysis aimed at modeling passenger preferences for air travel upgrades.
 
-* **Description**
+## Description
 
 **`num_passengers`**: Indicates the total number of passengers traveling on the booking.
 
-**`sales_channel`**: Specifies the platform or method through which the booking was made.
+**`sales_channel`**: Specifies the platform or method through which the booking was made (Internet or Mobile).
 
 **`trip_type`**: Describes the type of trip (e.g., Round Trip, One Way, Circle Trip).
 

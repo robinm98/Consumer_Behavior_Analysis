@@ -96,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>The dataset for our project is sourced from Kaggle and titled “Airlines Booking”, compiled by user <em>Anand Shaw</em>. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.</p>
+<p>Our project’s dataset, titled “Airlines Booking” and compiled by <em>Anand Shaw</em>, is sourced from Kaggle. This CSV file encompasses anonymized airline booking records, capturing a diverse array of passenger information. The data includes specifics such as flight details, baggage choices, seating preferences, and in-flight meal options. With records from 50,000 users of the ticket booking portal across 14 distinct columns, this extensive dataset serves as the cornerstone for analyzing and discerning patterns in air traveler preferences. The dataset is available for access on Kaggle.</p>
 </section>
 <section id="related-work" class="level2">
 <h2 class="anchored" data-anchor-id="related-work">Related Work</h2>
@@ -114,19 +114,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Our study, “Modeling Passenger Preferences for Air Travel Upgrades,” focuses on developing predictive models to determine passenger choices for additional services during air travel and determining the response of the three upgrade classes simultaneously for each individual, employing multi-class modeling to capture the comprehensive preferences of passengers. The central research question explores the application of machine learning:</p>
 <p><strong>How can machine learning models utilize passenger demographic and trip-specific data to predict preferences for air travel upgrades such as extra baggage, preferred seating, and in-flight meals?</strong></p>
 <p>This question aims to uncover the potential of using various data points to accurately forecast which upgrades passengers are most likely to select, thereby enhancing personalized service delivery and operational efficiency.</p>
+<p>In this report, we will start with exploring the structure of our data. Then, we will do an Exploratory Data Analysis (EDA) to understand the underlying structure and key patterns within the dataset. Following EDA, we will employ Unsupervised Learning techniques to uncover hidden structures and groupings in the data. Next, we will detail the Methodology of our Supervised Learning approaches, outlining the models used and the rationale behind their selection. We will then present the Results of our analysis, highlighting the performance of different models and key findings. Finally, we will conclude with a Conclusion, summarizing the insights gained and potential implications for airline operations and customer satisfaction.</p>
 </section>
 </section>
 <section id="data-1" class="level1">
 <h1>Data</h1>
-<ul>
-<li><strong>Sources</strong></li>
-</ul>
-<p>As previously introduced, our study utilizes the “Airlines Booking” dataset curated by Anand Shaw and hosted on Kaggle. This dataset, provided in CSV format, will be used for our analysis aimed at modeling passenger preferences for air travel upgrades.</p>
-<ul>
-<li><strong>Description</strong></li>
-</ul>
+<section id="sources" class="level2">
+<h2 class="anchored" data-anchor-id="sources">Sources</h2>
+<p>As previously introduced, our study utilizes the “Airlines Booking” dataset curated by Anand Shaw and hosted on Kaggle, with a records from 50,000 users of the ticket booking portal across 14 distinct columns. This dataset, provided in CSV format, will be used for our analysis aimed at modeling passenger preferences for air travel upgrades.</p>
+</section>
+<section id="description" class="level2">
+<h2 class="anchored" data-anchor-id="description">Description</h2>
 <p><strong><code>num_passengers</code></strong>: Indicates the total number of passengers traveling on the booking.</p>
-<p><strong><code>sales_channel</code></strong>: Specifies the platform or method through which the booking was made.</p>
+<p><strong><code>sales_channel</code></strong>: Specifies the platform or method through which the booking was made (Internet or Mobile).</p>
 <p><strong><code>trip_type</code></strong>: Describes the type of trip (e.g., Round Trip, One Way, Circle Trip).</p>
 <p><strong><code>purchase_lead</code></strong>: Represents the number of days between the booking date and the travel date.</p>
 <p><strong><code>length_of_stay</code></strong>: The number of days the passenger intends to stay at the destination.</p>
@@ -141,14 +141,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong><code>booking_complete</code></strong>: A flag indicating whether the booking was completed (yes/no).</p>
 <p>The data has already been cleaned and is in good condition. However, further data processing will be conducted and explained in the Method’s section. This will involve removing any unnecessary data and encoding the data appropriately for use in our different models.</p>
 </section>
+</section>
 <section id="exploratory-data-analysis-eda" class="level1">
 <h1>Exploratory Data Analysis (EDA)</h1>
 <p>EDA is a necessary step in understanding the underlying structure and patterns within our dataset. By employing various statistical and graphical techniques, EDA helps in identifying key relationships, trends, and anomalies that can inform further analysis and model development. In this section, we will explore the characteristics of our data on passenger preferences for air travel upgrades, focusing on how different features influence the choices for extra baggage, in-flight meals, and preferred seating. The insights gained from EDA will provide a solid foundation for building predictive models</p>
 <section id="data-distribution-of-predictive-features-x" class="level2">
 <h2 class="anchored" data-anchor-id="data-distribution-of-predictive-features-x">Data Distribution of Predictive Features (X)</h2>
 <p>In this section, we will examine the data distribution of key predictive features (X) that influence passenger preferences for air travel upgrades. This analysis will help us understand how these features interact and contribute to predicting passenger choices for additional services.</p>
+<p><strong>Distribution of Booking Origin</strong></p>
+<p>The bar graph illustrates the distribution of booking origins across different continents. The booking origins are categorized into Africa, Americas, Asia, Europe, and Oceania.</p>
+<p><em>Asia:</em> The highest number of bookings originate from Asia, with nearly 30,000 entries. This suggests a strong market presence or higher travel activity from this region.</p>
+<p><em>Oceania:</em> The second-highest booking origin is Oceania, with around 20,000 entries, indicating significant travel activity from this continent.</p>
+<p><em>Americas and Europe:</em> Both regions show relatively low booking counts, with Europe having slightly fewer entries than the Americas.</p>
+<p><em>Africa and Unknown:</em> These categories have the least number of bookings, with counts close to zero, indicating minimal travel activity or possibly incomplete data for these regions.</p>
+<p>Understanding the distribution of booking origins is crucial for airlines to tailor marketing strategies and resource allocation. Airlines can focus marketing efforts on regions with higher booking activity, such as Asia and Oceania, to maximize engagement and bookings. They can also develop specific offers and promotions for underrepresented regions like Africa and Europe to stimulate travel activity. Additionally, airlines can allocate resources and plan flight schedules based on demand from different regions to optimize operational efficiency. By leveraging these insights, airlines can enhance their strategic planning and improve overall customer satisfaction by addressing the specific needs and preferences of travelers from different regions.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 <p><strong>Distribution of different trip types among passengers</strong></p>
-<p>The bar graph illustrates the distribution of different trip types among passengers. The trip types include <code>CircleTrip</code>, <code>OneWay</code>, and <code>RoundTrip</code>. The data reveals a significant skew towards <code>RoundTrip</code> bookings, which dominate the dataset with nearly 50,000 instances. In contrast, <code>CircleTrip</code> and <code>OneWay</code> bookings are comparatively rare. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>The bar graph illustrates the distribution of different trip types among passengers. The trip types include <code>CircleTrip</code>, <code>OneWay</code>, and <code>RoundTrip</code>. The data reveals a significant skew towards <code>RoundTrip</code> bookings, which dominate the dataset with nearly 50,000 instances. In contrast, <code>CircleTrip</code> and <code>OneWay</code> bookings are comparatively rare. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"> ::: :::</p>
 <p><strong>Distribution of Sales Channel and Booking Completion</strong></p>
 <p>The first plot shows the distribution of sales channels used by passengers for booking. The two categories are <code>Internet</code> and <code>Mobile</code>.</p>
 <p><em>Internet:</em> The majority of bookings, over 40,000, are made through the internet. This indicates a strong preference for online booking among passengers.</p>
@@ -158,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>Complete Bookings (1):</em> A smaller number, significantly less than 10,000, indicate completed bookings. This shows that a relatively small proportion of bookings are finalized.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Description of Distribution of Flight Day</strong></p>
@@ -166,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>Monday:</em> Has the highest number of flights, with counts slightly above 8,000. Thus, Monday is the busiest day for flights.</p>
 <p><em>Tuesday and Wednesday:</em> These days also have high counts, slightly below 8,000, indicating significant travel activity. Thursday and Sunday: Both days show moderate flight activity, with counts around the 7,000 mark.</p>
 <p><em>Friday:</em> Shows slightly lower flight counts compared to other weekdays, with counts around 6,500.</p>
-<p><em>Saturday:</em> Has the lowest flight count, below 6,000, indicating it is the least busy day for flights. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p><em>Saturday:</em> Has the lowest flight count, below 6,000, indicating it is the least busy day for flights. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"> ::: :::</p>
 </section>
 <section id="correlation-heatmap-relationship-between-variables-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="correlation-heatmap-relationship-between-variables-of-interest">Correlation Heatmap: Relationship Between Variables of Interest</h2>
@@ -179,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This heatmap provides a clear overview of how different factors, such as trip duration and booking behavior, influence passengers’ choices for ancillary services. Understanding these relationships can help airlines optimize their service offerings and improve customer satisfaction.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -189,38 +202,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Number of Passengers and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Positive trend; larger groups more likely to want extra baggage.</p>
 <p>In-Flight Meals Rates: Slight negative trend; larger groups less likely to want in-flight meals.</p>
-<p>Preferred Seats Rates: Clear negative trend; larger groups less likely to choose preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>Preferred Seats Rates: Clear negative trend; larger groups less likely to choose preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"> ::: :::</p>
 <p><strong>Flight Duration and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Slight positive trend; longer flights slightly increase extra baggage demand.</p>
 <p>In-Flight Meals Rates: Clear positive correlation; longer flights increase in-flight meal demand.</p>
-<p>Preferred Seats Rates: Positive correlation; longer flights increase preferred seat selection. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>Preferred Seats Rates: Positive correlation; longer flights increase preferred seat selection. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"> ::: :::</p>
 <p><strong>Purchase Lead Time and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Negative trend; early bookers less likely to want extra baggage.</p>
 <p>In-Flight Meals Rates: Negative trend; early bookers less likely to want in-flight meals.</p>
-<p>Preferred Seats Rates: Negative trend; early bookers less likely to select preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>Preferred Seats Rates: Negative trend; early bookers less likely to select preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"> ::: :::</p>
 <p><strong>Length of Stay and Service Preferences</strong></p>
 <p>Extra Baggage Rates: Slight decrease as length of stay increases.</p>
 <p>In-Flight Meals Rates: Positive correlation; longer stays increase the likelihood of wanting in-flight meals.</p>
-<p>Preferred Seats Rates: Positive correlation; longer stays increase the likelihood of choosing preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"> ::: :::</p>
+<p>Preferred Seats Rates: Positive correlation; longer stays increase the likelihood of choosing preferred seats. ::: {.cell} ::: {.cell-output-display} <img src="report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"> ::: :::</p>
 </section>
 <section id="relationship-between-variables-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="relationship-between-variables-of-interest">Relationship between variables of interest</h2>
 <p>The first set of graphs compares the proportion of passengers wanting in-flight meals and preferred seats based on their baggage selection. The left graph indicates that passengers with extra baggage are more likely to want in-flight meals compared to those without extra baggage (0). Similarly, the right graph shows that a higher proportion of passengers with extra baggage (1) want preferred seat.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The second set of graphs examines the proportion of passengers wanting extra baggage and preferred seats based on their in-flight meal preferences. The left graph demonstrates that passengers who opt for in-flight meals (1) have a higher proportion of wanting extra baggage than those who do not want in-flight meals (0). The right graph reveals that passengers wanting in-flight meals are also more likely to choose preferred seats.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The third set of graphs explores the proportion of passengers wanting in-flight meals and extra baggage based on their seats preferences. The left graph shows that passengers opting for preferred seats (1) have a higher proportion of wanting extra baggage compared to those who do not (0). The right graph indicates that passengers with preffered seats are also more inclined to select in-flight meals.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>This analysis highlights the interrelationships between ancillary services, suggesting that passengers who opt for one additional service are more likely to opt for others.</p>
@@ -277,19 +290,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In our dataset, the classes are imbalanced, with some preferences being more prevalent than others. To address this issue, we used the technique of Synthetic Minority Over-sampling Technique (SMOTE) to balance the classes on our training set. This ensures that the models do not become biased towards the majority class and can make accurate predictions for all classes.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Note: The plot above shows the distribution of the target variable <code>wants_extra_baggage</code>. There is a clear imbalance towards cases whereby customers often purchased extra baggage.</em></p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Note: The plot above shows the distribution of the target variable <code>wants_in_flight_meals</code>. In this case the data was more evenly distrubuted so we decided to leave the classes as they were.</em></p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Note: The plot above shows the distribution of the target variable <code>wants_preferred_seat</code>. There is a clear imbalance towards cases whereby customers often did not purchase preferred seats.</em></p>
@@ -522,6 +535,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>[6] Sun, X., Zheng, C., Wandelt, S., &amp; Zhang, A. (2024). Airline competition: A comprehensive review of recent research. <em>Journal of the Air Transport Research Society</em>, 100013.</p>
 <p>[7] Bouwer, J., Esqué, A., &amp; Riedel, R. (2019, February 6). Leading from the front line: How airlines can boost ancillary revenues. <em>McKinsey &amp; Company</em>. <a href="https://www.mckinsey.com/industries/travel-logistics-and-infrastructure/our-insights/leading-from-the-front-line-how-airlines-can-boost-ancillary-revenues">https://www.mckinsey.com/industries/travel-logistics-and-infrastructure/our-insights/leading-from-the-front-line-how-airlines-can-boost-ancillary-revenues</a></p>
 <p>[8] Airline profitability outlook strengthens. (2023, June 5). <a href="https://www.iata.org/en/pressroom/2023-releases/2023-06-05-01/">https://www.iata.org/en/pressroom/2023-releases/2023-06-05-01/</a></p>
+<p>[9] ChatGPT, personal communication, May 15, 2024</p>
 </section>
 
 </main>

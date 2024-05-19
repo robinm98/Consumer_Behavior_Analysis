@@ -10,7 +10,7 @@ Our motivation stems from the logistical and customer service challenges faced b
 
 ## Data
 
-The dataset for our project is sourced from Kaggle and titled "Airlines Booking", compiled by user _Anand Shaw_. It is presented as a CSV file containing anonymized airline booking records, capturing a wide range of passenger data including flight details, baggage choices, preferred seat selection, and in-flight meal preferences. This comprehensive dataset provides the foundational data needed to analyze and understand the various preferences of air travelers, allowing us to identify patterns and predict future preferences. The dataset is accessible via Kaggle.
+Our project's dataset, titled "Airlines Booking" and compiled by _Anand Shaw_, is sourced from Kaggle. This CSV file encompasses anonymized airline booking records, capturing a diverse array of passenger information. The data includes specifics such as flight details, baggage choices, seating preferences, and in-flight meal options. With records from 50,000 users of the ticket booking portal across 14 distinct columns, this extensive dataset serves as the cornerstone for analyzing and discerning patterns in air traveler preferences. The dataset is available for access on Kaggle.
 
 
 ## Related Work
@@ -39,3 +39,5 @@ Our study, "Modeling Passenger Preferences for Air Travel Upgrades," focuses on 
 **How can machine learning models utilize passenger demographic and trip-specific data to predict preferences for air travel upgrades such as extra baggage, preferred seating, and in-flight meals?**
 
 This question aims to uncover the potential of using various data points to accurately forecast which upgrades passengers are most likely to select, thereby enhancing personalized service delivery and operational efficiency.
+
+In this report, we will start with exploring the structure of our data. Then, we will do an Exploratory Data Analysis (EDA) to understand the underlying structure and key patterns within the dataset. Following EDA, we will employ Unsupervised Learning techniques to uncover hidden structures and groupings in the data. Next, we will detail the Methodology of our Supervised Learning approaches, outlining the models used and the rationale behind their selection. We will then present the Results of our analysis, highlighting the performance of different models and key findings. Finally, we will conclude with a Conclusion, summarizing the insights gained and potential implications for airline operations and customer satisfaction.

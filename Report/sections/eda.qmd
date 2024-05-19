@@ -7,9 +7,22 @@ EDA is a necessary step in understanding the underlying structure and patterns w
 In this section, we will examine the data distribution of key predictive features (X) that influence passenger preferences for air travel upgrades. This analysis will help us understand how these features interact and contribute to predicting passenger choices for additional services.
 
 
-**Distribution of different trip types among passengers**
+**Distribution of Booking Origin**
 
-The bar graph illustrates the distribution of different trip types among passengers. The trip types include `CircleTrip`, `OneWay`, and `RoundTrip`. The data reveals a significant skew towards `RoundTrip` bookings, which dominate the dataset with nearly 50,000 instances. In contrast, `CircleTrip` and `OneWay` bookings are comparatively rare.
+The bar graph illustrates the distribution of booking origins across different continents. The booking origins are categorized into Africa, Americas, Asia, Europe, and Oceania.
+
+*Asia:* The highest number of bookings originate from Asia, with nearly 30,000 entries. This suggests a strong market presence or higher travel activity from this region.
+
+*Oceania:* The second-highest booking origin is Oceania, with around 20,000 entries, indicating significant travel activity from this continent.
+
+*Americas and Europe:* Both regions show relatively low booking counts, with Europe having slightly fewer entries than the Americas.
+
+*Africa and Unknown:* These categories have the least number of bookings, with counts close to zero, indicating minimal travel activity or possibly incomplete data for these regions.
+
+
+Understanding the distribution of booking origins is crucial for airlines to tailor marketing strategies and resource allocation. Airlines can focus marketing efforts on regions with higher booking activity, such as Asia and Oceania, to maximize engagement and bookings. They can also develop specific offers and promotions for underrepresented regions like Africa and Europe to stimulate travel activity. Additionally, airlines can allocate resources and plan flight schedules based on demand from different regions to optimize operational efficiency. By leveraging these insights, airlines can enhance their strategic planning and improve overall customer satisfaction by addressing the specific needs and preferences of travelers from different regions.
+
+
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 library(corrplot)
 library(readr)
@@ -20,9 +33,19 @@ library(gridExtra)
 library(dplyr)
 
 data <- read.csv(here("Data", "cleaned_customer_booking.csv"))
-# Set up a 1x3 layout for the plots
+
+# Plotting the distribution of 'continent'
+ggplot(data, aes(x = continent)) +
+  geom_bar(fill = "blue") +
+  theme_minimal() +
+  labs(title = "Distribution of Booking Origin", x = "Booking Origin", y = "Count")
+```
 
 
+**Distribution of different trip types among passengers**
+
+The bar graph illustrates the distribution of different trip types among passengers. The trip types include `CircleTrip`, `OneWay`, and `RoundTrip`. The data reveals a significant skew towards `RoundTrip` bookings, which dominate the dataset with nearly 50,000 instances. In contrast, `CircleTrip` and `OneWay` bookings are comparatively rare.
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Selecting only the numerical features
 numerical_data <- data[, sapply(data, is.numeric)]
 
