@@ -5,9 +5,11 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix, classification_report, roc_curve, auc
 from sklearn.inspection import permutation_importance
+from sklearn.preprocessing import label_binarize
 import numpy as np
 from matplotlib import pyplot as plt
 from imblearn.over_sampling import SMOTE
+import joblib
 
 
 # Load the data
@@ -42,6 +44,16 @@ model = LogisticRegression(multi_class='multinomial', C=0.1, solver='sag', max_i
 # Train the model
 model.fit(X_train, y_train)
 
+# Save the trained model
+joblib.dump(model, 'Data/LR_model.joblib')
+# Save the preprocessor
+joblib.dump(ct, 'Data/LRpreprocessor.joblib')
+
+# Save the test data and labels
+np.save('Data/LRX_test.npy', X_test)
+np.save('Data/LRy_test.npy', y_test)
+
+
 ### TEST SET ###
 
 # Predict on the test data
@@ -73,6 +85,11 @@ roc_auc = {}
 for i in range(y_test_binarized.shape[1]):
   fpr, tpr, _ = roc_curve(y_test_binarized[:, i], y_test_pred_prob[:, i])
 roc_auc[model.classes_[i]] = auc(fpr, tpr)
+
+np.save('Data/LRfpr.npy', fpr)
+np.save('Data/LRtpr.npy', tpr)
+np.save('Data/LRroc_auc.npy', roc_auc)
+
 plt.figure()
 plt.plot(fpr, tpr, lw=2, label=f'ROC curve (area = {roc_auc[model.classes_[i]]:.2f})')
 plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')

@@ -9,6 +9,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.inspection import permutation_importance
 import numpy as np
 from matplotlib import pyplot as plt
+import joblib
 
 # Load the data
 data = pd.read_csv('Data/cleaned_customer_booking.csv')
@@ -104,6 +105,8 @@ train_predictions = model.predict(X_train)
 train_conf_matrix = confusion_matrix(y_train, train_predictions)
 
 # Print the confusion matrix for the training data
+print("Training accuracy", accuracy_score(y_train, predictions))
+print("Training Balanced Accuracy", balanced_accuracy_score(y_train, predictions))
 print("Confusion Matrix on Training Data:")
 print(train_conf_matrix)
 
@@ -209,6 +212,7 @@ importance_df = pd.DataFrame(data={
     'Feature': feature_names,
     'Importance': result.importances_mean
 })
+print(feature_names)
 
 # Sort the DataFrame by importance in descending order
 importance_df = importance_df.sort_values(by='Importance', ascending=False)
@@ -229,12 +233,14 @@ plt.show()
 ### Partial Dependence Plot ###
 ###############################
 
-def compute_pdp(model, X, feature_index, values):
+### Numerical Features ###
+
+def compute_pdp(model_pruned, X, feature_index, values):
     pdp = []
     X_temp = X.copy()
     for value in values:
         X_temp.iloc[:, feature_index] = value
-        preds = model.predict_proba(X_temp)
+        preds = model_pruned.predict_proba(X_temp)
         pdp.append(np.mean(preds, axis=0))
     return np.array(pdp)
 
@@ -248,7 +254,7 @@ for feature in numerical_vars:
     if feature_name_transformed in feature_indices:
         feature_index = feature_indices[feature_name_transformed]
         values = np.linspace(X_test.iloc[:, feature_index].min(), X_test.iloc[:, feature_index].max(), num=100)
-        pdp = compute_pdp(model, X_test, feature_index, values)
+        pdp = compute_pdp(model_pruned, X_test, feature_index, values)
 
         # Plot PDP for each class
         for i in range(pdp.shape[1]):
@@ -259,4 +265,27 @@ for feature in numerical_vars:
             plt.title(f'Partial Dependence of {feature} for Class {i}')
             plt.legend()
             plt.show()
+print("PDP generation complete.")
 
+### Continent Feature ###
+
+# Generate PDP for each one-hot encoded continent feature
+for feature in one_hot_encoded_continents:
+    if feature in feature_indices:
+        feature_index = feature_indices[feature]
+        # Values for one-hot encoded feature: 0 (not this category) and 1 (this category)
+        values = [0, 1]
+        pdp = compute_pdp_categorical(model_pruned, X_test, feature_index, values)
+
+        # Ensure PDP has data and plot it
+        if pdp.size > 0:
+            for i in range(pdp.shape[1]):
+                plt.figure(figsize=(8, 6))
+                plt.plot(values, pdp[:, i], marker='o', linestyle='-', label=f'Class {i}')
+                plt.xlabel(feature)
+                plt.ylabel('Partial Dependence')
+                plt.title(f'Partial Dependence of {feature} for Class {i}')
+                plt.legend()
+                plt.show()
+
+print("PDP generation complete.")

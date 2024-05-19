@@ -8,7 +8,6 @@ from sklearn.feature_selection import RFE
 from matplotlib import pyplot as plt
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import label_binarize
-from mlxtend.feature_selection import SequentialFeatureSelector as SFS
 
 # Load the data
 data = pd.read_csv('Data/cleaned_customer_booking.csv')
@@ -41,7 +40,7 @@ param_grid = {
     'C': [0.1, 1, 10],
     'solver': ['lbfgs', 'liblinear', 'sag', 'saga']
 }
-grid_search = GridSearchCV(LogisticRegression(multi_class='multinomial', max_iter=1000), param_grid, cv=3, scoring='accuracy', n_jobs=-1, verbose=1)
+grid_search = GridSearchCV(LogisticRegression(multi_class='multinomial', max_iter=1000), param_grid, cv=3, scoring='accuracy', n_jobs=-1)
 grid_search.fit(X_train, y_train)
 
 # Best parameters
@@ -51,26 +50,14 @@ print("Best parameters from grid search:", best_params)
 # Define the LogisticRegression model with best parameters
 model = LogisticRegression(multi_class='multinomial', solver=best_params['solver'], C=best_params['C'], max_iter=1000)
 
-sfs = SFS(model,
-          k_features='parsimonious',
-          forward=False,
-          floating=False,
-          scoring='accuracy',
-          cv=3,
-          n_jobs=-1)
-
-# Transforming train and test data based on selected features
-X_train_SFS = SFS.transform(X_train)
-X_test_SFS = SFS.transform(X_test)
-
 # Train the model with selected features
-model.fit(X_train_SFS, y_train)
+model.fit(X_train, y_train)
 
 ### TEST SET ###
 
 # Predict on the test data
-y_test_pred = model.predict(X_test_SFS)
-y_test_pred_prob = model.predict_proba(X_test_SFS)
+y_test_pred = model.predict(X_test)
+y_test_pred_prob = model.predict_proba(X_test)
 
 # Evaluate the model
 acc = accuracy_score(y_test, y_test_pred)
@@ -102,8 +89,8 @@ for i in range(y_test_binarized.shape[1]):
 ### TRAINING SET ###
 
 # Predict on the training data
-y_train_pred = model.predict(X_train_SFS)
-y_train_pred_prob = model.predict_proba(X_train_SFS)
+y_train_pred = model.predict(X_train)
+y_train_pred_prob = model.predict_proba(X_train)
 
 # Evaluate the model
 train_acc = accuracy_score(y_train, y_train_pred)
