@@ -2,7 +2,7 @@
 
 ## Sources
 
-As previously introduced, our study utilizes the "Airlines Booking" dataset curated by Anand Shaw and hosted on Kaggle, with a records from 50,000 users of the ticket booking portal across 14 distinct columns. This dataset, provided in CSV format, will be used for our analysis aimed at modeling passenger preferences for air travel upgrades.
+As previously introduced, our study utilizes the "Airlines Booking" dataset curated by _Anand Shaw_ and hosted on Kaggle, with a records from 50,000 users of the ticket booking portal across 14 distinct columns. This dataset, provided in CSV format, will be used for our analysis aimed at modeling passenger preferences for air travel upgrades.
 
 ## Description
 
