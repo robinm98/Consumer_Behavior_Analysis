@@ -1,8 +1,11 @@
 # Results
 
 ## Random Forest
+
+### Results of Random Forest
 The Random Forest model achieved an accuracy of 29.16% and a balanced accuracy of 19.79%. This indicates that while the model can correctly classify a significant portion of the instances, it struggles with class imbalances, as evidenced by the lower balanced accuracy. The precision of 35% suggests that the model makes relatively accurate positive predictions, while the recall of 42% indicates that it captures most of the actual positive cases. This balance between precision and recall demonstrates that the Random Forest model is reasonably effective in identifying true positives but still misses some.The AUC values varied across classes, with the highest being 0.71 for Class 6, indicating good performance for some classes, but lower AUCs like 0.58 for Class 2 showing areas of difficulty.
 
+### Variable Importance and PDP of Random Forest
 To better understand our Random Forest model, we performed a variable importance analysis. Surprisingly, the most important variable for this model is the continent of origin of the booking. Additionally, to a lesser extent, whether the flight is on a Tuesday and the duration of the flight also significantly contribute to the model's predictions. This indicates that regional preferences and specific days of the week might heavily influence booking behaviors, possibly due to cultural factors, regional holidays, or business practices.
 
 ![Variable Important of the Random Forest](../Figs/RF_VI.png)
@@ -22,9 +25,12 @@ The same observations hold true for numerical variables. For example, the variab
 These mixed results are due to the multiclass prediction, where some features have different effects on our three variables of interest that we predict simultaneously, leading to inconsistent associations across the classes.
 
 ## Neural Network
+
+### Results of Neural Network
 The Neural Network model achieved an accuracy of 21.53% and a balanced accuracy of 21.49%. The balanced accuracy being close to the overall accuracy suggests that the model is performing uniformly across different classes, though it still has room for improvement. With a precision of 36% and a recall of 33%, the neural network demonstrates a better ability to identify positive instances compared to logistic regression. However, its performance is still lower than that of the Random Forest model, indicating a need for further optimization or perhaps more training data.  The AUC values were also varied, with the highest being 0.71 for Class 7, indicating strong performance for some classes, but an AUC of 0.55 for Class 2 highlighting challenges in distinguishing this class.
 
-For our Neural Network model, the most important variables include both numerical and categorical features. Among the numerical variables, `length_of_stay`, `flight_duration`, and `num_passengers` stand out as particularly influential on the model's predictions. Additionally, categorical variables like whether a booking originates from Oceania or Asia also play a significant role in the model's predictions.
+### Variable Importance and PDP of Neural Network 
+For our Neural Network model, the most important variables include both numerical and categorical features. Among the numerical variables, `length_of_stay`, `flight_duration`, and `num_passengers` stand out as particularly influential on the model's predictions. Additionally, categorical variables like whether a booking originates from Oceania and Asia also play a significant role in the model's predictions.
 
 ![Variable Importance Plot for NN](../Figs/VI - NN.png)
 For similar reasons as observed in the Random Forest model, the effect of features on the model predictions are mixed across all classes and features. This variability underscores the complexity of the interactions between different factors and their impact on the three variables of interest. For instance, the Partial Dependence Plot for `length_of_stay` in the neural network model demonstrates that changes in this variable can increase the probability of some classes while decreasing it for others. This mixed effect is a clear indication that all factors have diverse and sometimes conflicting influences on the predictions, making it challenging to identify consistent associations.
@@ -33,6 +39,8 @@ For similar reasons as observed in the Random Forest model, the effect of featur
 ![Partial Dependence Plots for Lenght of stay Class 1](../Figs/PDP_NN_LS_1.png)
 
 ## Logistic Regression
+
+### Results of Logistic Regression
 The Logistic Regression model showed the lowest accuracy at 19.13% and a balanced accuracy of 20.51%. The precision and recall values are also lower, at 29% and 24%, respectively. This suggests that the logistic regression model, while interpretable and straightforward, is not as effective in capturing the complexities and interactions within the dataset compared to the Random Forest and Neural Network models. The lower performance might be due to the model's linear nature, which may not adequately capture the nonlinear relationships present in the data.
 
 Overall, the Random Forest model outperformed the other models in terms of accuracy, precision, and recall, indicating its relative success in handling complex, multiclass classification tasks. The Neural Network, while slightly less effective, still showed potential with a balanced approach to precision and recall.
