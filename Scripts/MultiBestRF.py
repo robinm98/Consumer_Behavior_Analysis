@@ -9,7 +9,6 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.inspection import permutation_importance
 import numpy as np
 from matplotlib import pyplot as plt
-import joblib
 
 # Load the data
 data = pd.read_csv('Data/cleaned_customer_booking.csv')
@@ -105,8 +104,6 @@ train_predictions = model.predict(X_train)
 train_conf_matrix = confusion_matrix(y_train, train_predictions)
 
 # Print the confusion matrix for the training data
-print("Training accuracy", accuracy_score(y_train, predictions))
-print("Training Balanced Accuracy", balanced_accuracy_score(y_train, predictions))
 print("Confusion Matrix on Training Data:")
 print(train_conf_matrix)
 
@@ -205,7 +202,7 @@ print("Training Set Balanced Accuracy:", balanced_accuracy_score(y_train,train_p
 result = permutation_importance(model_pruned, X_test, y_test, n_repeats=10, random_state=42, n_jobs=-1)
 
 # Get feature names from the preprocessor
-feature_names = preprocessor.get_feature_names_out()
+feature_names = ct.get_feature_names_out()
 
 # Create a DataFrame to hold the feature importances
 importance_df = pd.DataFrame(data={
@@ -268,6 +265,29 @@ for feature in numerical_vars:
 print("PDP generation complete.")
 
 ### Continent Feature ###
+
+def compute_pdp_categorical(model, X, feature_index, values):
+    pdp = []
+    X_temp = X.copy()
+    for value in values:
+        X_temp.iloc[:, feature_index] = value
+        preds = model.predict_proba(X_temp)
+        pdp.append(np.mean(preds, axis=0))
+    pdp_array = np.array(pdp)
+    print(f"Values: {values}")  # Print the values used for PDP computation
+    print(f"PDP Array: {pdp_array}")  # Print the resulting PDP values
+    return pdp_array
+
+# Get feature names and indices
+feature_names = ct.get_feature_names_out()
+feature_indices = {name: idx for idx, name in enumerate(feature_names)}
+
+# One-hot encoded continent features
+one_hot_encoded_continents = [
+    'one_hot_encoder__continent_Africa', 'one_hot_encoder__continent_Americas',
+    'one_hot_encoder__continent_Asia', 'one_hot_encoder__continent_Europe',
+    'one_hot_encoder__continent_Oceania', 'one_hot_encoder__continent_Unknown'
+]
 
 # Generate PDP for each one-hot encoded continent feature
 for feature in one_hot_encoded_continents:
