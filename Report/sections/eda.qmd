@@ -7,7 +7,7 @@ EDA is a necessary step in understanding the underlying structure and patterns w
 In this section, we will examine the data distribution of key predictive features (X) that influence passenger preferences for air travel upgrades. This analysis will help us understand how these features interact and contribute to predicting passenger choices for additional services.
 
 
-**Distribution of Booking Origin**
+### Distribution of Booking Origin
 
 The bar graph illustrates the distribution of booking origins across different continents. The booking origins are categorized into Africa, Americas, Asia, Europe, and Oceania.
 
@@ -42,7 +42,7 @@ ggplot(data, aes(x = continent)) +
 ```
 
 
-**Distribution of different trip types among passengers**
+### Distribution of different trip types among passengers
 
 The bar graph illustrates the distribution of different trip types among passengers. The trip types include `CircleTrip`, `OneWay`, and `RoundTrip`. The data reveals a significant skew towards `RoundTrip` bookings, which dominate the dataset with nearly 50,000 instances. In contrast, `CircleTrip` and `OneWay` bookings are comparatively rare.
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
@@ -57,7 +57,7 @@ ggplot(data, aes(x = trip_type)) +
 ```
 
 
-**Distribution of Sales Channel and Booking Completion**
+### Distribution of Sales Channel and Booking Completion
 
 The first plot shows the distribution of sales channels used by passengers for booking. The two categories are `Internet` and `Mobile`.
 
@@ -90,7 +90,7 @@ grid.arrange(p1, p2, nrow = 1)
 ```
 
 
-**Description of Distribution of Flight Day**
+### Description of Distribution of Flight Day
 
 The bar graph shows the distribution of flight days, indicating how many flights occur on each day of the week.
 
@@ -199,8 +199,6 @@ grid.arrange(plot1, plot2, plot3, ncol = 3)
 ```
 
 
-
-
 **Flight Duration and Service Preferences**
 
 Extra Baggage Rates: Slight positive trend; longer flights slightly increase extra baggage demand.
@@ -255,8 +253,6 @@ grid.arrange(plot4, plot5, plot6, ncol = 3)
 ```
 
 
-
-
 **Purchase Lead Time and Service Preferences**
 
 Extra Baggage Rates: Negative trend; early bookers less likely to want extra baggage.
@@ -308,8 +304,6 @@ plot9 <- ggplot(preferred_seats_rate, aes(x = purchase_lead, y = yes_rate)) +
 grid.arrange(plot7, plot8, plot9, ncol = 3)
 
 ```
-
-
 
 
 **Length of Stay and Service Preferences**

@@ -1,61 +1,28 @@
 ---
-format: html
-date: "17.05.2024"
-university: "University of Lausanne, HEC"
-course: "Machine Learning in Business Analytics"
-group: "Group E"
-year: "2024"
-output:
-  pdf_document:
-    includes:
-      in_header: header.tex
-geometry: margin=2cm
-fontsize: 12pt
-header-includes:
-  - \usepackage{graphicx}
-  - \newcommand{\coverTitle}[1]{\Huge\textbf{#1}\normalsize}
-  - \newcommand{\coverAuthor}[1]{\large\textit{#1}\normalsize}
-  - \newcommand{\coverInfo}[1]{\small\textbf{#1}\normalsize}
-  - \newcommand{\coverDate}[1]{\small{#1}\normalsize}
+css: custom.css
+format:
+  html:
+    toc: true
+    toc-float:
+      collapsed: false
+      smooth-scroll: true
+      toc-headers: "h1, h2, h3"
+self-contained: true
+
 ---
 
-\begin{titlepage}
-  \centering
-  \vspace*{1cm}
-  \includegraphics[width=5cm]{image/Logo_HEC_Lausanne.png}
-  \vspace*{1cm}
+![](./image/title_page.png)
 
-  \coverTitle{Modeling passenger preferences for air travel upgrades}
-  \vspace{1.5cm}
-  
-  \coverAuthor{Michel Robin, Bickerstaffe Faber and Magnin Antoine}
-  \vspace{1.5cm}
-  
-  \coverInfo{University of Lausanne, HEC}
-  \vspace{0.5cm}
-  
-  \coverInfo{Machine Learning in Business Analytics}
-  \vspace{0.5cm}
-  
-  \coverInfo{2024}
-  \vspace{0.5cm}
-  
-  \coverInfo{Group E}
-  \vspace{1cm}
-  
-  \coverDate{04.05.2024}
-  \vfill
-\end{titlepage}
 
-\newpage
+**Abstract:** This machine learning study undertakes a predictive comparative analysis to assess model performances at predicting the add-ons of extra baggage, in-flight meals, and preferred seat from passenger airline bookings. We conducted a multiclass prediction using logistic regression as our baseline model, followed by neural network and random forest models, based on a dataset of 50,000 airline bookings across 14 features.
 
-Abstract: |
- The following machine learning project focuses on...
+Using a grid search and cross-validation for hyperparameter tuning, the random forest model achieved the best accuracy with a score of 0.28, compared to 0.21 and 0.19 for the neural network and logistic regression models, respectively. Although an accuracy of 0.28 might not seem high, it is important to note that this accuracy reflects the simultaneous prediction of three classes. It is likely that the model achieves higher accuracy in predicting at least one or two out of the three add-ons, which still offers valuable business insights. These findings can help airline companies adjust their marketing strategies according to the user's booking features, enhancing their service offerings and customer satisfaction.
+
 
 ```{r, echo = FALSE, message = FALSE}
 # loading all the necessary packages
 source(here::here("src/setup.R"))
 ```
 
-```{r child = paste0('sections/', c('intro.qmd', 'data.qmd', 'eda.qmd', 'unsupervised.qmd', 'supervised.qmd',  'concl.qmd','references.qmd'))}
+```{r child = paste0('sections/', c('signature.qmd', 'intro.qmd', 'data.qmd', 'eda.qmd', 'unsupervised.qmd', 'supervised.qmd',  'concl.qmd','references.qmd'))}
 ```
