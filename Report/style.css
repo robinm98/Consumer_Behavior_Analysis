@@ -1,6 +1,23 @@
 body {
-    font-size: 11px;
-    font-family: Arial; 
+    font-size: 11pt;
+    font-family: Times New Roman; 
+}
+
+/* Number sections only for the first three levels */
+h3 {
+  counter-reset: none;
+}
+
+h4 {
+  counter-reset: none;
+}
+
+h5 {
+  counter-reset: none;
+}
+
+h6 {
+  counter-reset: none;
 }
 
 /* TOC styles */

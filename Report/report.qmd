@@ -1,14 +1,15 @@
 ---
-css: custom.css
+css: style.css
 format:
   html:
+    trace: false
+    self-contained: true
+    number-sections: true
     toc: true
     toc-float:
       collapsed: false
       smooth-scroll: true
       toc-headers: "h1, h2, h3"
-self-contained: true
-
 ---
 
 ![](./image/title_page.png)
@@ -18,11 +19,95 @@ self-contained: true
 
 Using a grid search and cross-validation for hyperparameter tuning, the random forest model achieved the best accuracy with a score of 0.28, compared to 0.21 and 0.19 for the neural network and logistic regression models, respectively. Although an accuracy of 0.28 might not seem high, it is important to note that this accuracy reflects the simultaneous prediction of three classes. It is likely that the model achieves higher accuracy in predicting at least one or two out of the three add-ons, which still offers valuable business insights. These findings can help airline companies adjust their marketing strategies according to the user's booking features, enhancing their service offerings and customer satisfaction.
 
+# Personal Information And Non-Plagiarism Statement
+
+This project was written by us and in our own words, except for quotations from published and unpublished sources, which are clearly indicated and acknowledged as such. We are conscious that the incorporation of material from other works or a paraphrase of such material without acknowledgement will be treated as plagiarism, subject to the custom and usage of the subject, according to the University Regulations. The source of any picture, map or other illustration is also indicated, as is the source, published or unpublished, of any material not resulting from our own research.
+
+Faber Bickerstaffe, faber.bickerstaffe@unil.ch
+
+![](./image/Faber.png)
+
+
+Robin Michel, robin.michel@unil.ch
+
+![](./image/Robin.png)
+
+Antoine Magnin, antoine.magnin@unilch
+
+![](./image/Antoine.png)
+
+
 
 ```{r, echo = FALSE, message = FALSE}
 # loading all the necessary packages
 source(here::here("src/setup.R"))
 ```
 
-```{r child = paste0('sections/', c('signature.qmd', 'intro.qmd', 'data.qmd', 'eda.qmd', 'unsupervised.qmd', 'supervised.qmd',  'concl.qmd','references.qmd'))}
+```{r child = paste0('sections/', c('intro.qmd', 'data.qmd', 'eda.qmd', 'unsupervised.qmd', 'supervised.qmd'))}
+```
+
+# Results
+
+## Random Forest
+
+### Results of Random Forest
+The Random Forest model achieved an accuracy of 29.16% and a balanced accuracy of 19.79%. This indicates that while the model can correctly classify a significant portion of the instances, it struggles with class imbalances, as evidenced by the lower balanced accuracy. The precision of 35% suggests that the model makes relatively accurate positive predictions, while the recall of 42% indicates that it captures most of the actual positive cases. This balance between precision and recall demonstrates that the Random Forest model is reasonably effective in identifying true positives but still misses some.The AUC values varied across classes, with the highest being 0.71 for Class 6, indicating good performance for some classes, but lower AUCs like 0.58 for Class 2 showing areas of difficulty.
+
+### Variable Importance and PDP of Random Forest
+To better understand our Random Forest model, we performed a variable importance analysis. Surprisingly, the most important variable for this model is the continent of origin of the booking. Additionally, to a lesser extent, whether the flight is on a Tuesday and the duration of the flight also significantly contribute to the model's predictions. This indicates that regional preferences and specific days of the week might heavily influence booking behaviors, possibly due to cultural factors, regional holidays, or business practices.
+
+![](./image/RF_VI.png)
+
+We also conducted partial dependence plots (PDPs) to analyze how the predictions change based on our important variables. Given that we have eight classes, each variable has eight PDPs associated with it. The insights derived from these PDPs vary across the important variables.
+
+For instance, considering the continent Oceania, a change in this class from 0 to 1 (i.e., the booking origin changing from not being from Oceania to being from Oceania) has diverse effects on the predictions. This change increases the probability of predicting certain classes while decreasing it for others. Similar observations are made for all the other continents, highlighting the mixed effects of continent-based features on the model's predictions class.
+
+![](./image/PDP_RF_OC_2.png)
+
+![](./image/PDP_RF_OC_3.png)
+The same observations hold true for numerical variables. For example, the variable `flight_duration` also exhibits mixed effects on class predictions. An increase in `flight_duration` raises the probability of predicting certain classes while simultaneously decreasing the probability for others. This indicates that longer flight durations influence the model's predictions in a nuanced manner, affecting the likelihood of different classes in varied ways. 
+
+![](./image/PDP_RF_FD_0.png)
+![](./image/PDP_RF_FD_5.png)
+
+These mixed results are due to the multiclass prediction, where some features have different effects on our three variables of interest that we predict simultaneously, leading to inconsistent associations across the classes.
+
+## Neural Network
+
+### Results of Neural Network
+The Neural Network model achieved an accuracy of 21.53% and a balanced accuracy of 21.49%. The balanced accuracy being close to the overall accuracy suggests that the model is performing uniformly across different classes, though it still has room for improvement. With a precision of 36% and a recall of 33%, the neural network demonstrates a better ability to identify positive instances compared to logistic regression. However, its performance is still lower than that of the Random Forest model, indicating a need for further optimization or perhaps more training data.  The AUC values were also varied, with the highest being 0.71 for Class 7, indicating strong performance for some classes, but an AUC of 0.55 for Class 2 highlighting challenges in distinguishing this class.
+
+### Variable Importance and PDP of Neural Network 
+For our Neural Network model, the most important variables include both numerical and categorical features. Among the numerical variables, `length_of_stay`, `flight_duration`, and `num_passengers` stand out as particularly influential on the model's predictions. Additionally, categorical variables like whether a booking originates from Oceania and Asia also play a significant role in the model's predictions.
+
+![Variable Importance Plot for NN](./image/VI - NN.png)
+
+For similar reasons as observed in the Random Forest model, the effect of features on the model predictions are mixed across all classes and features. This variability underscores the complexity of the interactions between different factors and their impact on the three variables of interest. For instance, the Partial Dependence Plot for `length_of_stay` in the neural network model demonstrates that changes in this variable can increase the probability of some classes while decreasing it for others. This mixed effect is a clear indication that all factors have diverse and sometimes conflicting influences on the predictions, making it challenging to identify consistent associations.
+
+![Partial Dependence Plots for Lenght of stay Class 0](./image/PDP_NN_LS_0.png)
+
+![Partial Dependence Plots for Lenght of stay Class 1](./image/PDP_NN_LS_1.png)
+
+## Logistic Regression
+
+### Results of Logistic Regression
+The Logistic Regression model showed the lowest accuracy at 19.13% and a balanced accuracy of 20.51%. The precision and recall values are also lower, at 29% and 24%, respectively. This suggests that the logistic regression model, while interpretable and straightforward, is not as effective in capturing the complexities and interactions within the dataset compared to the Random Forest and Neural Network models. The lower performance might be due to the model's linear nature, which may not adequately capture the nonlinear relationships present in the data.
+
+Overall, the Random Forest model outperformed the other models in terms of accuracy, precision, and recall, indicating its relative success in handling complex, multiclass classification tasks. The Neural Network, while slightly less effective, still showed potential with capabilities to improve precision and recall.
+
+# Conclusion
+
+The results from our machine learning models offer insights into predicting passenger preferences for air travel upgrades, which can be valuable for airlines. Despite the seemingly modest best overall accuracy of 29.16% from the Pruned Random Forest, the Random Forest models and potentially an improved Neural Network model can still provide substantial benefits.
+
+From a business perspective, airlines can leverage these models to better understand and anticipate passenger needs. By predicting which passengers are likely to choose specific upgrades, airlines can optimize their operational strategies and resource allocation. For instance, knowing in advance which flights will have higher demands for extra baggage or preferred seating allows airlines to adjust their services accordingly, ensuring that adequate resources are available and potentially enhancing customer satisfaction.
+
+Moreover, these predictions can enable more personalized marketing strategies. Airlines can target specific passengers with tailored promotions and offers based on their predicted preferences, increasing the uptake of ancillary services. This targeted approach not only enhances the customer experience but also maximizes revenue from ancillary services, which are increasingly vital for airline profitability.
+
+It is also important to note that while our models have an overall accuracy between 20% and 30%, this does not capture the full potential of their predictive power. The accuracy for correctly predicting two out of the three preferences (2/3 correct accuracy) could be significantly higher. This means that even when the models do not predict all three preferences correctly, they could still often get two correct, providing insights that can still be useful for operational decisions and customer relationship management.
+
+Future research should aim to explore the 2/3 correct accuracy more thoroughly, as this could reveal a higher practical utility of the models. Additionally, incorporating more variables such as the price paid for tickets and data from previous bookings could enhance the models' predictive power. These additional factors might provide deeper insights into passenger behaviors and preferences, leading to even more accurate predictions.
+
+Overall, while there is room for improvement, the current models already demonstrate potential value for airlines. By continuing to refine these models and incorporating more comprehensive data, airlines can enhance their ability to anticipate passenger needs, optimize service delivery, and ultimately improve both operational efficiency and customer satisfaction.
+
+```{r child = paste0('sections/', c('references.qmd'))}
 ```
