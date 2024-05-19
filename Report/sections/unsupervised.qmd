@@ -139,7 +139,7 @@ ggplot(pca_data, aes(x = PC1, y = PC2, color = as.factor(cluster))) +
 
 To further explore the differences between clusters, we examined the distribution of our variables of interest across the three clusters. 
 
-For `wants_extra_baggage`, the proportion of bookings with extra baggage is rather similar across all clusters except for a slightly smaller proportion of bookings with extra baggage for cluster 2.
+For `wants_extra_baggage`, the proportion is rather similar across all clusters except for a slightly smaller proportion of bookings with extra baggage for cluster 1. Overall, all clusters show a much higher proportion of bookings with extra baggage compared to those without.
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Create a table of counts
@@ -167,7 +167,7 @@ ggplot(prop_cluster_df, aes(x = Var2, y = percentage, fill = Var1, group = Var1)
   theme_minimal()
 ```
 
-The distribution across the three clusters for `wants_in_flight_meals` is mixed. We can observe that Cluster 3 exhibits almost a 50/50 proportion of bookings with and without in-flight meals. Cluster 2 shows a strong proportion of bookings without in-flight meals, indicating a preference against this service. In contrast, Cluster 1 has a slight increase in bookings with in-flight meals compared to Cluster 2.
+The distribution across the three clusters for `wants_in_flight_meals` is mixed. We can observe that Cluster 3 exhibits almost a 50/50 proportion of bookings with and without in-flight meals. Cluster 1 shows a strong proportion of bookings without in-flight meals, indicating a preference against this service. In comparison, Cluster 2 has a slight increase in bookings with in-flight meals compared to Cluster 1.
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Table of counts
@@ -195,7 +195,7 @@ ggplot(prop_cluster_df, aes(x = Var2, y = percentage, fill = Var1, group = Var1)
   theme_minimal()
 ```
 
-The distribution of bookings with preferred seats is similar across the three clusters, much like the proportion of bookings with extra baggage. Each cluster maintains a consistent proportion of bookings with and without preferred seats, indicating that the preference for this service is relatively uniform across all customer segments.
+The distribution of bookings with preferred seats is pretty similar across the three clusters. Cluster 1 has the lowest proportion of bookings with preferred seats. There is a slight increase in the proportion of bookings with preferred seats in Cluster 2 compared to Cluster 1. Cluster 3 shows a slightly higher proportion of preferred seats bookings over Cluster 2. Despite these variations, all three clusters still show higher proportions of bookings without preferred seats than with. This consistency suggests that the desire for preferred seating does not significantly vary between the different clusters, but the overall preference leans towards not opting for preferred seats.
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 
@@ -224,3 +224,4 @@ ggplot(prop_cluster_df, aes(x = Var2, y = percentage, fill = Var1, group = Var1)
   theme_minimal()
 ```
 
+From this clustering analysis, we can derive several insights. For instance, we observe that Cluster 3, which has the highest flight duration, also shows the highest proportion of bookings with in-flight meals and preferred seats. On the other hand, Cluster 1, which has the lowest flight duration, shows the lowest proportion of bookings with preferred seats and in-flight meals. This confirms the observation made in the exploratory data analysis suggesting that higher flight duration increases the proportion of bookings with in-flight meals and preferred seats. 
