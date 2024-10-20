@@ -45,6 +45,7 @@ ggplot(data, aes(x = continent)) +
 ### Distribution of different trip types among passengers
 
 The bar graph illustrates the distribution of different trip types among passengers. The trip types include `CircleTrip`, `OneWay`, and `RoundTrip`. The data reveals a significant skew towards `RoundTrip` bookings, which dominate the dataset with nearly 50,000 instances. In contrast, `CircleTrip` and `OneWay` bookings are comparatively rare.
+
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Selecting only the numerical features
 numerical_data <- data[, sapply(data, is.numeric)]
@@ -102,6 +103,7 @@ Thursday and Sunday: Both days show moderate flight activity, with counts around
 *Friday:* Shows slightly lower flight counts compared to other weekdays, with counts around 6,500.
 
 *Saturday:* Has the lowest flight count, below 6,000, indicating it is the least busy day for flights.
+
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Plotting the distribution of 'flight_day'
 ggplot(data, aes(x = flight_day)) +
@@ -153,6 +155,7 @@ Extra Baggage Rates: Positive trend; larger groups more likely to want extra bag
 In-Flight Meals Rates: Slight negative trend; larger groups less likely to want in-flight meals.
 
 Preferred Seats Rates: Clear negative trend; larger groups less likely to choose preferred seats.
+
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 ### NUMBER OF PASSENGERS
 # Extra baggage rate per number of passengers
@@ -206,6 +209,7 @@ Extra Baggage Rates: Slight positive trend; longer flights slightly increase ext
 In-Flight Meals Rates: Clear positive correlation; longer flights increase in-flight meal demand.
 
 Preferred Seats Rates: Positive correlation; longer flights increase preferred seat selection.
+
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 ### FLIGHT DURATION
 
@@ -260,6 +264,7 @@ Extra Baggage Rates: Negative trend; early bookers less likely to want extra bag
 In-Flight Meals Rates: Negative trend; early bookers less likely to want in-flight meals.
 
 Preferred Seats Rates: Negative trend; early bookers less likely to select preferred seats.
+
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Extra baggage rate per purchase lead time
 extra_baggage_rate <- data |>
@@ -313,6 +318,7 @@ Extra Baggage Rates: Slight decrease as length of stay increases.
 In-Flight Meals Rates: Positive correlation; longer stays increase the likelihood of wanting in-flight meals.
 
 Preferred Seats Rates: Positive correlation; longer stays increase the likelihood of choosing preferred seats.
+
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 # Extra baggage rate per length of stay
 extra_baggage_rate <- data |>
